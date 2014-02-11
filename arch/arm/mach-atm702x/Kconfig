@@ -1,0 +1,12 @@
+config ARCH_ATM702X
+	bool "Actions Semiconductor ATM702X SOCs"
+	select ARCH_REQUIRE_GPIOLIB
+	select CLKSRC_MMIO
+	select CLKSRC_OF
+	select COMMON_CLK
+	select GENERIC_CLOCKEVENTS
+	select GENERIC_IRQ_CHIP
+	select PINCTRL
+	select SPARSE_IRQ
+	select ATM702X_TIMER
+	select ATM702X_PINCTRL
