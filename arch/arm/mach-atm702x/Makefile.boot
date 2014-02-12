@@ -1,1 +1,1 @@
-zreladdr-$(CONFIG_ARCH_SUNXI)	+= 0x00000000
+zreladdr-$(CONFIG_ARCH_ATM702X)	+= 0x00000000
