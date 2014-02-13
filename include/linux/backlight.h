@@ -59,24 +59,16 @@ struct backlight_ops {
 
 /* This structure defines all the properties of a backlight */
 struct backlight_properties {
-	/* Current User requested brightness (0 - max_brightness) */	
+	/* Current User requested brightness (0 - max_brightness) */
 	int brightness;
 	/* Maximal value for brightness (read-only) */
 	int max_brightness;
-	int min_brightness;
 	/* Current FB Power mode (0: full on, 1..3: power saving
 	   modes; 4: full off), see FB_BLANK_XXX */
 	int power;
 	/* FB Blanking active? (values as for power) */
 	/* Due to be removed, please use (state & BL_CORE_FBBLANK) */
 	int fb_blank;
-	
-	/* this used record user set brightness*/
-	int user_brightness;
-	
-	/* this used record auto adjust backlight is enable or disable */
-	int auto_adjust_enable;
-		
 	/* Backlight type */
 	enum backlight_type type;
 	/* Flags used to signal drivers of state changes */
@@ -141,5 +133,15 @@ struct generic_bl_info {
 	void (*set_bl_intensity)(int intensity);
 	void (*kick_battery)(void);
 };
+
+#ifdef CONFIG_OF
+struct backlight_device *of_find_backlight_by_node(struct device_node *node);
+#else
+static inline struct backlight_device *
+of_find_backlight_by_node(struct device_node *node)
+{
+	return NULL;
+}
+#endif
 
 #endif

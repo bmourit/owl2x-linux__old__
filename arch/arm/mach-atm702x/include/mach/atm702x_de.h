@@ -24,59 +24,58 @@ extern "C" {
 #define ABGR_8888              5
 #define YVU_420_PLANAR         6
 /******************************************************************************/
-#define     VIDEO_OFF_CFG                                                        0x0000
-#define     VIDEO_OFF_ISIZE                                                      0x0004
-#define     VIDEO_OFF_OSIZE                                                      0x0008
-#define     VIDEO_OFF_SR                                                         0x000C
-#define     VIDEO_OFF_SCOEF0                                                     0x0010
-#define     VIDEO_OFF_SCOEF1                                                     0x0014
-#define     VIDEO_OFF_SCOEF2                                                     0x0018
-#define     VIDEO_OFF_SCOEF3                                                     0x001C
-#define     VIDEO_OFF_SCOEF4                                                     0x0020
-#define     VIDEO_OFF_SCOEF5                                                     0x0024
-#define     VIDEO_OFF_SCOEF6                                                     0x0028
-#define     VIDEO_OFF_SCOEF7                                                     0x002C
-#define     VIDEO_OFF_FB_0                                                       0x0030
-#define     VIDEO_OFF_FB_1                                                       0x0034
-#define     VIDEO_OFF_FB_2                                                       0x0038
-#define     VIDEO_OFF_FB_RIGHT_0                                                 0x003C
-#define     VIDEO_OFF_FB_RIGHT_1                                                 0x0040
-#define     VIDEO_OFF_FB_RIGHT_2                                                 0x0044
-#define     VIDEO_OFF_STR                                                        0x0048
-#define     VIDEO_OFF_CRITICAL                                                   0x004C
-#define     VIDEO_OFF_REMAPPING                                                  0x0050
+#define VIDEO_OFF_CFG 					0x0000
+#define VIDEO_OFF_ISIZE 				0x0004
+#define VIDEO_OFF_OSIZE 				0x0008
+#define VIDEO_OFF_SR 					0x000C
+#define VIDEO_OFF_SCOEF0 				0x0010
+#define VIDEO_OFF_SCOEF1 				0x0014
+#define VIDEO_OFF_SCOEF2 				0x0018
+#define VIDEO_OFF_SCOEF3 				0x001C
+#define VIDEO_OFF_SCOEF4 				0x0020
+#define VIDEO_OFF_SCOEF5 				0x0024
+#define VIDEO_OFF_SCOEF6 				0x0028
+#define VIDEO_OFF_SCOEF7 				0x002C
+#define VIDEO_OFF_FB_0 					0x0030
+#define VIDEO_OFF_FB_1 					0x0034
+#define VIDEO_OFF_FB_2 					0x0038
+#define VIDEO_OFF_FB_RIGHT_0 			0x003C
+#define VIDEO_OFF_FB_RIGHT_1 			0x0040
+#define VIDEO_OFF_FB_RIGHT_2 			0x0044
+#define VIDEO_OFF_STR 					0x0048
+#define VIDEO_OFF_CRITICAL 				0x004C
+#define VIDEO_OFF_REMAPPING 			0x0050
 
 
 /******************************************************************************/
 /* PATHx_CTL */
-#define GRAPHIC_LAYER               0
-#define VIDEO1_LAYER                1
-#define VIDEO2_LAYER                3
-#define VIDEO3_LAYER                5
+#define GRAPHIC_LAYER 				0
+#define VIDEO1_LAYER 				1
+#define VIDEO2_LAYER 				3
+#define VIDEO3_LAYER 				5
 
-#define DE_LAYER_A                0
-#define DE_LAYER_B                1
+#define DE_LAYER_A 					0
+#define DE_LAYER_B 					1
 
-#define DE_PATH_1                 0
-#define DE_PATH_2                 1  
+#define DE_PATH_1 					0
+#define DE_PATH_2 					1  
 
-
-#define PATHx_CTL_SELB(x)          (((x) & 0x7) << 20)
-#define PATHx_CTL_SELA(x)          (((x) & 0x7) << 16)
-#define PATHx_CTL_CSC_CONTROL_BIT601	     (0x0 << 15)
-#define PATHx_CTL_CSC_CONTROL_BIT709	     (0x1 << 15)
-#define PATHx_CTL_DITHER_B                 (0x1 << 14)
-#define PATHx_CTL_DITHER_G                 (0x1 << 13)
-#define PATHx_CTL_DITHER_R                 (0x1 << 12)
-#define PATHx_CTL_INTERLACE_ENABLE				 (0x1 << 9)
-#define PATHx_CTL_3D											 (0x1 << 8)
-#define PATHx_CTL_GAMMAYUV_ENABLE					 (0x1 << 7)
-#define PATHx_CTL_GAMMARGB_ENABLE          (0x1 << 6)
-#define PATHx_CTL_DITHER_ENABLE						 (0x1 << 5)
-#define PATHx_CTL_CK_ENABLE                (0x1 << 4)
-#define PATHx_CTL_ALPHA_ENABLE_A           (0x1 << 2)
-#define PATHx_CTL_INPUTB_ENABLE            (0x1 << 1)
-#define PATHx_CTL_INPUTA_ENABLE            (0x1 << 0)
+#define PATHx_CTL_SELB(x) 			(((x) & 0x7) << 20)
+#define PATHx_CTL_SELA(x) 			(((x) & 0x7) << 16)
+#define PATHx_CTL_CSC_CONTROL_BIT601 		(0x0 << 15)
+#define PATHx_CTL_CSC_CONTROL_BIT709 		(0x1 << 15)
+#define PATHx_CTL_DITHER_B 					(0x1 << 14)
+#define PATHx_CTL_DITHER_G 					(0x1 << 13)
+#define PATHx_CTL_DITHER_R 					(0x1 << 12)
+#define PATHx_CTL_INTERLACE_ENABLE 			(0x1 << 9)
+#define PATHx_CTL_3D 						(0x1 << 8)
+#define PATHx_CTL_GAMMAYUV_ENABLE 			(0x1 << 7)
+#define PATHx_CTL_GAMMARGB_ENABLE 			(0x1 << 6)
+#define PATHx_CTL_DITHER_ENABLE 			(0x1 << 5)
+#define PATHx_CTL_CK_ENABLE 				(0x1 << 4)
+#define PATHx_CTL_ALPHA_ENABLE_A 			(0x1 << 2)
+#define PATHx_CTL_INPUTB_ENABLE 			(0x1 << 1)
+#define PATHx_CTL_INPUTA_ENABLE 			(0x1 << 0)
 /******************************************************************************/
 /*GRAPHIC_CFG*/
 #define CRITICAL_AUTO                     0
@@ -87,32 +86,32 @@ extern "C" {
 #define GRAPHIC_FMT_ARGB_888              1
 #define GRAPHIC_FMT_ABGR_888              5
 
-#define GRAPHIC_CFG_CRITICAL(x)  					(((x) & 0x3) << 22)
-#define GRAPHIC_CFG_XFLIP									(1  << 21)
-#define GRAPHIC_CFG_YFLIP 								(1  << 20)
-#define GRAPHIC_CFG_BRI(x)			 					(((x) & 0xff) << 12)
-#define GRAPHIC_CFG_SAT(x)			 					(((x) & 0xf) << 8)
-#define GRAPHIC_CFG_CON(x)       					(((x) & 0xf) << 4)
-#define GRAPHIC_CFG_FMT_MASK               0x7
-#define GRAPHIC_CFG_FMT(x)       					(((x) & GRAPHIC_CFG_FMT_MASK) << 0)
+#define GRAPHIC_CFG_CRITICAL(x) 		(((x) & 0x3) << 22)
+#define GRAPHIC_CFG_XFLIP 						(1  << 21)
+#define GRAPHIC_CFG_YFLIP 						(1  << 20)
+#define GRAPHIC_CFG_BRI(x) 				(((x) & 0xff) << 12)
+#define GRAPHIC_CFG_SAT(x) 				(((x) & 0xf) << 8)
+#define GRAPHIC_CFG_CON(x)				(((x) & 0xf) << 4)
+#define GRAPHIC_CFG_FMT_MASK 					0x7
+#define GRAPHIC_CFG_FMT(x) 				(((x) & GRAPHIC_CFG_FMT_MASK) << 0)
 /******************************************************************************/
 /*VIDEO_CFG*/
 #define CRITICAL_AUTO                     0
 #define CRITICAL_ALWAYS_ON                1
 #define CRITICAL_ALWAYS_OFF               2 
 
-#define VIDEO_CFG_CSC_IYUV_QEN 						(1  << 29)
-#define VIDEO_CFG_CSC_IYUV_FMT 						(1  << 28)
-#define VIDEO_CFG_CRITICAL(x)  						(((x) & 0x3) << 26)
-#define VIDEO_CFG_YSUB				 						(((x) & 0x3) << 24)
-#define VIDEO_CFG_XSUB				 						(((x) & 0x3) << 22)
-#define VIDEO_CFG_XFLIP				 						(1  << 21)
-#define VIDEO_CFG_YFLIP 			 						(1  << 20)
-#define VIDEO_CFG_BRI(x)			 						(((x) & 0xff) << 12)
-#define VIDEO_CFG_SAT(x)			 						(((x) & 0xf) << 8)
-#define VIDEO_CFG_CON(x)       						(((x) & 0xf) << 4)
-#define VIDEO_CFG_FMT_MASK               0x7
-#define VIDEO_CFG_FMT(x)       						(((x) & 0x7) << 0)
+#define VIDEO_CFG_CSC_IYUV_QEN 			(1  << 29)
+#define VIDEO_CFG_CSC_IYUV_FMT 			(1  << 28)
+#define VIDEO_CFG_CRITICAL(x)  			(((x) & 0x3) << 26)
+#define VIDEO_CFG_YSUB					(((x) & 0x3) << 24)
+#define VIDEO_CFG_XSUB					(((x) & 0x3) << 22)
+#define VIDEO_CFG_XFLIP					(1  << 21)
+#define VIDEO_CFG_YFLIP 				(1  << 20)
+#define VIDEO_CFG_BRI(x)				(((x) & 0xff) << 12)
+#define VIDEO_CFG_SAT(x)				(((x) & 0xf) << 8)
+#define VIDEO_CFG_CON(x)       			(((x) & 0xf) << 4)
+#define VIDEO_CFG_FMT_MASK              		0x7
+#define VIDEO_CFG_FMT(x)       			(((x) & 0x7) << 0)
 
 /******************************************************************************/
 /*MDSB_CTL*/
@@ -127,7 +126,7 @@ extern "C" {
 #define MDSB_CTL_LCD0_SCALE         (0X01 << 8)
 #define MDSB_CTL_HDMI_SEL           (0X01 << 7)
 #define MDSB_CTL_YPbPr_VGA_SEL      (0X01 << 6)
-#define MDSB_CTL_CVBS_SCALE					(0X01 << 5)
+#define MDSB_CTL_CVBS_SCALE			(0X01 << 5)
 #define MDSB_CTL_IMG5_EN            (0X01 << 4)
 #define MDSB_CTL_IMG4_EN            (0X01 << 3)
 #define MDSB_CTL_IMG3_EN            (0X01 << 2)
@@ -137,21 +136,21 @@ extern "C" {
 /******************************************************************************/
 /*DE_PHCTL*/
 /*bit 9-31 Reserved*/
-#define DE_PHCTL_TV_SEL_MASK				(0x1 << 8)
-#define DE_PHCTL_TV_SEL_CVBS				(0x0 << 8)
-#define DE_PHCTL_TV_SEL_YPBPR				(0x1 << 8)
+#define DE_PHCTL_TV_SEL_MASK		(0x1 << 8)
+#define DE_PHCTL_TV_SEL_CVBS		(0x0 << 8)
+#define DE_PHCTL_TV_SEL_YPBPR		(0x1 << 8)
 
-#define DE_PHCTL_INTERLACE_EN				(0x1 << 7)
+#define DE_PHCTL_INTERLACE_EN		(0x1 << 7)
 
-#define DE_PHCTL_WBF_MASK						(0x3 << 5)
+#define DE_PHCTL_WBF_MASK			(0x3 << 5)
 #define DE_PHCTL_WBF_RGB565         (0x0 << 5)
 #define DE_PHCTL_WBF_YCBYCR         (0x1 << 5)
 #define DE_PHCTL_WBF_XRGB8888       (0x2 << 5)
-#define DE_PHCTL_WBF_YUV420P				(0x3 << 5)
+#define DE_PHCTL_WBF_YUV420P		(0x3 << 5)
 
 #define DE_PHCTL_PHASE_EN           (0x1 << 4)
 
-#define DE_PHCTL_DUALDISPLAY_MASK		(0x3 << 2)
+#define DE_PHCTL_DUALDISPLAY_MASK 	(0x3 << 2)
 #define DE_PHCTL_DUALDISPLAY_SGV    (0x0 << 2)
 #define DE_PHCTL_DUALDISPLAY_DGV    (0x1 << 2)
 #define DE_PHCTL_DUALDISPLAY_SG     (0x2 << 2)
@@ -217,7 +216,7 @@ extern "C" {
 #define DE_LRX_CFG_OVLAP_OV					(0x0 << 20)
 #define DE_LRX_CFG_OVLAP_UD					(0x1 << 20)
 
-#define DE_LRX_CFG_2X_EN            (0x1 << 19)
+#define DE_LRX_CFG_2X_EN            		(0x1 << 19)
 
 #define DE_LRX_CFG_FMT_MASK					(0x7 << 16)
 #define DE_LRX_CFG_FMT_1BPP					(0x0 << 16)
@@ -225,40 +224,40 @@ extern "C" {
 #define DE_LRX_CFG_FMT_4BPP					(0x2 << 16)
 #define DE_LRX_CFG_FMT_8BPP					(0x3 << 16)
 #define DE_LRX_CFG_FMT_RGB565				(0x4 << 16)
-#define DE_LRX_CFG_FMT_ARGB1555			(0x5 << 16)
-#define DE_LRX_CFG_FMT_ARGB8888			(0x6 << 16)
+#define DE_LRX_CFG_FMT_ARGB1555				(0x5 << 16)
+#define DE_LRX_CFG_FMT_ARGB8888				(0x6 << 16)
 #define DE_LRX_CFG_FMT_YUVI					(0x7 << 16)
 
 /*bit 14-15 Reserved*/
-#define DE_LRX_CFG_YFLIP_EN         (0x1 << 13)
-#define DE_LRX_CFG_CKM_EN           (0x1 << 12)
+#define DE_LRX_CFG_YFLIP_EN         		(0x1 << 13)
+#define DE_LRX_CFG_CKM_EN           		(0x1 << 12)
 /*bit 10-11 Reserved*/
-#define DE_LRX_CFG_SPLIT_EN         (0x1 << 9)
+#define DE_LRX_CFG_SPLIT_EN         		(0x1 << 9)
 #define DE_LRX_CFG_ALPHA_EN					(0x1 << 8)
 
-#define DE_LRX_CFG_ALPHA_MASK			  (0x0FF << 0)
-#define DE_LRX_CFG_ALPHA(x) 			  (((x) & 0x0FF) << 0)
+#define DE_LRX_CFG_ALPHA_MASK			  	(0x0FF << 0)
+#define DE_LRX_CFG_ALPHA(x) 			 	(((x) & 0x0FF) << 0)
 
 
 /******************************************************************************/
 /*DE_LR3_CFG*/
 /*bit 19-31 Reserved*/
 #define DE_LR3_CFG_FMT_MASK					(0x7 << 16)
-#define DE_LR3_CFG_FMT_YUV420P			(0x0 << 16)
-#define DE_LR3_CFG_FMT_YUV422I			(0x1 << 16)
+#define DE_LR3_CFG_FMT_YUV420P				(0x0 << 16)
+#define DE_LR3_CFG_FMT_YUV422I				(0x1 << 16)
 #define DE_LR3_CFG_FMT_RGB565				(0x2 << 16)
-#define DE_LR3_CFG_FMT_YUV420SP			(0x3 << 16)
+#define DE_LR3_CFG_FMT_YUV420SP				(0x3 << 16)
 #define DE_LR3_CFG_FMT_YUVSPC				(0x4 << 16)
 
-#define DE_LR3_CFG_COL_EN						(0x1 << 15)
+#define DE_LR3_CFG_COL_EN					(0x1 << 15)
 #define DE_LR3_CFG_XFLIP_EN					(0x1 << 14)
-#define DE_LR3_CFG_YFLIP_EN         (0x1 << 13)
-#define DE_LR3_CFG_CKM_EN           (0x1 << 12)
+#define DE_LR3_CFG_YFLIP_EN         		(0x1 << 13)
+#define DE_LR3_CFG_CKM_EN           		(0x1 << 12)
 /*bit 9-11 Reserved*/
-#define DE_LR3_CFG_ALPHA_ENABLE     (0x1 << 8)
+#define DE_LR3_CFG_ALPHA_ENABLE     		(0x1 << 8)
 
-#define DE_LR3_CFG_ALPHA_MASK			  (0x0FF << 0)
-#define DE_LR3_CFG_ALPHA(x)				  (((x) & 0x0FF) << 0)
+#define DE_LR3_CFG_ALPHA_MASK			  	(0x0FF << 0)
+#define DE_LR3_CFG_ALPHA(x)				  	(((x) & 0x0FF) << 0)
 
 /******************************************************************************/
 /*DE_STRX*/
@@ -332,7 +331,7 @@ extern "C" {
 /*bit 3-31 Reserved*/
 #define DE_DITHER_R_MASK            (0x1 << 2)
 #define DE_DITHER_R_6BIT            (0x0 << 2)
-#define DE_DITHER_R_5BIT 	          (0x1 << 2)
+#define DE_DITHER_R_5BIT 	        (0x1 << 2)
 
 #define DE_DITHER_G_MASK            (0x1 << 1)
 #define DE_DITHER_G_6BIT            (0x0 << 1)
@@ -411,10 +410,10 @@ extern "C" {
 /******************************************************************************/
 /*DE_INTEN*/
 /*bit 7-31 Reserved*/
-#define DE_INTEN_CRITICAL_MASK			(0x3 << 5)
-#define DE_INTEN_CRITICAL_AUTO			(0x0 << 5)
-#define DE_INTEN_CRITICAL_ON				(0x1 << 5)
-#define DE_INTEN_CRITICAL_OFF				(0x2 << 5)
+#define DE_INTEN_CRITICAL_MASK		(0x3 << 5)
+#define DE_INTEN_CRITICAL_AUTO		(0x0 << 5)
+#define DE_INTEN_CRITICAL_ON		(0x1 << 5)
+#define DE_INTEN_CRITICAL_OFF		(0x2 << 5)
 
 #define DE_INTEN_INT4               (0x1 << 4)
 #define DE_INTEN_INT3               (0x1 << 3)
@@ -448,8 +447,8 @@ extern "C" {
 #define DE_RAMIDX_BUSY              (0x1 << 13)
 
 #define DE_RAMIDX_WE_MASK           (0x1 << 12)
-#define DE_RAMIDX_WE_W							(0x0 << 12)
-#define DE_RAMIDX_WE_R							(0x1 << 12)
+#define DE_RAMIDX_WE_W				(0x0 << 12)
+#define DE_RAMIDX_WE_R				(0x1 << 12)
 
 #define DE_RAMIDX_RAMSEL_MASK       (0x3 << 10)
 #define DE_RAMIDX_RAMSEL_PALETTE    (0x1 << 10)
@@ -536,32 +535,32 @@ extern "C" {
 /******************************************************************************/
 /*MDSB_CVBS_OFF*/
 /*bit 16-31 Reserved*/
-#define MDSB_CVBS_OFF_EVEN_ST_LN_MASK    (0xFF << 8)
-#define MDSB_CVBS_OFF_EVEN_ST_LN(x)		   (((x) & 0xFF) << 8)
-#define MDSB_CVBS_OFF_ODD_ST_LN_MASK		 (0xFF << 0)
-#define MDSB_CVBS_OFF_ODD_ST_LN(x)		   (((x) & 0xFF) << 0)
+#define MDSB_CVBS_OFF_EVEN_ST_LN_MASK 	(0xFF << 8)
+#define MDSB_CVBS_OFF_EVEN_ST_LN(x) 	(((x) & 0xFF) << 8)
+#define MDSB_CVBS_OFF_ODD_ST_LN_MASK 	(0xFF << 0)
+#define MDSB_CVBS_OFF_ODD_ST_LN(x) 		(((x) & 0xFF) << 0)
 
 
 /******************************************************************************/
 /*MDSB_LCD_OFF*/
 /*bit 14-31 Reserved*/
-#define MDSB_LCD_OFF_SEL_ST_LN_MASK    	 (0x3FFF << 0)
-#define MDSB_LCD_OFF_SEL_ST_LN(x)		   	 (((x) & 0x3FFF) << 0)
+#define MDSB_LCD_OFF_SEL_ST_LN_MASK 	(0x3FFF << 0)
+#define MDSB_LCD_OFF_SEL_ST_LN(x) 		(((x) & 0x3FFF) << 0)
 
 /******************************************************************************/
 /*MDSB_HDMIWH*/
 /*bit 27-31 Reserved*/
-#define MDSB_HDMIWH_H_MASK					     (0x7FF << 16)
-#define MDSB_HDMIWH_H(x)								 (((x) & 0x7FF) << 16)
+#define MDSB_HDMIWH_H_MASK 				(0x7FF << 16)
+#define MDSB_HDMIWH_H(x) 				(((x) & 0x7FF) << 16)
 /*bit 11-15 Reserved*/
-#define MDSB_HDMIWH_W_MASK							 (0x7FF << 0)
-#define MDSB_HDMIWH_W(x)							   (((x) & 0x7FF) << 0)
+#define MDSB_HDMIWH_W_MASK 				(0x7FF << 0)
+#define MDSB_HDMIWH_W(x) 				(((x) & 0x7FF) << 0)
 
 /******************************************************************************/
 /*MDSB_DMACFG*/
 /*bit 8-31 Reserved*/
-#define MDSB_DMACFG_DMA_O_ERR				     (0x1 << 7)
-#define MDSB_DMACFG_LCD_U_ERR				     (0x1 << 6)
+#define MDSB_DMACFG_DMA_O_ERR				   (0x1 << 7)
+#define MDSB_DMACFG_LCD_U_ERR				   (0x1 << 6)
 #define MDSB_DMACFG_CVBS_U_ERR				   (0x1 << 5)
 #define MDSB_DMACFG_HDMI_U_ERR				   (0x1 << 4)
 /*bit 3 Reserved*/
@@ -570,7 +569,7 @@ extern "C" {
 #define MDSB_DMACFG_RB_SEL_CVBS				   (0x1 << 1)
 #define MDSB_DMACFG_RB_SEL_LCD				   (0x2 << 1)
 
-#define MDSB_DMACFG_RB_EN							   (0x1 << 0)
+#define MDSB_DMACFG_RB_EN					   (0x1 << 0)
 
 /******************************************************************************/
 /*MDSB_HSCALERX*/
