@@ -1,7 +1,7 @@
 /*
  * arch/arm/mach-atm702x/include/mach/dma.h
  *
- * dma interface
+ * DMA Interface
  *
  * (C) Copyright 2012 Actions Semiconductor, Inc. <www.actions-semi.com>
  * 
@@ -39,7 +39,7 @@
 #error "No DMA_CHANNEL_LEN is defined"
 #endif
 
-#define NUM_ACT702X_DMA_CHANNELS           NUM_DMA_CHANNELS
+#define NUM_ACT702X_DMA_CHANNELS        NUM_DMA_CHANNELS
 
 /* DMA Channel Base Addresses */
 #define DMA_CHANNEL_BASE                IO_ADDRESS(BDMA0_BASE)

@@ -15,7 +15,7 @@
 
 /* Register Address */
 #define     SPS_PG_BASE 							0xB01C0100
-#define     SPS_PG_CTL 								SPS_PG_BASE+0x0000)
+#define     SPS_PG_CTL 								(SPS_PG_BASE+0x0000)
 #define     SPS_PG_ACK 								(SPS_PG_BASE+0x0004)
 #define     SPS_BDG_CTL 							(SPS_PG_BASE+0x0008)
 
