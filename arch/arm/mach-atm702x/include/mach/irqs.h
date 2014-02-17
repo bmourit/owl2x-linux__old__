@@ -15,11 +15,11 @@
 #ifndef __ASM_ARCH_IRQS_H
 #define __ASM_ARCH_IRQS_H
 
-#define IRQ_LOCALTIMER              (29)
-#define IRQ_LOCALWDT                (30)
+#define IRQ_LOCALTIMER			(29)
+#define IRQ_LOCALWDT			(30)
 
-#define ATM702X_IRQ_OFFSET             (32)
-#define ATM702X_IRQ(x)                 ((x) + ATM702X_IRQ_OFFSET)
+#define ATM702X_IRQ_OFFSET		(32)
+#define ATM702X_IRQ(x)			((x) + ATM702X_IRQ_OFFSET)
 
 #define IRQ_ATM702X_AUIP               ATM702X_IRQ(0)     /* reserved */
 #define IRQ_ATM702X_ETHERNET           ATM702X_IRQ(1)
@@ -77,36 +77,36 @@
 #define IRQ_ATM702X_L2                 ATM702X_IRQ(53)
 
 /* Set the default NR_IRQS */
-#define ATM702X_NR_IRQS                (ATM702X_IRQ(53) + 1)
+#define ATM702X_NR_IRQS			(ATM702X_IRQ(53) + 1)
 
 /* virtual IRQs: external speical IRQs */
-#define IRQ_SIRQ_BASE               (ATM702X_NR_IRQS)
-#define IRQ_SIRQ0                   (IRQ_SIRQ_BASE + 0)
-#define IRQ_SIRQ1                   (IRQ_SIRQ_BASE + 1)
-#define IRQ_SIRQ2                   (IRQ_SIRQ_BASE + 2)
-#define ATM702X_NR_SIRQ                (3)
+#define IRQ_SIRQ_BASE			(ATM702X_NR_IRQS)
+#define IRQ_SIRQ0			(IRQ_SIRQ_BASE + 0)
+#define IRQ_SIRQ1			(IRQ_SIRQ_BASE + 1)
+#define IRQ_SIRQ2			(IRQ_SIRQ_BASE + 2)
+#define ATM702X_NR_SIRQ			(3)
 
 /* virtual IRQs: GPIO */
-#define IRQ_GPIOA_BASE              (IRQ_SIRQ_BASE + ATM702X_NR_SIRQ)
-#define IRQ_GPIOA(x)                (IRQ_GPIOA_BASE + (x))
-#define IRQ_GPIOB_BASE              (IRQ_GPIOA(31) + 1)
-#define IRQ_GPIOB(x)                (IRQ_GPIOB_BASE + (x))
-#define IRQ_GPIOC_BASE              (IRQ_GPIOB(31) + 1)
-#define IRQ_GPIOC(x)                (IRQ_GPIOC_BASE + (x))
-#define IRQ_GPIOD_BASE              (IRQ_GPIOC(31) + 1)
-#define IRQ_GPIOD(x)                (IRQ_GPIOD_BASE + (x))
-#define IRQ_GPIOE_BASE              (IRQ_GPIOD(31) + 1)
-#define IRQ_GPIOE(x)                (IRQ_GPIOE_BASE + (x))
+#define IRQ_GPIOA_BASE			(IRQ_SIRQ_BASE + ATM702X_NR_SIRQ)
+#define IRQ_GPIOA(x)			(IRQ_GPIOA_BASE + (x))
+#define IRQ_GPIOB_BASE			(IRQ_GPIOA(31) + 1)
+#define IRQ_GPIOB(x)			(IRQ_GPIOB_BASE + (x))
+#define IRQ_GPIOC_BASE			(IRQ_GPIOB(31) + 1)
+#define IRQ_GPIOC(x)			(IRQ_GPIOC_BASE + (x))
+#define IRQ_GPIOD_BASE			(IRQ_GPIOC(31) + 1)
+#define IRQ_GPIOD(x)			(IRQ_GPIOD_BASE + (x))
+#define IRQ_GPIOE_BASE			(IRQ_GPIOD(31) + 1)
+#define IRQ_GPIOE(x)			(IRQ_GPIOE_BASE + (x))
 
-#define ATM702X_NR_GPIO_INT            (4 * 32 + 4)
-#define ATM702X_GPIO_TO_IRQ(gpio)      ((gpio) + IRQ_GPIOA_BASE)
-#define ATM702X_IRQ_TO_GPIO(irq)       ((irq) - IRQ_GPIOA_BASE)
+#define ATM702X_NR_GPIO_INT		(4 * 32 + 4)
+#define ATM702X_GPIO_TO_IRQ(gpio)	((gpio) + IRQ_GPIOA_BASE)
+#define ATM702X_IRQ_TO_GPIO(irq)	((irq) - IRQ_GPIOA_BASE)
 
 /* virtual IRQs: ATM702X */
-#define IRQ_ATM702X_BASE             (IRQ_GPIOA_BASE + ATM702X_NR_GPIO_INT)
+#define IRQ_ATM702X_BASE		(IRQ_GPIOA_BASE + ATM702X_NR_GPIO_INT)
 // reserved 16 interrupt sources for ATM702X
-#define IRQ_ATM702X_MAX_NUM          16
+#define IRQ_ATM702X_MAX_NUM		16
 
-#define NR_IRQS                     (IRQ_ATM702X_BASE + IRQ_ATM702X_MAX_NUM)
+#define NR_IRQS				(IRQ_ATM702X_BASE + IRQ_ATM702X_MAX_NUM)
 
 #endif  /* __ASM_ARCH_IRQS_H */

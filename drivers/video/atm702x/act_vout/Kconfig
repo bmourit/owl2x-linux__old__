@@ -1,0 +1,5 @@
+menuconfig ACT_VOUT
+        tristate "Actions Video Out subsystem support"
+        help
+	  Actions Video Output Subsystem support. Choose Y or M.
+	  If you choose M, the module will be called atm702x_vout

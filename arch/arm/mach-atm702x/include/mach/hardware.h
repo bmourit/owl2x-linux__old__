@@ -43,62 +43,62 @@
 /******************************************************************************/
 static void inline act_writeb(u8 val, u32 reg)
 {
-    *(volatile u8 *)(IO_ADDRESS(reg)) = val;
+        *(volatile u8 *)(IO_ADDRESS(reg)) = val;
 }
 
 static void inline act_writew(u16 val, u32 reg)
 {
-    *(volatile u16 *)(IO_ADDRESS(reg)) = val;
+        *(volatile u16 *)(IO_ADDRESS(reg)) = val;
 }
 
 static void inline act_writel(u32 val, u32 reg)
 {
-    *(volatile u32 *)(IO_ADDRESS(reg)) = val;
+        *(volatile u32 *)(IO_ADDRESS(reg)) = val;
 }
 /******************************************************************************/
 static inline u8 act_readb(u32 reg)
 {
-    return (*(volatile u8 *)IO_ADDRESS(reg));
+        return (*(volatile u8 *)IO_ADDRESS(reg));
 }
 
 static inline u16 act_readw(u32 reg)
 {
-    return (*(volatile u16 *)IO_ADDRESS(reg));
+        return (*(volatile u16 *)IO_ADDRESS(reg));
 }
 
 static inline u32 act_readl(u32 reg)
 {
-    return (*(volatile u32 *)IO_ADDRESS(reg));
+        return (*(volatile u32 *)IO_ADDRESS(reg));
 }
 /******************************************************************************/
 static void inline act_setb(u8 val,u32 reg)
 {
-    *(volatile u8 *)IO_ADDRESS(reg) |= val;
+        *(volatile u8 *)IO_ADDRESS(reg) |= val;
 }
 
 static void inline act_setw(u16 val,u32 reg)
 {
-    *(volatile u16 *)IO_ADDRESS(reg) |= val;
+        *(volatile u16 *)IO_ADDRESS(reg) |= val;
 }
 
 static void inline act_setl(u32 val,u32 reg)
 {
-    *(volatile u32 *)IO_ADDRESS(reg) |= val;
+        *(volatile u32 *)IO_ADDRESS(reg) |= val;
 }
 /******************************************************************************/
 static void inline act_clearb(u8 val,u32 reg)
 {
-    *(volatile u8 *)IO_ADDRESS(reg) &= ~val;
+        *(volatile u8 *)IO_ADDRESS(reg) &= ~val;
 }
 
 static void inline act_clearw(u16 val,u32 reg)
 {
-    *(volatile u16 *)IO_ADDRESS(reg) &= ~val;
+        *(volatile u16 *)IO_ADDRESS(reg) &= ~val;
 }
 
 static void inline act_clearl(u32 val,u32 reg)
 {
-    *(volatile u32 *)IO_ADDRESS(reg) &= ~val;
+        *(volatile u32 *)IO_ADDRESS(reg) &= ~val;
 }
 /******************************************************************************/
 

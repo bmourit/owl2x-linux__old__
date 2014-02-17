@@ -5,7 +5,6 @@
 #define CLK_RATE_LOSC   32768 
 #define CLK_RATE_HOSC   24000000
 
-
 #define GPLL_ENABLE_BIT     8
 #define GPLL_ENABLE_MASK    (0x1<<GPLL_ENABLE_BIT)
 #define GPLL_VALUE_SHIFT    (0)

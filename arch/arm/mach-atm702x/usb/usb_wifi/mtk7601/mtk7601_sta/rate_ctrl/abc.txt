@@ -1,0 +1,4426 @@
+
+ra_ctrl.o:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <MlmeGetSupportedMcs>:
+*/
+VOID MlmeGetSupportedMcs(
+	IN PRTMP_ADAPTER pAd,
+	IN UCHAR	*pTable,
+	OUT CHAR 	mcs[])
+{
+       0:	e3a03000 	mov	r3, #0
+	CHAR	idx;
+	RTMP_RA_LEGACY_TB *pCurrTxRate;
+
+	for (idx=0; idx<24; idx++)
+		mcs[idx] = -1;
+       4:	e3e0c000 	mvn	ip, #0
+*/
+VOID MlmeGetSupportedMcs(
+	IN PRTMP_ADAPTER pAd,
+	IN UCHAR	*pTable,
+	OUT CHAR 	mcs[])
+{
+       8:	e52d4004 	push	{r4}		; (str r4, [sp, #-4]!)
+	CHAR	idx;
+	RTMP_RA_LEGACY_TB *pCurrTxRate;
+
+	for (idx=0; idx<24; idx++)
+		mcs[idx] = -1;
+       c:	e2830001 	add	r0, r3, #1
+      10:	e7c2c003 	strb	ip, [r2, r3]
+      14:	e2833002 	add	r3, r3, #2
+	OUT CHAR 	mcs[])
+{
+	CHAR	idx;
+	RTMP_RA_LEGACY_TB *pCurrTxRate;
+
+	for (idx=0; idx<24; idx++)
+      18:	e3530018 	cmp	r3, #24
+		mcs[idx] = -1;
+      1c:	e7c2c000 	strb	ip, [r2, r0]
+	OUT CHAR 	mcs[])
+{
+	CHAR	idx;
+	RTMP_RA_LEGACY_TB *pCurrTxRate;
+
+	for (idx=0; idx<24; idx++)
+      20:	1afffff9 	bne	c <MlmeGetSupportedMcs+0xc>
+		mcs[idx] = -1;
+
+	/*  check the existence and index of each needed MCS */
+	for (idx=0; idx<RATE_TABLE_SIZE(pTable); idx++)
+      24:	e5d14000 	ldrb	r4, [r1]
+      28:	e3540000 	cmp	r4, #0
+      2c:	0a000026 	beq	cc <MlmeGetSupportedMcs+0xcc>
+      30:	e3a00000 	mov	r0, #0
+      34:	e1a03000 	mov	r3, r0
+      38:	ea00000c 	b	70 <MlmeGetSupportedMcs+0x70>
+	{
+		pCurrTxRate = PTX_RA_LEGACY_ENTRY(pTable, idx);
+
+		/*  Rate Table may contain CCK and MCS rates. Give HT/Legacy priority over CCK */
+		if (pCurrTxRate->CurrMCS==MCS_0 && (mcs[0]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+      3c:	e1d200d0 	ldrsb	r0, [r2]
+      40:	e3700001 	cmn	r0, #1
+      44:	0a000002 	beq	54 <MlmeGetSupportedMcs+0x54>
+      48:	e5dcc001 	ldrb	ip, [ip, #1]
+      4c:	e31c0070 	tst	ip, #112	; 0x70
+      50:	0a000001 	beq	5c <MlmeGetSupportedMcs+0x5c>
+			mcs[0] = idx;
+      54:	e5c23000 	strb	r3, [r2]
+      58:	e5d14000 	ldrb	r4, [r1]
+
+	for (idx=0; idx<24; idx++)
+		mcs[idx] = -1;
+
+	/*  check the existence and index of each needed MCS */
+	for (idx=0; idx<RATE_TABLE_SIZE(pTable); idx++)
+      5c:	e2833001 	add	r3, r3, #1
+      60:	e6ef3073 	uxtb	r3, r3
+      64:	e6af0073 	sxtb	r0, r3
+      68:	e1500004 	cmp	r0, r4
+      6c:	aa000016 	bge	cc <MlmeGetSupportedMcs+0xcc>
+	{
+		pCurrTxRate = PTX_RA_LEGACY_ENTRY(pTable, idx);
+      70:	e2800001 	add	r0, r0, #1
+      74:	e080c100 	add	ip, r0, r0, lsl #2
+      78:	e081c00c 	add	ip, r1, ip
+
+		/*  Rate Table may contain CCK and MCS rates. Give HT/Legacy priority over CCK */
+		if (pCurrTxRate->CurrMCS==MCS_0 && (mcs[0]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+      7c:	e5dc0002 	ldrb	r0, [ip, #2]
+      80:	e3500000 	cmp	r0, #0
+      84:	0affffec 	beq	3c <MlmeGetSupportedMcs+0x3c>
+			mcs[0] = idx;
+		else if (pCurrTxRate->CurrMCS==MCS_1 && (mcs[1]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+      88:	e3500001 	cmp	r0, #1
+      8c:	0a000010 	beq	d4 <MlmeGetSupportedMcs+0xd4>
+			mcs[1] = idx;
+		else if (pCurrTxRate->CurrMCS==MCS_2 && (mcs[2]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+      90:	e3500002 	cmp	r0, #2
+      94:	1a000017 	bne	f8 <MlmeGetSupportedMcs+0xf8>
+      98:	e1d200d2 	ldrsb	r0, [r2, #2]
+      9c:	e3700001 	cmn	r0, #1
+      a0:	0a000002 	beq	b0 <MlmeGetSupportedMcs+0xb0>
+      a4:	e5dcc001 	ldrb	ip, [ip, #1]
+      a8:	e31c0070 	tst	ip, #112	; 0x70
+      ac:	0affffea 	beq	5c <MlmeGetSupportedMcs+0x5c>
+			mcs[2] = idx;
+      b0:	e5c23002 	strb	r3, [r2, #2]
+
+	for (idx=0; idx<24; idx++)
+		mcs[idx] = -1;
+
+	/*  check the existence and index of each needed MCS */
+	for (idx=0; idx<RATE_TABLE_SIZE(pTable); idx++)
+      b4:	e2833001 	add	r3, r3, #1
+      b8:	e5d14000 	ldrb	r4, [r1]
+      bc:	e6ef3073 	uxtb	r3, r3
+      c0:	e6af0073 	sxtb	r0, r3
+      c4:	e1500004 	cmp	r0, r4
+      c8:	baffffe8 	blt	70 <MlmeGetSupportedMcs+0x70>
+#ifdef DBG_CTRL_SUPPORT
+	/*  Debug Option: Disable highest MCSs when picking initial MCS based on RSSI */
+	if (pAd->CommonCfg.DebugFlags & DBF_INIT_MCS_DIS1)
+		mcs[23] = mcs[15] = mcs[7] = mcs[22] = mcs[14] = mcs[6] = 0;
+#endif /* DBG_CTRL_SUPPORT */
+}
+      cc:	e49d4004 	pop	{r4}		; (ldr r4, [sp], #4)
+      d0:	e12fff1e 	bx	lr
+		pCurrTxRate = PTX_RA_LEGACY_ENTRY(pTable, idx);
+
+		/*  Rate Table may contain CCK and MCS rates. Give HT/Legacy priority over CCK */
+		if (pCurrTxRate->CurrMCS==MCS_0 && (mcs[0]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+			mcs[0] = idx;
+		else if (pCurrTxRate->CurrMCS==MCS_1 && (mcs[1]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+      d4:	e1d200d1 	ldrsb	r0, [r2, #1]
+      d8:	e3700001 	cmn	r0, #1
+      dc:	0a000002 	beq	ec <MlmeGetSupportedMcs+0xec>
+      e0:	e5dcc001 	ldrb	ip, [ip, #1]
+      e4:	e31c0070 	tst	ip, #112	; 0x70
+      e8:	0affffdb 	beq	5c <MlmeGetSupportedMcs+0x5c>
+			mcs[1] = idx;
+      ec:	e5c23001 	strb	r3, [r2, #1]
+      f0:	e5d14000 	ldrb	r4, [r1]
+      f4:	eaffffd8 	b	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS==MCS_2 && (mcs[2]==-1 || pCurrTxRate->Mode!=MODE_CCK))
+			mcs[2] = idx;
+		else if (pCurrTxRate->CurrMCS == MCS_3)
+      f8:	e3500003 	cmp	r0, #3
+			mcs[3] = idx;
+      fc:	05c23003 	strbeq	r3, [r2, #3]
+     100:	05d14000 	ldrbeq	r4, [r1]
+     104:	0affffd4 	beq	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS == MCS_4)
+     108:	e3500004 	cmp	r0, #4
+			mcs[4] = idx;
+     10c:	05c23004 	strbeq	r3, [r2, #4]
+     110:	05d14000 	ldrbeq	r4, [r1]
+     114:	0affffd0 	beq	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS == MCS_5)
+     118:	e3500005 	cmp	r0, #5
+     11c:	0a000012 	beq	16c <MlmeGetSupportedMcs+0x16c>
+			mcs[5] = idx;
+		else if (pCurrTxRate->CurrMCS == MCS_6)
+     120:	e3500006 	cmp	r0, #6
+     124:	0a000013 	beq	178 <MlmeGetSupportedMcs+0x178>
+			mcs[6] = idx;
+		else if ((pCurrTxRate->CurrMCS == MCS_7) && (pCurrTxRate->ShortGI == GI_800))
+     128:	e3500007 	cmp	r0, #7
+     12c:	0a000014 	beq	184 <MlmeGetSupportedMcs+0x184>
+			mcs[7] = idx;
+#ifdef DOT11_N_SUPPORT
+		else if (pCurrTxRate->CurrMCS == MCS_12)
+     130:	e350000c 	cmp	r0, #12
+     134:	0a000019 	beq	1a0 <MlmeGetSupportedMcs+0x1a0>
+			mcs[12] = idx;
+		else if (pCurrTxRate->CurrMCS == MCS_13)
+     138:	e350000d 	cmp	r0, #13
+     13c:	0a00001a 	beq	1ac <MlmeGetSupportedMcs+0x1ac>
+			mcs[13] = idx;
+		else if (pCurrTxRate->CurrMCS == MCS_14)
+     140:	e350000e 	cmp	r0, #14
+     144:	0a00001b 	beq	1b8 <MlmeGetSupportedMcs+0x1b8>
+			mcs[14] = idx;
+		else if ((pCurrTxRate->CurrMCS == MCS_15) && (pCurrTxRate->ShortGI == GI_800))
+     148:	e350000f 	cmp	r0, #15
+     14c:	1affffc2 	bne	5c <MlmeGetSupportedMcs+0x5c>
+     150:	e5dcc001 	ldrb	ip, [ip, #1]
+     154:	e20c0002 	and	r0, ip, #2
+     158:	e6efc070 	uxtb	ip, r0
+     15c:	e35c0000 	cmp	ip, #0
+		{
+			mcs[15] = idx;
+     160:	05c2300f 	strbeq	r3, [r2, #15]
+     164:	05d14000 	ldrbeq	r4, [r1]
+     168:	eaffffbb 	b	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS == MCS_3)
+			mcs[3] = idx;
+		else if (pCurrTxRate->CurrMCS == MCS_4)
+			mcs[4] = idx;
+		else if (pCurrTxRate->CurrMCS == MCS_5)
+			mcs[5] = idx;
+     16c:	e5c23005 	strb	r3, [r2, #5]
+     170:	e5d14000 	ldrb	r4, [r1]
+     174:	eaffffb8 	b	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS == MCS_6)
+			mcs[6] = idx;
+     178:	e5c23006 	strb	r3, [r2, #6]
+     17c:	e5d14000 	ldrb	r4, [r1]
+     180:	eaffffb5 	b	5c <MlmeGetSupportedMcs+0x5c>
+		else if ((pCurrTxRate->CurrMCS == MCS_7) && (pCurrTxRate->ShortGI == GI_800))
+     184:	e5dc0001 	ldrb	r0, [ip, #1]
+     188:	e200c002 	and	ip, r0, #2
+     18c:	e6ef007c 	uxtb	r0, ip
+     190:	e3500000 	cmp	r0, #0
+			mcs[7] = idx;
+     194:	05c23007 	strbeq	r3, [r2, #7]
+     198:	05d14000 	ldrbeq	r4, [r1]
+     19c:	eaffffae 	b	5c <MlmeGetSupportedMcs+0x5c>
+#ifdef DOT11_N_SUPPORT
+		else if (pCurrTxRate->CurrMCS == MCS_12)
+			mcs[12] = idx;
+     1a0:	e5c2300c 	strb	r3, [r2, #12]
+     1a4:	e5d14000 	ldrb	r4, [r1]
+     1a8:	eaffffab 	b	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS == MCS_13)
+			mcs[13] = idx;
+     1ac:	e5c2300d 	strb	r3, [r2, #13]
+     1b0:	e5d14000 	ldrb	r4, [r1]
+     1b4:	eaffffa8 	b	5c <MlmeGetSupportedMcs+0x5c>
+		else if (pCurrTxRate->CurrMCS == MCS_14)
+			mcs[14] = idx;
+     1b8:	e5c2300e 	strb	r3, [r2, #14]
+     1bc:	e5d14000 	ldrb	r4, [r1]
+     1c0:	eaffffa5 	b	5c <MlmeGetSupportedMcs+0x5c>
+
+000001c4 <MlmeClearTxQuality>:
+
+
+/*  MlmeClearTxQuality - Clear TxQuality history only for the active BF state */
+VOID MlmeClearTxQuality(
+	IN MAC_TABLE_ENTRY	*pEntry)
+{
+     1c4:	e92d4010 	push	{r4, lr}
+#ifdef TXBF_SUPPORT
+	if (pEntry->phyETxBf || pEntry->phyITxBf)
+		NdisZeroMemory(pEntry->BfTxQuality, sizeof(pEntry->BfTxQuality));
+	else
+#endif /*  TXBF_SUPPORT */
+		NdisZeroMemory(pEntry->TxQuality, sizeof(pEntry->TxQuality));
+     1c8:	e3a01044 	mov	r1, #68	; 0x44
+
+
+/*  MlmeClearTxQuality - Clear TxQuality history only for the active BF state */
+VOID MlmeClearTxQuality(
+	IN MAC_TABLE_ENTRY	*pEntry)
+{
+     1cc:	e1a04000 	mov	r4, r0
+#ifdef TXBF_SUPPORT
+	if (pEntry->phyETxBf || pEntry->phyITxBf)
+		NdisZeroMemory(pEntry->BfTxQuality, sizeof(pEntry->BfTxQuality));
+	else
+#endif /*  TXBF_SUPPORT */
+		NdisZeroMemory(pEntry->TxQuality, sizeof(pEntry->TxQuality));
+     1d0:	e2800e55 	add	r0, r0, #1360	; 0x550
+     1d4:	ebfffffe 	bl	0 <__memzero>
+
+	NdisZeroMemory(pEntry->PER, sizeof(pEntry->PER));
+     1d8:	e2840e5b 	add	r0, r4, #1456	; 0x5b0
+     1dc:	e2800001 	add	r0, r0, #1
+     1e0:	e3a01022 	mov	r1, #34	; 0x22
+}
+     1e4:	e8bd4010 	pop	{r4, lr}
+		NdisZeroMemory(pEntry->BfTxQuality, sizeof(pEntry->BfTxQuality));
+	else
+#endif /*  TXBF_SUPPORT */
+		NdisZeroMemory(pEntry->TxQuality, sizeof(pEntry->TxQuality));
+
+	NdisZeroMemory(pEntry->PER, sizeof(pEntry->PER));
+     1e8:	eafffffe 	b	0 <__memzero>
+
+000001ec <MlmeClearAllTxQuality>:
+
+
+/*  MlmeClearAllTxQuality - Clear both BF and non-BF TxQuality history */
+VOID MlmeClearAllTxQuality(
+	IN MAC_TABLE_ENTRY	*pEntry)
+{
+     1ec:	e92d4010 	push	{r4, lr}
+#ifdef TXBF_SUPPORT
+	NdisZeroMemory(pEntry->BfTxQuality, sizeof(pEntry->BfTxQuality));
+#endif
+	NdisZeroMemory(pEntry->TxQuality, sizeof(pEntry->TxQuality));
+     1f0:	e3a01044 	mov	r1, #68	; 0x44
+
+
+/*  MlmeClearAllTxQuality - Clear both BF and non-BF TxQuality history */
+VOID MlmeClearAllTxQuality(
+	IN MAC_TABLE_ENTRY	*pEntry)
+{
+     1f4:	e1a04000 	mov	r4, r0
+#ifdef TXBF_SUPPORT
+	NdisZeroMemory(pEntry->BfTxQuality, sizeof(pEntry->BfTxQuality));
+#endif
+	NdisZeroMemory(pEntry->TxQuality, sizeof(pEntry->TxQuality));
+     1f8:	e2800e55 	add	r0, r0, #1360	; 0x550
+     1fc:	ebfffffe 	bl	0 <__memzero>
+
+	NdisZeroMemory(pEntry->PER, sizeof(pEntry->PER));
+     200:	e2840e5b 	add	r0, r4, #1456	; 0x5b0
+     204:	e2800001 	add	r0, r0, #1
+     208:	e3a01022 	mov	r1, #34	; 0x22
+}
+     20c:	e8bd4010 	pop	{r4, lr}
+#ifdef TXBF_SUPPORT
+	NdisZeroMemory(pEntry->BfTxQuality, sizeof(pEntry->BfTxQuality));
+#endif
+	NdisZeroMemory(pEntry->TxQuality, sizeof(pEntry->TxQuality));
+
+	NdisZeroMemory(pEntry->PER, sizeof(pEntry->PER));
+     210:	eafffffe 	b	0 <__memzero>
+
+00000214 <MlmeDecTxQuality>:
+		if (pEntry->BfTxQuality[rateIndex])
+			pEntry->BfTxQuality[rateIndex]--;
+	}
+	else
+#endif /*  TXBF_SUPPORT */
+	if (pEntry->TxQuality[rateIndex])
+     214:	e2812faa 	add	r2, r1, #680	; 0x2a8
+     218:	e1a01082 	lsl	r1, r2, #1
+     21c:	e19030b1 	ldrh	r3, [r0, r1]
+     220:	e3530000 	cmp	r3, #0
+		pEntry->TxQuality[rateIndex]--;
+     224:	12433001 	subne	r3, r3, #1
+     228:	118030b1 	strhne	r3, [r0, r1]
+     22c:	e12fff1e 	bx	lr
+
+00000230 <MlmeSetTxQuality>:
+#ifdef TXBF_SUPPORT
+	if (pEntry->phyETxBf || pEntry->phyITxBf)
+		pEntry->BfTxQuality[rateIndex] = txQuality;
+	else
+#endif /*  TXBF_SUPPORT */
+		pEntry->TxQuality[rateIndex] = txQuality;
+     230:	e2813faa 	add	r3, r1, #680	; 0x2a8
+     234:	e1a01083 	lsl	r1, r3, #1
+     238:	e18020b1 	strh	r2, [r0, r1]
+}
+     23c:	e12fff1e 	bx	lr
+
+00000240 <MlmeGetTxQuality>:
+{
+#ifdef TXBF_SUPPORT
+	if (pEntry->phyETxBf || pEntry->phyITxBf)
+		return pEntry->BfTxQuality[rateIndex];
+#endif /*  TXBF_SUPPORT */
+	return pEntry->TxQuality[rateIndex];
+     240:	e2812faa 	add	r2, r1, #680	; 0x2a8
+     244:	e1a01082 	lsl	r1, r2, #1
+}
+     248:	e19000b1 	ldrh	r0, [r0, r1]
+     24c:	e12fff1e 	bx	lr
+
+00000250 <APMlmeSetTxRate>:
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+	IN RTMP_ADAPTER *pAd,
+	IN MAC_TABLE_ENTRY *pEntry,
+	IN RTMP_RA_LEGACY_TB *pTxRate)
+{
+     250:	e52d4004 	push	{r4}		; (str r4, [sp, #-4]!)
+#ifdef DOT11_N_SUPPORT
+	if ((pTxRate->STBC) && (pEntry->MaxHTPhyMode.field.STBC))
+     254:	e5d23001 	ldrb	r3, [r2, #1]
+     258:	e2133001 	ands	r3, r3, #1
+     25c:	0a000003 	beq	270 <APMlmeSetTxRate+0x20>
+     260:	e5d145ef 	ldrb	r4, [r1, #1519]	; 0x5ef
+	return pEntry->TxQuality[rateIndex];
+}
+
+
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+     264:	e3140006 	tst	r4, #6
+	IN MAC_TABLE_ENTRY *pEntry,
+	IN RTMP_RA_LEGACY_TB *pTxRate)
+{
+#ifdef DOT11_N_SUPPORT
+	if ((pTxRate->STBC) && (pEntry->MaxHTPhyMode.field.STBC))
+		pEntry->HTPhyMode.field.STBC = STBC_USE;
+     268:	03a03000 	moveq	r3, #0
+     26c:	13a03001 	movne	r3, #1
+     270:	e5d1c5ed 	ldrb	ip, [r1, #1517]	; 0x5ed
+     274:	e7c2c093 	bfi	ip, r3, #1, #2
+     278:	e5c1c5ed 	strb	ip, [r1, #1517]	; 0x5ed
+	else
+		pEntry->HTPhyMode.field.STBC = STBC_NONE;
+
+	if (((pTxRate->ShortGI) && (pEntry->MaxHTPhyMode.field.ShortGI))
+     27c:	e5d24001 	ldrb	r4, [r2, #1]
+     280:	e2043002 	and	r3, r4, #2
+     284:	e6efc073 	uxtb	ip, r3
+     288:	e35c0000 	cmp	ip, #0
+     28c:	1a00003b 	bne	380 <APMlmeSetTxRate+0x130>
+         || (pAd->WIFItestbed.bShortGI && pEntry->MaxHTPhyMode.field.ShortGI) )
+     290:	e30d30d8 	movw	r3, #53464	; 0xd0d8
+     294:	e3403017 	movt	r3, #23
+     298:	e7d0c003 	ldrb	ip, [r0, r3]
+     29c:	e35c0000 	cmp	ip, #0
+     2a0:	1a000036 	bne	380 <APMlmeSetTxRate+0x130>
+	return pEntry->TxQuality[rateIndex];
+}
+
+
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+     2a4:	e5d145ed 	ldrb	r4, [r1, #1517]	; 0x5ed
+     2a8:	e7c0401c 	bfi	r4, ip, #0, #1
+     2ac:	e5c145ed 	strb	r4, [r1, #1517]	; 0x5ed
+		pEntry->HTPhyMode.field.ShortGI = GI_400;
+	else
+		pEntry->HTPhyMode.field.ShortGI = GI_800;
+#endif /* DOT11_N_SUPPORT */
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     2b0:	e5d23002 	ldrb	r3, [r2, #2]
+     2b4:	e3530020 	cmp	r3, #32
+		pEntry->HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     2b8:	95d1c5ec 	ldrbls	ip, [r1, #1516]	; 0x5ec
+     2bc:	97c6c013 	bfils	ip, r3, #0, #7
+
+	pEntry->HTPhyMode.field.MODE = pTxRate->Mode;
+
+#ifdef DOT11_N_SUPPORT
+	if ((pAd->WIFItestbed.bGreenField & pEntry->HTCapability.HtCapInfo.GF) && (pEntry->HTPhyMode.field.MODE == MODE_HTMIX))
+     2c0:	e30d30d9 	movw	r3, #53465	; 0xd0d9
+	else
+		pEntry->HTPhyMode.field.ShortGI = GI_800;
+#endif /* DOT11_N_SUPPORT */
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+		pEntry->HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     2c4:	95c1c5ec 	strbls	ip, [r1, #1516]	; 0x5ec
+
+	pEntry->HTPhyMode.field.MODE = pTxRate->Mode;
+
+#ifdef DOT11_N_SUPPORT
+	if ((pAd->WIFItestbed.bGreenField & pEntry->HTCapability.HtCapInfo.GF) && (pEntry->HTPhyMode.field.MODE == MODE_HTMIX))
+     2c8:	e3403017 	movt	r3, #23
+#endif /* DOT11_N_SUPPORT */
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+		pEntry->HTPhyMode.field.MCS = pTxRate->CurrMCS;
+
+	pEntry->HTPhyMode.field.MODE = pTxRate->Mode;
+     2cc:	e5d24001 	ldrb	r4, [r2, #1]
+     2d0:	e5d125ed 	ldrb	r2, [r1, #1517]	; 0x5ed
+     2d4:	e7e24254 	ubfx	r4, r4, #4, #3
+
+#ifdef DOT11_N_SUPPORT
+	if ((pAd->WIFItestbed.bGreenField & pEntry->HTCapability.HtCapInfo.GF) && (pEntry->HTPhyMode.field.MODE == MODE_HTMIX))
+     2d8:	e5d1c62e 	ldrb	ip, [r1, #1582]	; 0x62e
+#endif /* DOT11_N_SUPPORT */
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+		pEntry->HTPhyMode.field.MCS = pTxRate->CurrMCS;
+
+	pEntry->HTPhyMode.field.MODE = pTxRate->Mode;
+     2dc:	e7c72314 	bfi	r2, r4, #6, #2
+     2e0:	e5c125ed 	strb	r2, [r1, #1517]	; 0x5ed
+
+#ifdef DOT11_N_SUPPORT
+	if ((pAd->WIFItestbed.bGreenField & pEntry->HTCapability.HtCapInfo.GF) && (pEntry->HTPhyMode.field.MODE == MODE_HTMIX))
+     2e4:	e7d03003 	ldrb	r3, [r0, r3]
+     2e8:	e7e0225c 	ubfx	r2, ip, #4, #1
+     2ec:	e1120003 	tst	r2, r3
+     2f0:	0a000004 	beq	308 <APMlmeSetTxRate+0xb8>
+     2f4:	e5d1c5ed 	ldrb	ip, [r1, #1517]	; 0x5ed
+     2f8:	e20c20c0 	and	r2, ip, #192	; 0xc0
+     2fc:	e3520080 	cmp	r2, #128	; 0x80
+	{
+		/* force Tx GreenField */
+		pEntry->HTPhyMode.field.MODE = MODE_HTGREENFIELD;
+     300:	038cc0c0 	orreq	ip, ip, #192	; 0xc0
+     304:	05c1c5ed 	strbeq	ip, [r1, #1517]	; 0x5ed
+	}
+
+	/* BW depends on BSSWidthTrigger and Negotiated BW */
+	if (pAd->CommonCfg.bRcvBSSWidthTriggerEvents ||
+     308:	e30ac851 	movw	ip, #43089	; 0xa851
+     30c:	e340c00a 	movt	ip, #10
+     310:	e7d0300c 	ldrb	r3, [r0, ip]
+     314:	e3530000 	cmp	r3, #0
+		(pEntry->MaxHTPhyMode.field.BW==BW_20) ||
+		(pAd->CommonCfg.BBPCurrentBW==BW_20))
+		pEntry->HTPhyMode.field.BW = BW_20;
+     318:	13a02000 	movne	r2, #0
+		/* force Tx GreenField */
+		pEntry->HTPhyMode.field.MODE = MODE_HTGREENFIELD;
+	}
+
+	/* BW depends on BSSWidthTrigger and Negotiated BW */
+	if (pAd->CommonCfg.bRcvBSSWidthTriggerEvents ||
+     31c:	1a000004 	bne	334 <APMlmeSetTxRate+0xe4>
+		(pEntry->MaxHTPhyMode.field.BW==BW_20) ||
+     320:	e5d135ee 	ldrb	r3, [r1, #1518]	; 0x5ee
+		/* force Tx GreenField */
+		pEntry->HTPhyMode.field.MODE = MODE_HTGREENFIELD;
+	}
+
+	/* BW depends on BSSWidthTrigger and Negotiated BW */
+	if (pAd->CommonCfg.bRcvBSSWidthTriggerEvents ||
+     324:	e2032080 	and	r2, r3, #128	; 0x80
+     328:	e6ef2072 	uxtb	r2, r2
+     32c:	e3520000 	cmp	r2, #0
+     330:	1a000015 	bne	38c <APMlmeSetTxRate+0x13c>
+	return pEntry->TxQuality[rateIndex];
+}
+
+
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+     334:	e5d135ec 	ldrb	r3, [r1, #1516]	; 0x5ec
+     338:	e7c73392 	bfi	r3, r2, #7, #1
+     33c:	e5c135ec 	strb	r3, [r1, #1516]	; 0x5ec
+	}
+#endif /* DBG_CTRL_SUPPORT */
+#endif /* RANGE_EXTEND */
+
+	/* Reexam each bandwidth's SGI support. */
+	if ((pEntry->HTPhyMode.field.BW==BW_20 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI20_CAPABLE)) ||
+     340:	e203c080 	and	ip, r3, #128	; 0x80
+     344:	e6ef307c 	uxtb	r3, ip
+     348:	e3530000 	cmp	r3, #0
+     34c:	e59135e8 	ldr	r3, [r1, #1512]	; 0x5e8
+     350:	1a00001a 	bne	3c0 <APMlmeSetTxRate+0x170>
+     354:	e3130010 	tst	r3, #16
+		(pEntry->HTPhyMode.field.BW==BW_40 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI40_CAPABLE)) )
+		pEntry->HTPhyMode.field.ShortGI = GI_800;
+     358:	05d125ed 	ldrbeq	r2, [r1, #1517]	; 0x5ed
+     35c:	07c0201f 	bfceq	r2, #0, #1
+     360:	05c125ed 	strbeq	r2, [r1, #1517]	; 0x5ed
+	if (pAd->CommonCfg.DebugFlags & DBF_FORCE_SGI)
+		pEntry->HTPhyMode.field.ShortGI = GI_400;
+#endif /* DBG_CTRL_SUPPORT */
+#endif /* DOT11_N_SUPPORT */
+
+	pAd->LastTxRate = (USHORT)(pEntry->HTPhyMode.word);
+     364:	e30035ec 	movw	r3, #1516	; 0x5ec
+     368:	e30ccfc4 	movw	ip, #53188	; 0xcfc4
+     36c:	e19110b3 	ldrh	r1, [r1, r3]
+     370:	e340c017 	movt	ip, #23
+     374:	e780100c 	str	r1, [r0, ip]
+	AsicFifoExtEntryClean(pAd, pEntry);
+#endif /* FIFO_EXT_SUPPORT */
+
+
+	
+}
+     378:	e49d4004 	pop	{r4}		; (ldr r4, [sp], #4)
+     37c:	e12fff1e 	bx	lr
+	if ((pTxRate->STBC) && (pEntry->MaxHTPhyMode.field.STBC))
+		pEntry->HTPhyMode.field.STBC = STBC_USE;
+	else
+		pEntry->HTPhyMode.field.STBC = STBC_NONE;
+
+	if (((pTxRate->ShortGI) && (pEntry->MaxHTPhyMode.field.ShortGI))
+     380:	e5d145ef 	ldrb	r4, [r1, #1519]	; 0x5ef
+	return pEntry->TxQuality[rateIndex];
+}
+
+
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+     384:	e204c001 	and	ip, r4, #1
+     388:	eaffffc5 	b	2a4 <APMlmeSetTxRate+0x54>
+	}
+
+	/* BW depends on BSSWidthTrigger and Negotiated BW */
+	if (pAd->CommonCfg.bRcvBSSWidthTriggerEvents ||
+		(pEntry->MaxHTPhyMode.field.BW==BW_20) ||
+		(pAd->CommonCfg.BBPCurrentBW==BW_20))
+     38c:	e30a2784 	movw	r2, #42884	; 0xa784
+     390:	e340200a 	movt	r2, #10
+	return pEntry->TxQuality[rateIndex];
+}
+
+
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+     394:	e5d135ec 	ldrb	r3, [r1, #1516]	; 0x5ec
+     398:	e7d0c002 	ldrb	ip, [r0, r2]
+     39c:	e29c2000 	adds	r2, ip, #0
+     3a0:	13a02001 	movne	r2, #1
+     3a4:	e7c73392 	bfi	r3, r2, #7, #1
+	}
+#endif /* DBG_CTRL_SUPPORT */
+#endif /* RANGE_EXTEND */
+
+	/* Reexam each bandwidth's SGI support. */
+	if ((pEntry->HTPhyMode.field.BW==BW_20 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI20_CAPABLE)) ||
+     3a8:	e203c080 	and	ip, r3, #128	; 0x80
+	return pEntry->TxQuality[rateIndex];
+}
+
+
+#ifdef CONFIG_AP_SUPPORT
+VOID APMlmeSetTxRate(
+     3ac:	e5c135ec 	strb	r3, [r1, #1516]	; 0x5ec
+	}
+#endif /* DBG_CTRL_SUPPORT */
+#endif /* RANGE_EXTEND */
+
+	/* Reexam each bandwidth's SGI support. */
+	if ((pEntry->HTPhyMode.field.BW==BW_20 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI20_CAPABLE)) ||
+     3b0:	e6ef307c 	uxtb	r3, ip
+     3b4:	e3530000 	cmp	r3, #0
+     3b8:	e59135e8 	ldr	r3, [r1, #1512]	; 0x5e8
+     3bc:	0affffe4 	beq	354 <APMlmeSetTxRate+0x104>
+		(pEntry->HTPhyMode.field.BW==BW_40 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI40_CAPABLE)) )
+     3c0:	e3130020 	tst	r3, #32
+		pEntry->HTPhyMode.field.ShortGI = GI_800;
+     3c4:	05d125ed 	ldrbeq	r2, [r1, #1517]	; 0x5ed
+     3c8:	07c0201f 	bfceq	r2, #0, #1
+     3cc:	05c125ed 	strbeq	r2, [r1, #1517]	; 0x5ed
+     3d0:	eaffffe3 	b	364 <APMlmeSetTxRate+0x114>
+
+000003d4 <MlmeSetTxRate>:
+#ifdef CONFIG_STA_SUPPORT
+VOID MlmeSetTxRate(
+	IN RTMP_ADAPTER *pAd,
+	IN MAC_TABLE_ENTRY *pEntry,
+	IN RTMP_RA_LEGACY_TB *pTxRate)
+{
+     3d4:	e92d4070 	push	{r4, r5, r6, lr}
+     3d8:	e1a04000 	mov	r4, r0
+
+#ifdef DOT11_VHT_AC
+	MaxMode = MODE_VHT;
+#endif /* DOT11_VHT_AC */
+
+	if (pTxRate->STBC && (pAd->StaCfg.MaxHTPhyMode.field.STBC))
+     3dc:	e5d23001 	ldrb	r3, [r2, #1]
+#ifdef CONFIG_STA_SUPPORT
+VOID MlmeSetTxRate(
+	IN RTMP_ADAPTER *pAd,
+	IN MAC_TABLE_ENTRY *pEntry,
+	IN RTMP_RA_LEGACY_TB *pTxRate)
+{
+     3e0:	e24dd008 	sub	sp, sp, #8
+     3e4:	e1a05001 	mov	r5, r1
+
+#ifdef DOT11_VHT_AC
+	MaxMode = MODE_VHT;
+#endif /* DOT11_VHT_AC */
+
+	if (pTxRate->STBC && (pAd->StaCfg.MaxHTPhyMode.field.STBC))
+     3e8:	e2133001 	ands	r3, r3, #1
+     3ec:	0a000005 	beq	408 <MlmeSetTxRate+0x34>
+     3f0:	e30a153f 	movw	r1, #42303	; 0xa53f
+     3f4:	e340100a 	movt	r1, #10
+     3f8:	e7d00001 	ldrb	r0, [r0, r1]
+}
+#endif /* CONFIG_AP_SUPPORT */
+
+
+#ifdef CONFIG_STA_SUPPORT
+VOID MlmeSetTxRate(
+     3fc:	e3100006 	tst	r0, #6
+#ifdef DOT11_VHT_AC
+	MaxMode = MODE_VHT;
+#endif /* DOT11_VHT_AC */
+
+	if (pTxRate->STBC && (pAd->StaCfg.MaxHTPhyMode.field.STBC))
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_USE;
+     400:	03a03000 	moveq	r3, #0
+     404:	13a03001 	movne	r3, #1
+     408:	e30a153d 	movw	r1, #42301	; 0xa53d
+     40c:	e340100a 	movt	r1, #10
+     410:	e7d40001 	ldrb	r0, [r4, r1]
+     414:	e7c20093 	bfi	r0, r3, #1, #2
+     418:	e7c40001 	strb	r0, [r4, r1]
+	else
+#endif /*  DOT11_N_SUPPORT */
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     41c:	e5d2c002 	ldrb	ip, [r2, #2]
+#endif /* DOT11_VHT_AC */
+
+	if (pAd->StaCfg.HTPhyMode.field.MCS > 7)
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+   	if (ADHOC_ON(pAd))
+     420:	e30a3808 	movw	r3, #43016	; 0xa808
+     424:	e340300a 	movt	r3, #10
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_USE;
+	else
+#endif /*  DOT11_N_SUPPORT */
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     428:	e35c0020 	cmp	ip, #32
+		pAd->StaCfg.HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     42c:	920cc07f 	andls	ip, ip, #127	; 0x7f
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_USE;
+	else
+#endif /*  DOT11_N_SUPPORT */
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     430:	830ac53c 	movwhi	ip, #42300	; 0xa53c
+		pAd->StaCfg.HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     434:	930a153c 	movwls	r1, #42300	; 0xa53c
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_USE;
+	else
+#endif /*  DOT11_N_SUPPORT */
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     438:	8340c00a 	movthi	ip, #10
+		pAd->StaCfg.HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     43c:	9340100a 	movtls	r1, #10
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_USE;
+	else
+#endif /*  DOT11_N_SUPPORT */
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     440:	87d4c00c 	ldrbhi	ip, [r4, ip]
+		pAd->StaCfg.HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     444:	97d40001 	ldrbls	r0, [r4, r1]
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_USE;
+	else
+#endif /*  DOT11_N_SUPPORT */
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+	if (pTxRate->CurrMCS < MCS_AUTO)
+     448:	820cc07f 	andhi	ip, ip, #127	; 0x7f
+		pAd->StaCfg.HTPhyMode.field.MCS = pTxRate->CurrMCS;
+     44c:	97c6001c 	bfils	r0, ip, #0, #7
+     450:	97c40001 	strbls	r0, [r4, r1]
+		pEntry->HTPhyMode.field.MCS = pAgsTbEntry->CurrMCS | (pAgsTbEntry->Nss <<4);
+	}
+#endif /* AGS_SUPPORT */
+#endif /* DOT11_VHT_AC */
+
+	if (pAd->StaCfg.HTPhyMode.field.MCS > 7)
+     454:	e35c0007 	cmp	ip, #7
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+     458:	c30ac53d 	movwgt	ip, #42301	; 0xa53d
+     45c:	c340c00a 	movtgt	ip, #10
+     460:	c7d4100c 	ldrbgt	r1, [r4, ip]
+     464:	c7c2109f 	bfcgt	r1, #1, #2
+     468:	c7c4100c 	strbgt	r1, [r4, ip]
+
+   	if (ADHOC_ON(pAd))
+     46c:	e794c003 	ldr	ip, [r4, r3]
+     470:	e31c0002 	tst	ip, #2
+     474:	1a000083 	bne	688 <MlmeSetTxRate+0x2b4>
+	else
+    {
+		USHORT OperationMode =0xffff;
+
+#ifdef DOT11_N_SUPPORT
+        if ((pAd->CommonCfg.RegTransmitSetting.field.HTMODE == HTMODE_GF) &&
+     478:	e30ac78a 	movw	ip, #42890	; 0xa78a
+     47c:	e340c00a 	movt	ip, #10
+     480:	e7d4300c 	ldrb	r3, [r4, ip]
+     484:	e3130001 	tst	r3, #1
+     488:	1a000049 	bne	5b4 <MlmeSetTxRate+0x1e0>
+			(pAd->MlmeAux.HtCapability.HtCapInfo.GF == HTMODE_GF))
+            pAd->StaCfg.HTPhyMode.field.MODE = MODE_HTGREENFIELD;
+		else
+#endif /*  DOT11_N_SUPPORT */
+		if (pTxRate->Mode <= MaxMode)
+     48c:	e5d23001 	ldrb	r3, [r2, #1]
+     490:	e7e21253 	ubfx	r1, r3, #4, #3
+     494:	e3510003 	cmp	r1, #3
+     498:	ca000005 	bgt	4b4 <MlmeSetTxRate+0xe0>
+			pAd->StaCfg.HTPhyMode.field.MODE = pTxRate->Mode;
+     49c:	e30a353d 	movw	r3, #42301	; 0xa53d
+     4a0:	e340300a 	movt	r3, #10
+     4a4:	e7d4c003 	ldrb	ip, [r4, r3]
+     4a8:	e7c7c311 	bfi	ip, r1, #6, #2
+     4ac:	e7c4c003 	strb	ip, [r4, r3]
+     4b0:	e5d23001 	ldrb	r3, [r2, #1]
+
+#ifdef DOT11_N_SUPPORT
+        if (pTxRate->ShortGI && (pAd->StaCfg.MaxHTPhyMode.field.ShortGI))
+     4b4:	e2030002 	and	r0, r3, #2
+}
+#endif /* CONFIG_AP_SUPPORT */
+
+
+#ifdef CONFIG_STA_SUPPORT
+VOID MlmeSetTxRate(
+     4b8:	e30a353d 	movw	r3, #42301	; 0xa53d
+     4bc:	e340300a 	movt	r3, #10
+#endif /*  DOT11_N_SUPPORT */
+		if (pTxRate->Mode <= MaxMode)
+			pAd->StaCfg.HTPhyMode.field.MODE = pTxRate->Mode;
+
+#ifdef DOT11_N_SUPPORT
+        if (pTxRate->ShortGI && (pAd->StaCfg.MaxHTPhyMode.field.ShortGI))
+     4c0:	e6ef2070 	uxtb	r2, r0
+     4c4:	e3520000 	cmp	r2, #0
+     4c8:	130a253f 	movwne	r2, #42303	; 0xa53f
+     4cc:	1340200a 	movtne	r2, #10
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_400;
+		else
+#endif /*  DOT11_N_SUPPORT */
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+     4d0:	01a01002 	moveq	r1, r2
+#endif /*  DOT11_N_SUPPORT */
+		if (pTxRate->Mode <= MaxMode)
+			pAd->StaCfg.HTPhyMode.field.MODE = pTxRate->Mode;
+
+#ifdef DOT11_N_SUPPORT
+        if (pTxRate->ShortGI && (pAd->StaCfg.MaxHTPhyMode.field.ShortGI))
+     4d4:	17d41002 	ldrbne	r1, [r4, r2]
+}
+#endif /* CONFIG_AP_SUPPORT */
+
+
+#ifdef CONFIG_STA_SUPPORT
+VOID MlmeSetTxRate(
+     4d8:	e7d42003 	ldrb	r2, [r4, r3]
+     4dc:	12011001 	andne	r1, r1, #1
+     4e0:	e7c02011 	bfi	r2, r1, #0, #1
+     4e4:	e7c42003 	strb	r2, [r4, r3]
+#endif /*  DOT11_N_SUPPORT */
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+
+#ifdef DOT11_N_SUPPORT
+		/*  BW depends on Negotiated BW */
+		if (pEntry->MaxHTPhyMode.field.BW==BW_20 || pAd->CommonCfg.BBPCurrentBW==BW_20)
+     4e8:	e5d5c5ee 	ldrb	ip, [r5, #1518]	; 0x5ee
+     4ec:	e20c1080 	and	r1, ip, #128	; 0x80
+     4f0:	e6ef0071 	uxtb	r0, r1
+     4f4:	e3500000 	cmp	r0, #0
+			pEntry->HTPhyMode.field.BW = BW_20;
+     4f8:	01a02000 	moveq	r2, r0
+#endif /*  DOT11_N_SUPPORT */
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+
+#ifdef DOT11_N_SUPPORT
+		/*  BW depends on Negotiated BW */
+		if (pEntry->MaxHTPhyMode.field.BW==BW_20 || pAd->CommonCfg.BBPCurrentBW==BW_20)
+     4fc:	0a000004 	beq	514 <MlmeSetTxRate+0x140>
+     500:	e30ac784 	movw	ip, #42884	; 0xa784
+     504:	e340c00a 	movt	ip, #10
+}
+#endif /* CONFIG_AP_SUPPORT */
+
+
+#ifdef CONFIG_STA_SUPPORT
+VOID MlmeSetTxRate(
+     508:	e7d4100c 	ldrb	r1, [r4, ip]
+     50c:	e2912000 	adds	r2, r1, #0
+     510:	13a02001 	movne	r2, #1
+     514:	e5d535ec 	ldrb	r3, [r5, #1516]	; 0x5ec
+     518:	e7c73392 	bfi	r3, r2, #7, #1
+     51c:	e5c535ec 	strb	r3, [r5, #1516]	; 0x5ec
+    		pEntry->HTPhyMode.field.BW = BW_20;
+#endif /* DBG_CTRL_SUPPORT */
+#endif /*  RANGE_EXTEND */
+
+		/*  Reexam each bandwidth's SGI support. */
+    	if ((pEntry->HTPhyMode.field.BW==BW_20 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI20_CAPABLE)) ||
+     520:	e2030080 	and	r0, r3, #128	; 0x80
+     524:	e6ef2070 	uxtb	r2, r0
+     528:	e3520000 	cmp	r2, #0
+     52c:	e59525e8 	ldr	r2, [r5, #1512]	; 0x5e8
+     530:	0a00004b 	beq	664 <MlmeSetTxRate+0x290>
+    		(pEntry->HTPhyMode.field.BW==BW_40 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI40_CAPABLE)) )
+     534:	e3120020 	tst	r2, #32
+     538:	0a00004b 	beq	66c <MlmeSetTxRate+0x298>
+		if (pAd->CommonCfg.DebugFlags & DBF_FORCE_SGI)
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_400;
+#endif /*  DBG_CTRL_SUPPORT */
+
+        /*  Turn RTS/CTS rate to 6Mbps. */
+		if (((pEntry->HTPhyMode.field.MCS == 0) && (pAd->StaCfg.HTPhyMode.field.MCS != 0)) ||
+     53c:	e213207f 	ands	r2, r3, #127	; 0x7f
+     540:	1a000029 	bne	5ec <MlmeSetTxRate+0x218>
+     544:	e30a253c 	movw	r2, #42300	; 0xa53c
+     548:	e340200a 	movt	r2, #10
+     54c:	e7d4c002 	ldrb	ip, [r4, r2]
+     550:	e31c007f 	tst	ip, #127	; 0x7f
+     554:	1a00002c 	bne	60c <MlmeSetTxRate+0x238>
+		if (OperationMode != 0xffff)
+			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
+							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+#endif /* DOT11_N_SUPPORT */
+        
+		pEntry->HTPhyMode.field.STBC	= pAd->StaCfg.HTPhyMode.field.STBC;
+     558:	e30a253d 	movw	r2, #42301	; 0xa53d
+     55c:	e340200a 	movt	r2, #10
+     560:	e5d505ed 	ldrb	r0, [r5, #1517]	; 0x5ed
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     564:	e30a153c 	movw	r1, #42300	; 0xa53c
+		if (OperationMode != 0xffff)
+			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
+							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+#endif /* DOT11_N_SUPPORT */
+        
+		pEntry->HTPhyMode.field.STBC	= pAd->StaCfg.HTPhyMode.field.STBC;
+     568:	e7d4c002 	ldrb	ip, [r4, r2]
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     56c:	e340100a 	movt	r1, #10
+		if (OperationMode != 0xffff)
+			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
+							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+#endif /* DOT11_N_SUPPORT */
+        
+		pEntry->HTPhyMode.field.STBC	= pAd->StaCfg.HTPhyMode.field.STBC;
+     570:	e7e1c0dc 	ubfx	ip, ip, #1, #2
+     574:	e7c2009c 	bfi	r0, ip, #1, #2
+     578:	e5c505ed 	strb	r0, [r5, #1517]	; 0x5ed
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+     57c:	e7d4c002 	ldrb	ip, [r4, r2]
+     580:	e6ef0070 	uxtb	r0, r0
+     584:	e7c0001c 	bfi	r0, ip, #0, #1
+     588:	e5c505ed 	strb	r0, [r5, #1517]	; 0x5ed
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     58c:	e7d4c001 	ldrb	ip, [r4, r1]
+		pEntry->HTPhyMode.field.MODE = pAd->StaCfg.HTPhyMode.field.MODE;
+     590:	e5d515ed 	ldrb	r1, [r5, #1517]	; 0x5ed
+							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+#endif /* DOT11_N_SUPPORT */
+        
+		pEntry->HTPhyMode.field.STBC	= pAd->StaCfg.HTPhyMode.field.STBC;
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     594:	e7c6301c 	bfi	r3, ip, #0, #7
+     598:	e5c535ec 	strb	r3, [r5, #1516]	; 0x5ec
+		pEntry->HTPhyMode.field.MODE = pAd->StaCfg.HTPhyMode.field.MODE;
+     59c:	e7d40002 	ldrb	r0, [r4, r2]
+     5a0:	e1a03320 	lsr	r3, r0, #6
+     5a4:	e7c71313 	bfi	r1, r3, #6, #2
+     5a8:	e5c515ed 	strb	r1, [r5, #1517]	; 0x5ed
+    }
+
+}
+     5ac:	e28dd008 	add	sp, sp, #8
+     5b0:	e8bd8070 	pop	{r4, r5, r6, pc}
+    {
+		USHORT OperationMode =0xffff;
+
+#ifdef DOT11_N_SUPPORT
+        if ((pAd->CommonCfg.RegTransmitSetting.field.HTMODE == HTMODE_GF) &&
+			(pAd->MlmeAux.HtCapability.HtCapInfo.GF == HTMODE_GF))
+     5b4:	e30bc0de 	movw	ip, #45278	; 0xb0de
+     5b8:	e340c00b 	movt	ip, #11
+     5bc:	e7d4300c 	ldrb	r3, [r4, ip]
+	else
+    {
+		USHORT OperationMode =0xffff;
+
+#ifdef DOT11_N_SUPPORT
+        if ((pAd->CommonCfg.RegTransmitSetting.field.HTMODE == HTMODE_GF) &&
+     5c0:	e2030010 	and	r0, r3, #16
+     5c4:	e6ef1070 	uxtb	r1, r0
+     5c8:	e3510000 	cmp	r1, #0
+     5cc:	0affffae 	beq	48c <MlmeSetTxRate+0xb8>
+			(pAd->MlmeAux.HtCapability.HtCapInfo.GF == HTMODE_GF))
+            pAd->StaCfg.HTPhyMode.field.MODE = MODE_HTGREENFIELD;
+     5d0:	e30a053d 	movw	r0, #42301	; 0xa53d
+     5d4:	e340000a 	movt	r0, #10
+     5d8:	e7d41000 	ldrb	r1, [r4, r0]
+     5dc:	e38110c0 	orr	r1, r1, #192	; 0xc0
+     5e0:	e7c41000 	strb	r1, [r4, r0]
+     5e4:	e5d23001 	ldrb	r3, [r2, #1]
+     5e8:	eaffffb1 	b	4b4 <MlmeSetTxRate+0xe0>
+		if (pAd->CommonCfg.DebugFlags & DBF_FORCE_SGI)
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_400;
+#endif /*  DBG_CTRL_SUPPORT */
+
+        /*  Turn RTS/CTS rate to 6Mbps. */
+		if (((pEntry->HTPhyMode.field.MCS == 0) && (pAd->StaCfg.HTPhyMode.field.MCS != 0)) ||
+     5ec:	e3520008 	cmp	r2, #8
+			((pEntry->HTPhyMode.field.MCS == 8) && (pAd->StaCfg.HTPhyMode.field.MCS != 8)))
+     5f0:	e30a053c 	movw	r0, #42300	; 0xa53c
+     5f4:	e340000a 	movt	r0, #10
+     5f8:	e7d42000 	ldrb	r2, [r4, r0]
+		if (pAd->CommonCfg.DebugFlags & DBF_FORCE_SGI)
+			pAd->StaCfg.HTPhyMode.field.ShortGI = GI_400;
+#endif /*  DBG_CTRL_SUPPORT */
+
+        /*  Turn RTS/CTS rate to 6Mbps. */
+		if (((pEntry->HTPhyMode.field.MCS == 0) && (pAd->StaCfg.HTPhyMode.field.MCS != 0)) ||
+     5fc:	1a00003c 	bne	6f4 <MlmeSetTxRate+0x320>
+			((pEntry->HTPhyMode.field.MCS == 8) && (pAd->StaCfg.HTPhyMode.field.MCS != 8)))
+     600:	e202107f 	and	r1, r2, #127	; 0x7f
+     604:	e3510008 	cmp	r1, #8
+     608:	0affffd2 	beq	558 <MlmeSetTxRate+0x184>
+		{
+			pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     60c:	e30a253c 	movw	r2, #42300	; 0xa53c
+     610:	e340200a 	movt	r2, #10
+			if (pAd->MacTab.fAnyBASession)
+     614:	e306c56c 	movw	ip, #25964	; 0x656c
+     618:	e340c017 	movt	ip, #23
+
+        /*  Turn RTS/CTS rate to 6Mbps. */
+		if (((pEntry->HTPhyMode.field.MCS == 0) && (pAd->StaCfg.HTPhyMode.field.MCS != 0)) ||
+			((pEntry->HTPhyMode.field.MCS == 8) && (pAd->StaCfg.HTPhyMode.field.MCS != 8)))
+		{
+			pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     61c:	e7d41002 	ldrb	r1, [r4, r2]
+     620:	e7c63011 	bfi	r3, r1, #0, #7
+     624:	e5c535ec 	strb	r3, [r5, #1516]	; 0x5ec
+			if (pAd->MacTab.fAnyBASession)
+     628:	e7d4e00c 	ldrb	lr, [r4, ip]
+     62c:	e35e0000 	cmp	lr, #0
+				OperationMode = HT_FORCERTSCTS;
+     630:	13a01009 	movne	r1, #9
+        /*  Turn RTS/CTS rate to 6Mbps. */
+		if (((pEntry->HTPhyMode.field.MCS == 0) && (pAd->StaCfg.HTPhyMode.field.MCS != 0)) ||
+			((pEntry->HTPhyMode.field.MCS == 8) && (pAd->StaCfg.HTPhyMode.field.MCS != 8)))
+		{
+			pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+			if (pAd->MacTab.fAnyBASession)
+     634:	0a000032 	beq	704 <MlmeSetTxRate+0x330>
+		else if ((pEntry->HTPhyMode.field.MCS != 8) && (pAd->StaCfg.HTPhyMode.field.MCS == 8))
+			OperationMode = HT_RTSCTS_6M;
+
+		if (OperationMode != 0xffff)
+			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
+							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+     638:	e30b20fb 	movw	r2, #45307	; 0xb0fb
+     63c:	e340200b 	movt	r2, #11
+			OperationMode = HT_RTSCTS_6M;
+		else if ((pEntry->HTPhyMode.field.MCS != 8) && (pAd->StaCfg.HTPhyMode.field.MCS == 8))
+			OperationMode = HT_RTSCTS_6M;
+
+		if (OperationMode != 0xffff)
+			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
+     640:	e3a03001 	mov	r3, #1
+     644:	e1a00004 	mov	r0, r4
+							(BOOLEAN)pAd->MlmeAux.AddHtInfo.AddHtInfo2.NonGfPresent);
+     648:	e7d4c002 	ldrb	ip, [r4, r2]
+			OperationMode = HT_RTSCTS_6M;
+		else if ((pEntry->HTPhyMode.field.MCS != 8) && (pAd->StaCfg.HTPhyMode.field.MCS == 8))
+			OperationMode = HT_RTSCTS_6M;
+
+		if (OperationMode != 0xffff)
+			AsicUpdateProtect(pAd, OperationMode , ALLN_SETPROTECT, TRUE,
+     64c:	e3a0203c 	mov	r2, #60	; 0x3c
+     650:	e7e0e15c 	ubfx	lr, ip, #2, #1
+     654:	e58de000 	str	lr, [sp]
+     658:	ebfffffe 	bl	0 <AsicUpdateProtect>
+     65c:	e5d535ec 	ldrb	r3, [r5, #1516]	; 0x5ec
+     660:	eaffffbc 	b	558 <MlmeSetTxRate+0x184>
+    		pEntry->HTPhyMode.field.BW = BW_20;
+#endif /* DBG_CTRL_SUPPORT */
+#endif /*  RANGE_EXTEND */
+
+		/*  Reexam each bandwidth's SGI support. */
+    	if ((pEntry->HTPhyMode.field.BW==BW_20 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI20_CAPABLE)) ||
+     664:	e3120010 	tst	r2, #16
+     668:	1affffb3 	bne	53c <MlmeSetTxRate+0x168>
+    		(pEntry->HTPhyMode.field.BW==BW_40 && !CLIENT_STATUS_TEST_FLAG(pEntry, fCLIENT_STATUS_SGI40_CAPABLE)) )
+    		pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+     66c:	e30a353d 	movw	r3, #42301	; 0xa53d
+     670:	e340300a 	movt	r3, #10
+     674:	e7d41003 	ldrb	r1, [r4, r3]
+     678:	e7c0101f 	bfc	r1, #0, #1
+     67c:	e7c41003 	strb	r1, [r4, r3]
+     680:	e5d535ec 	ldrb	r3, [r5, #1516]	; 0x5ec
+     684:	eaffffac 	b	53c <MlmeSetTxRate+0x168>
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+   	if (ADHOC_ON(pAd))
+	{
+		/*  If peer adhoc is b-only mode, we can't send 11g rate. */
+		pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+     688:	e30a353d 	movw	r3, #42301	; 0xa53d
+     68c:	e340300a 	movt	r3, #10
+		pEntry->HTPhyMode.field.STBC	= STBC_NONE;
+
+		/* For Adhoc MODE_CCK, driver will use AdhocBOnlyJoined flag to roll back to B only if necessary */
+		pEntry->HTPhyMode.field.MODE	= pTxRate->Mode;
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     690:	e30ac53c 	movw	ip, #42300	; 0xa53c
+     694:	e340c00a 	movt	ip, #10
+		pAd->StaCfg.HTPhyMode.field.STBC = STBC_NONE;
+
+   	if (ADHOC_ON(pAd))
+	{
+		/*  If peer adhoc is b-only mode, we can't send 11g rate. */
+		pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+     698:	e7d40003 	ldrb	r0, [r4, r3]
+     69c:	e7c0001f 	bfc	r0, #0, #1
+     6a0:	e7c40003 	strb	r0, [r4, r3]
+		pEntry->HTPhyMode.field.STBC	= STBC_NONE;
+     6a4:	e5d515ed 	ldrb	r1, [r5, #1517]	; 0x5ed
+
+		/* For Adhoc MODE_CCK, driver will use AdhocBOnlyJoined flag to roll back to B only if necessary */
+		pEntry->HTPhyMode.field.MODE	= pTxRate->Mode;
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     6a8:	e5d505ec 	ldrb	r0, [r5, #1516]	; 0x5ec
+
+   	if (ADHOC_ON(pAd))
+	{
+		/*  If peer adhoc is b-only mode, we can't send 11g rate. */
+		pAd->StaCfg.HTPhyMode.field.ShortGI = GI_800;
+		pEntry->HTPhyMode.field.STBC	= STBC_NONE;
+     6ac:	e7c2109f 	bfc	r1, #1, #2
+     6b0:	e5c515ed 	strb	r1, [r5, #1517]	; 0x5ed
+
+		/* For Adhoc MODE_CCK, driver will use AdhocBOnlyJoined flag to roll back to B only if necessary */
+		pEntry->HTPhyMode.field.MODE	= pTxRate->Mode;
+     6b4:	e5d26001 	ldrb	r6, [r2, #1]
+     6b8:	e5d525ed 	ldrb	r2, [r5, #1517]	; 0x5ed
+     6bc:	e7e11256 	ubfx	r1, r6, #4, #2
+     6c0:	e7c72311 	bfi	r2, r1, #6, #2
+     6c4:	e5c525ed 	strb	r2, [r5, #1517]	; 0x5ed
+		pEntry->HTPhyMode.field.ShortGI = pAd->StaCfg.HTPhyMode.field.ShortGI;
+     6c8:	e7d46003 	ldrb	r6, [r4, r3]
+     6cc:	e6ef2072 	uxtb	r2, r2
+     6d0:	e7c02016 	bfi	r2, r6, #0, #1
+     6d4:	e5c525ed 	strb	r2, [r5, #1517]	; 0x5ed
+		pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+     6d8:	e7d4c00c 	ldrb	ip, [r4, ip]
+     6dc:	e7c6001c 	bfi	r0, ip, #0, #7
+     6e0:	e5c505ec 	strb	r0, [r5, #1516]	; 0x5ec
+
+		/*  Patch speed error in status page */
+		pAd->StaCfg.HTPhyMode.field.MODE = pEntry->HTPhyMode.field.MODE;
+     6e4:	e7d42003 	ldrb	r2, [r4, r3]
+     6e8:	e7c72311 	bfi	r2, r1, #6, #2
+     6ec:	e7c42003 	strb	r2, [r4, r3]
+     6f0:	eaffffad 	b	5ac <MlmeSetTxRate+0x1d8>
+			if (pAd->MacTab.fAnyBASession)
+				OperationMode = HT_FORCERTSCTS;
+			else
+				OperationMode = pAd->MlmeAux.AddHtInfo.AddHtInfo2.OperaionMode;
+		}
+		else if ((pEntry->HTPhyMode.field.MCS != 0) && (pAd->StaCfg.HTPhyMode.field.MCS == 0))
+     6f4:	e212207f 	ands	r2, r2, #127	; 0x7f
+     6f8:	1a000006 	bne	718 <MlmeSetTxRate+0x344>
+			OperationMode = HT_RTSCTS_6M;
+     6fc:	e3a01007 	mov	r1, #7
+     700:	eaffffcc 	b	638 <MlmeSetTxRate+0x264>
+		{
+			pEntry->HTPhyMode.field.MCS = pAd->StaCfg.HTPhyMode.field.MCS;
+			if (pAd->MacTab.fAnyBASession)
+				OperationMode = HT_FORCERTSCTS;
+			else
+				OperationMode = pAd->MlmeAux.AddHtInfo.AddHtInfo2.OperaionMode;
+     704:	e30b00fb 	movw	r0, #45307	; 0xb0fb
+     708:	e340000b 	movt	r0, #11
+     70c:	e7d43000 	ldrb	r3, [r4, r0]
+     710:	e2031003 	and	r1, r3, #3
+     714:	eaffffc7 	b	638 <MlmeSetTxRate+0x264>
+		}
+		else if ((pEntry->HTPhyMode.field.MCS != 0) && (pAd->StaCfg.HTPhyMode.field.MCS == 0))
+			OperationMode = HT_RTSCTS_6M;
+		else if ((pEntry->HTPhyMode.field.MCS != 8) && (pAd->StaCfg.HTPhyMode.field.MCS == 8))
+     718:	e3520008 	cmp	r2, #8
+     71c:	1affff8d 	bne	558 <MlmeSetTxRate+0x184>
+				OperationMode = HT_FORCERTSCTS;
+			else
+				OperationMode = pAd->MlmeAux.AddHtInfo.AddHtInfo2.OperaionMode;
+		}
+		else if ((pEntry->HTPhyMode.field.MCS != 0) && (pAd->StaCfg.HTPhyMode.field.MCS == 0))
+			OperationMode = HT_RTSCTS_6M;
+     720:	e3a01007 	mov	r1, #7
+     724:	eaffffc3 	b	638 <MlmeSetTxRate+0x264>
+
+00000728 <MlmeSelectTxRateTable>:
+			break;
+		}
+#endif /* DOT11_VHT_AC */
+
+#ifdef CONFIG_STA_SUPPORT
+		if ((pAd->OpMode == OPMODE_STA) && ADHOC_ON(pAd))
+     728:	e30ac604 	movw	ip, #42500	; 0xa604
+     72c:	e340c00a 	movt	ip, #10
+	IN PRTMP_ADAPTER pAd,
+	IN PMAC_TABLE_ENTRY pEntry,
+	IN UCHAR **ppTable,
+	IN UCHAR *pTableSize,
+	IN UCHAR *pInitTxRateIdx)
+{
+     730:	e92d40f0 	push	{r4, r5, r6, r7, lr}
+     734:	e1a04000 	mov	r4, r0
+			break;
+		}
+#endif /* DOT11_VHT_AC */
+
+#ifdef CONFIG_STA_SUPPORT
+		if ((pAd->OpMode == OPMODE_STA) && ADHOC_ON(pAd))
+     738:	e7d0000c 	ldrb	r0, [r0, ip]
+	IN PRTMP_ADAPTER pAd,
+	IN PMAC_TABLE_ENTRY pEntry,
+	IN UCHAR **ppTable,
+	IN UCHAR *pTableSize,
+	IN UCHAR *pInitTxRateIdx)
+{
+     73c:	e24dd00c 	sub	sp, sp, #12
+     740:	e1a05002 	mov	r5, r2
+     744:	e1a06003 	mov	r6, r3
+			break;
+		}
+#endif /* DOT11_VHT_AC */
+
+#ifdef CONFIG_STA_SUPPORT
+		if ((pAd->OpMode == OPMODE_STA) && ADHOC_ON(pAd))
+     748:	e3500000 	cmp	r0, #0
+     74c:	1a000027 	bne	7f0 <MlmeSelectTxRateTable+0xc8>
+     750:	e30a2808 	movw	r2, #43016	; 0xa808
+     754:	e340200a 	movt	r2, #10
+     758:	e7943002 	ldr	r3, [r4, r2]
+     75c:	e3130002 	tst	r3, #2
+     760:	0a000022 	beq	7f0 <MlmeSelectTxRateTable+0xc8>
+		{
+			/* for ADHOC mode */
+#ifdef DOT11_N_SUPPORT
+			if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && 
+     764:	e30ac6c6 	movw	ip, #42694	; 0xa6c6
+     768:	e340c00a 	movt	ip, #10
+     76c:	e7d4000c 	ldrb	r0, [r4, ip]
+     770:	e3100018 	tst	r0, #24
+     774:	0a00000d 	beq	7b0 <MlmeSelectTxRateTable+0x88>
+     778:	e5d13631 	ldrb	r3, [r1, #1585]	; 0x631
+     77c:	e3530000 	cmp	r3, #0
+     780:	0a00000a 	beq	7b0 <MlmeSelectTxRateTable+0x88>
+				(pEntry->HTCapability.MCSSet[0] != 0x00) && 
+     784:	e5d12632 	ldrb	r2, [r1, #1586]	; 0x632
+     788:	e3520000 	cmp	r2, #0
+     78c:	0a00008a 	beq	9bc <MlmeSelectTxRateTable+0x294>
+				((pEntry->HTCapability.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))
+     790:	e5d40e04 	ldrb	r0, [r4, #3588]	; 0xe04
+     794:	e20030f0 	and	r3, r0, #240	; 0xf0
+     798:	e3530010 	cmp	r3, #16
+     79c:	0a000086 	beq	9bc <MlmeSelectTxRateTable+0x294>
+						*ppTable = RateSwitchTable11N1SForABand;
+				}
+			}
+			else if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && 
+					(pEntry->HTCapability.MCSSet[0] != 0x00) && 
+					(pEntry->HTCapability.MCSSet[1] != 0x00) &&
+     7a0:	e3530030 	cmp	r3, #48	; 0x30
+     7a4:	0a0000d3 	beq	af8 <MlmeSelectTxRateTable+0x3d0>
+					(((pAd->Antenna.field.TxPath == 3) && (pEntry->HTCapability.MCSSet[2] == 0x00)) || (pAd->Antenna.field.TxPath == 2)))
+     7a8:	e3530020 	cmp	r3, #32
+     7ac:	0a00009a 	beq	a1c <MlmeSelectTxRateTable+0x2f4>
+				*ppTable = AGS3x3HTRateTable;
+			}
+#endif /* AGS_SUPPORT */
+			else
+#endif /* DOT11_N_SUPPORT */
+				if ((pEntry->RateLen == 4)
+     7b0:	e5d13649 	ldrb	r3, [r1, #1609]	; 0x649
+     7b4:	e3530004 	cmp	r3, #4
+     7b8:	0a000077 	beq	99c <MlmeSelectTxRateTable+0x274>
+				/*
+					Temp solution for:
+					EX: when the extend rate only supports 6, 12, 24 in
+					the association req frame. So the pEntry->RateLen is 7.
+				*/
+				if (pAd->LatchRfRegs.Channel <= 14)
+     7bc:	e5d40df0 	ldrb	r0, [r4, #3568]	; 0xdf0
+     7c0:	e350000e 	cmp	r0, #14
+     7c4:	9a000065 	bls	960 <MlmeSelectTxRateTable+0x238>
+				{
+					*ppTable = RateSwitchTable11B;
+				}
+				else if ((pAd->CommonCfg.MaxTxRate > RATE_11) && (pAd->CommonCfg.MinTxRate > RATE_11))
+				{
+					*ppTable = RateSwitchTable11G;
+     7c8:	e59f3338 	ldr	r3, [pc, #824]	; b08 <MlmeSelectTxRateTable+0x3e0>
+     7cc:	e5853000 	str	r3, [r5]
+						pAd->StaActive.SupportedPhyInfo.MCSSet[1]));
+		}
+#endif /* CONFIG_STA_SUPPORT */
+	} while(FALSE);
+
+	*pTableSize = RATE_TABLE_SIZE(*ppTable);
+     7d0:	e5d32000 	ldrb	r2, [r3]
+	*pInitTxRateIdx = RATE_TABLE_INIT_INDEX(*ppTable);
+     7d4:	e59dc020 	ldr	ip, [sp, #32]
+						pAd->StaActive.SupportedPhyInfo.MCSSet[1]));
+		}
+#endif /* CONFIG_STA_SUPPORT */
+	} while(FALSE);
+
+	*pTableSize = RATE_TABLE_SIZE(*ppTable);
+     7d8:	e5c62000 	strb	r2, [r6]
+	*pInitTxRateIdx = RATE_TABLE_INIT_INDEX(*ppTable);
+     7dc:	e5953000 	ldr	r3, [r5]
+     7e0:	e5d31001 	ldrb	r1, [r3, #1]
+     7e4:	e5cc1000 	strb	r1, [ip]
+
+}
+     7e8:	e28dd00c 	add	sp, sp, #12
+     7ec:	e8bd80f0 	pop	{r4, r5, r6, r7, pc}
+#endif /* CONFIG_STA_SUPPORT */
+
+#ifdef DOT11_N_SUPPORT
+		/*if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 12) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) &&*/
+		/*	((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) &&
+     7f0:	e5d13c85 	ldrb	r3, [r1, #3205]	; 0xc85
+     7f4:	e5d1c631 	ldrb	ip, [r1, #1585]	; 0x631
+     7f8:	e2132002 	ands	r2, r3, #2
+     7fc:	1a000039 	bne	8e8 <MlmeSelectTxRateTable+0x1c0>
+			break;
+		}
+#endif /* DOT11N_SS3_SUPPORT */
+
+		/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) && ((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
+		if ((pEntry->HTCapability.MCSSet[0] != 0x00) && 
+     800:	e35c0000 	cmp	ip, #0
+     804:	1a00007a 	bne	9f4 <MlmeSelectTxRateTable+0x2cc>
+			}
+		}
+#endif /* DOT11N_SS3_SUPPORT */
+#endif /* DOT11_N_SUPPORT */
+
+		if (((pEntry->SupportRateMode == SUPPORT_CCK_MODE) || 
+     808:	e3530001 	cmp	r3, #1
+     80c:	0a000067 	beq	9b0 <MlmeSelectTxRateTable+0x288>
+			WMODE_EQUAL(pAd->CommonCfg.PhyMode, WMODE_B)) 
+     810:	e30ac6c6 	movw	ip, #42694	; 0xa6c6
+     814:	e340c00a 	movt	ip, #10
+			}
+		}
+#endif /* DOT11N_SS3_SUPPORT */
+#endif /* DOT11_N_SUPPORT */
+
+		if (((pEntry->SupportRateMode == SUPPORT_CCK_MODE) || 
+     818:	e7d4c00c 	ldrb	ip, [r4, ip]
+     81c:	e35c0002 	cmp	ip, #2
+     820:	0a000062 	beq	9b0 <MlmeSelectTxRateTable+0x288>
+			*ppTable = RateSwitchTable11B;			
+			break;
+		}
+
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen > 8) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_CCK_MODE)) &&
+     824:	e2033003 	and	r3, r3, #3
+     828:	e3530003 	cmp	r3, #3
+     82c:	0a000054 	beq	984 <MlmeSelectTxRateTable+0x25c>
+			*ppTable = RateSwitchTable11BG;			
+			break;
+		}
+
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 8) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) 
+     830:	e3520000 	cmp	r2, #0
+     834:	1a00004c 	bne	96c <MlmeSelectTxRateTable+0x244>
+			*ppTable = RateSwitchTable11G;			
+			break;
+		}
+#ifdef DOT11_N_SUPPORT
+#ifdef CONFIG_AP_SUPPORT
+		IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+     838:	e3500001 	cmp	r0, #1
+     83c:	0affffde 	beq	7bc <MlmeSelectTxRateTable+0x94>
+		}
+#endif /* CONFIG_AP_SUPPORT */
+#endif /* DOT11_N_SUPPORT */
+
+#ifdef CONFIG_STA_SUPPORT
+		IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
+     840:	e3500000 	cmp	r0, #0
+     844:	1a000025 	bne	8e0 <MlmeSelectTxRateTable+0x1b8>
+		{
+#ifdef DOT11_N_SUPPORT
+			/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
+			if ((pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0))
+     848:	e5913630 	ldr	r3, [r1, #1584]	; 0x630
+     84c:	e3c324ff 	bic	r2, r3, #-16777216	; 0xff000000
+     850:	e3c210ff 	bic	r1, r2, #255	; 0xff
+     854:	e3510000 	cmp	r1, #0
+     858:	0a000036 	beq	938 <MlmeSelectTxRateTable+0x210>
+			if (SUPPORT_AGS(pAd) && (pAd->CommonCfg.TxStream == 3))
+				*ppTable = AGS3x3HTRateTable;
+			else
+#endif /* AGS_SUPPORT */
+			{
+			if (pAd->LatchRfRegs.Channel <= 14)
+     85c:	e5d43df0 	ldrb	r3, [r4, #3568]	; 0xdf0
+			{
+				if (pAd->CommonCfg.TxStream == 1)
+     860:	e30a7862 	movw	r7, #43106	; 0xa862
+     864:	e340700a 	movt	r7, #10
+			if (SUPPORT_AGS(pAd) && (pAd->CommonCfg.TxStream == 3))
+				*ppTable = AGS3x3HTRateTable;
+			else
+#endif /* AGS_SUPPORT */
+			{
+			if (pAd->LatchRfRegs.Channel <= 14)
+     868:	e353000e 	cmp	r3, #14
+			{
+				if (pAd->CommonCfg.TxStream == 1)
+     86c:	e7d43007 	ldrb	r3, [r4, r7]
+			if (SUPPORT_AGS(pAd) && (pAd->CommonCfg.TxStream == 3))
+				*ppTable = AGS3x3HTRateTable;
+			else
+#endif /* AGS_SUPPORT */
+			{
+			if (pAd->LatchRfRegs.Channel <= 14)
+     870:	8a000080 	bhi	a78 <MlmeSelectTxRateTable+0x350>
+			{
+				if (pAd->CommonCfg.TxStream == 1)
+     874:	e3530001 	cmp	r3, #1
+     878:	0a000088 	beq	aa0 <MlmeSelectTxRateTable+0x378>
+				{
+					*ppTable = RateSwitchTable11N1S;
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 1S AP \n"));
+				}
+				else if (pAd->CommonCfg.TxStream == 2)
+     87c:	e3530002 	cmp	r3, #2
+     880:	0a000091 	beq	acc <MlmeSelectTxRateTable+0x3a4>
+					else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+						*ppTable = RateSwitchTable11N3S;
+
+#else
+					*ppTable = RateSwitchTable11N2S;
+     884:	e59fc280 	ldr	ip, [pc, #640]	; b0c <MlmeSelectTxRateTable+0x3e4>
+     888:	e3007000 	movw	r7, #0
+     88c:	e3407000 	movt	r7, #0
+     890:	e585c000 	str	ip, [r5]
+#endif /* DOT11N_SS3_SUPPORT */
+				}
+			}
+			}
+#endif /* DOT11_N_SUPPORT */
+			DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode (SupRateLen=%d, ExtRateLen=%d, MCSSet[0]=0x%x, MCSSet[1]=0x%x)\n",
+     894:	e5973000 	ldr	r3, [r7]
+     898:	e3530000 	cmp	r3, #0
+     89c:	0a00000f 	beq	8e0 <MlmeSelectTxRateTable+0x1b8>
+     8a0:	e30ac5c7 	movw	ip, #42439	; 0xa5c7
+     8a4:	e340c00a 	movt	ip, #10
+     8a8:	e30a05c2 	movw	r0, #42434	; 0xa5c2
+     8ac:	e30a25c3 	movw	r2, #42435	; 0xa5c3
+     8b0:	e340000a 	movt	r0, #10
+     8b4:	e340200a 	movt	r2, #10
+     8b8:	e30a35c6 	movw	r3, #42438	; 0xa5c6
+     8bc:	e7d4e00c 	ldrb	lr, [r4, ip]
+     8c0:	e340300a 	movt	r3, #10
+     8c4:	e7d41000 	ldrb	r1, [r4, r0]
+     8c8:	e7d42002 	ldrb	r2, [r4, r2]
+     8cc:	e3000000 	movw	r0, #0
+     8d0:	e7d43003 	ldrb	r3, [r4, r3]
+     8d4:	e3400000 	movt	r0, #0
+     8d8:	e58de000 	str	lr, [sp]
+     8dc:	ebfffffe 	bl	0 <printk>
+     8e0:	e5953000 	ldr	r3, [r5]
+     8e4:	eaffffb9 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+#endif /* CONFIG_STA_SUPPORT */
+
+#ifdef DOT11_N_SUPPORT
+		/*if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 12) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) &&*/
+		/*	((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) &&
+     8e8:	e35c0000 	cmp	ip, #0
+     8ec:	0affffc5 	beq	808 <MlmeSelectTxRateTable+0xe0>
+			(pEntry->HTCapability.MCSSet[0] != 0x00) &&
+     8f0:	e5d1c632 	ldrb	ip, [r1, #1586]	; 0x632
+     8f4:	e35c0000 	cmp	ip, #0
+     8f8:	0a000035 	beq	9d4 <MlmeSelectTxRateTable+0x2ac>
+			((pEntry->HTCapability.MCSSet[1] == 0x00) || (pAd->CommonCfg.TxStream == 1)))
+     8fc:	e30ac862 	movw	ip, #43106	; 0xa862
+     900:	e340c00a 	movt	ip, #10
+     904:	e7d4c00c 	ldrb	ip, [r4, ip]
+     908:	e35c0001 	cmp	ip, #1
+     90c:	0a000030 	beq	9d4 <MlmeSelectTxRateTable+0x2ac>
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 12) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) &&*/
+		/*	(pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0xff) && (pAd->Antenna.field.TxPath == 2))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) && 
+			(pEntry->HTCapability.MCSSet[0] != 0x00) &&
+			(pEntry->HTCapability.MCSSet[1] != 0x00) && 
+			(((pAd->Antenna.field.TxPath == 3) && (pEntry->HTCapability.MCSSet[2] == 0x00)) || (pAd->CommonCfg.TxStream == 2)))
+     910:	e5d47e04 	ldrb	r7, [r4, #3588]	; 0xe04
+
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 12) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) &&*/
+		/*	(pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0xff) && (pAd->Antenna.field.TxPath == 2))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) && 
+			(pEntry->HTCapability.MCSSet[0] != 0x00) &&
+			(pEntry->HTCapability.MCSSet[1] != 0x00) && 
+     914:	e20770f0 	and	r7, r7, #240	; 0xf0
+     918:	e3570030 	cmp	r7, #48	; 0x30
+     91c:	0a000048 	beq	a44 <MlmeSelectTxRateTable+0x31c>
+			(((pAd->Antenna.field.TxPath == 3) && (pEntry->HTCapability.MCSSet[2] == 0x00)) || (pAd->CommonCfg.TxStream == 2)))
+     920:	e35c0002 	cmp	ip, #2
+     924:	0a000049 	beq	a50 <MlmeSelectTxRateTable+0x328>
+		}
+#endif /* DOT11N_SS3_SUPPORT */
+
+		/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) && ((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
+		if ((pEntry->HTCapability.MCSSet[0] != 0x00) && 
+			((pEntry->HTCapability.MCSSet[1] == 0x00) || (pAd->CommonCfg.TxStream == 1)))
+     928:	e30ac862 	movw	ip, #43106	; 0xa862
+     92c:	e340c00a 	movt	ip, #10
+     930:	e7d4c00c 	ldrb	ip, [r4, ip]
+     934:	ea000036 	b	a14 <MlmeSelectTxRateTable+0x2ec>
+#ifdef DOT11_N_SUPPORT
+			/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
+			if ((pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0))
+#endif /* DOT11_N_SUPPORT */
+			{	/* Legacy mode*/
+				if (pAd->CommonCfg.MaxTxRate <= RATE_11)
+     938:	e30a078d 	movw	r0, #42893	; 0xa78d
+     93c:	e340000a 	movt	r0, #10
+     940:	e7d4c000 	ldrb	ip, [r4, r0]
+     944:	e35c0003 	cmp	ip, #3
+     948:	9a000018 	bls	9b0 <MlmeSelectTxRateTable+0x288>
+				{
+					*ppTable = RateSwitchTable11B;
+				}
+				else if ((pAd->CommonCfg.MaxTxRate > RATE_11) && (pAd->CommonCfg.MinTxRate > RATE_11))
+     94c:	e30a278f 	movw	r2, #42895	; 0xa78f
+     950:	e340200a 	movt	r2, #10
+     954:	e7d41002 	ldrb	r1, [r4, r2]
+     958:	e3510003 	cmp	r1, #3
+     95c:	8affff99 	bhi	7c8 <MlmeSelectTxRateTable+0xa0>
+				{
+					*ppTable = RateSwitchTable11G;
+				}
+				else
+				{
+					*ppTable = RateSwitchTable11BG;
+     960:	e59f31a8 	ldr	r3, [pc, #424]	; b10 <MlmeSelectTxRateTable+0x3e8>
+     964:	e5853000 	str	r3, [r5]
+     968:	eaffff98 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+		}
+
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 8) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) 
+#ifdef DOT11_N_SUPPORT
+			&& (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)
+     96c:	e591c630 	ldr	ip, [r1, #1584]	; 0x630
+     970:	e3cc34ff 	bic	r3, ip, #-16777216	; 0xff000000
+     974:	e3c320ff 	bic	r2, r3, #255	; 0xff
+     978:	e3520000 	cmp	r2, #0
+     97c:	1affffad 	bne	838 <MlmeSelectTxRateTable+0x110>
+     980:	eaffff90 	b	7c8 <MlmeSelectTxRateTable+0xa0>
+
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen > 8) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_CCK_MODE)) &&
+			(pEntry->SupportRateMode & (SUPPORT_OFDM_MODE))
+#ifdef DOT11_N_SUPPORT
+			&& (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)
+     984:	e591c630 	ldr	ip, [r1, #1584]	; 0x630
+     988:	e3cc34ff 	bic	r3, ip, #-16777216	; 0xff000000
+     98c:	e3c3c0ff 	bic	ip, r3, #255	; 0xff
+     990:	e35c0000 	cmp	ip, #0
+     994:	1affffa5 	bne	830 <MlmeSelectTxRateTable+0x108>
+     998:	eafffff0 	b	960 <MlmeSelectTxRateTable+0x238>
+#endif /* AGS_SUPPORT */
+			else
+#endif /* DOT11_N_SUPPORT */
+				if ((pEntry->RateLen == 4)
+#ifdef DOT11_N_SUPPORT
+					&& (pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0)
+     99c:	e5910630 	ldr	r0, [r1, #1584]	; 0x630
+     9a0:	e3c024ff 	bic	r2, r0, #-16777216	; 0xff000000
+     9a4:	e3c210ff 	bic	r1, r2, #255	; 0xff
+     9a8:	e3510000 	cmp	r1, #0
+     9ac:	1affff82 	bne	7bc <MlmeSelectTxRateTable+0x94>
+			if ((pEntry->HTCapability.MCSSet[0] == 0) && (pEntry->HTCapability.MCSSet[1] == 0))
+#endif /* DOT11_N_SUPPORT */
+			{	/* Legacy mode*/
+				if (pAd->CommonCfg.MaxTxRate <= RATE_11)
+				{
+					*ppTable = RateSwitchTable11B;
+     9b0:	e59f315c 	ldr	r3, [pc, #348]	; b14 <MlmeSelectTxRateTable+0x3ec>
+     9b4:	e5853000 	str	r3, [r5]
+     9b8:	eaffff84 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+#ifdef NEW_RATE_ADAPT_SUPPORT
+				if (pAd->rateAlg == RATE_ALG_GRP)
+					*ppTable = RateSwitchTableAdapt11N1S;
+				else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+				if (pAd->LatchRfRegs.Channel <= 14)
+     9bc:	e5d43df0 	ldrb	r3, [r4, #3568]	; 0xdf0
+     9c0:	e353000e 	cmp	r3, #14
+     9c4:	8a000007 	bhi	9e8 <MlmeSelectTxRateTable+0x2c0>
+					*ppTable = RateSwitchTable11N1S;
+     9c8:	e59f3148 	ldr	r3, [pc, #328]	; b18 <MlmeSelectTxRateTable+0x3f0>
+     9cc:	e5853000 	str	r3, [r5]
+     9d0:	eaffff7e 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+#ifdef NEW_RATE_ADAPT_SUPPORT
+			if (pAd->rateAlg == RATE_ALG_GRP)
+				*ppTable = RateSwitchTableAdapt11N1S;
+			else
+#endif
+			if ((pAd->LatchRfRegs.Channel <= 14) && (pEntry->SupportRateMode & (SUPPORT_CCK_MODE)))
+     9d4:	e5d41df0 	ldrb	r1, [r4, #3568]	; 0xdf0
+     9d8:	e351000e 	cmp	r1, #14
+     9dc:	8a000001 	bhi	9e8 <MlmeSelectTxRateTable+0x2c0>
+     9e0:	e3130001 	tst	r3, #1
+     9e4:	1a000013 	bne	a38 <MlmeSelectTxRateTable+0x310>
+				else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+				if (pAd->LatchRfRegs.Channel <= 14)
+					*ppTable = RateSwitchTable11N1S;
+				else
+					*ppTable = RateSwitchTable11N1SForABand;
+     9e8:	e59f312c 	ldr	r3, [pc, #300]	; b1c <MlmeSelectTxRateTable+0x3f4>
+     9ec:	e5853000 	str	r3, [r5]
+     9f0:	eaffff76 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+			break;
+		}
+#endif /* DOT11N_SS3_SUPPORT */
+
+		/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) && ((pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0x00) || (pAd->Antenna.field.TxPath == 1)))*/
+		if ((pEntry->HTCapability.MCSSet[0] != 0x00) && 
+     9f4:	e5d1c632 	ldrb	ip, [r1, #1586]	; 0x632
+     9f8:	e35c0000 	cmp	ip, #0
+     9fc:	0affffee 	beq	9bc <MlmeSelectTxRateTable+0x294>
+			((pEntry->HTCapability.MCSSet[1] == 0x00) || (pAd->CommonCfg.TxStream == 1)))
+     a00:	e30ac862 	movw	ip, #43106	; 0xa862
+     a04:	e340c00a 	movt	ip, #10
+     a08:	e7d4c00c 	ldrb	ip, [r4, ip]
+     a0c:	e35c0001 	cmp	ip, #1
+     a10:	0affffe9 	beq	9bc <MlmeSelectTxRateTable+0x294>
+			break;
+		}
+
+		/*else if ((pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) && (pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0xff) && (pAd->Antenna.field.TxPath == 2))*/
+		if ((pEntry->HTCapability.MCSSet[0] != 0x00) && 
+			(pEntry->HTCapability.MCSSet[1] != 0x00) && 
+     a14:	e35c0002 	cmp	ip, #2
+     a18:	1affff7a 	bne	808 <MlmeSelectTxRateTable+0xe0>
+#ifdef NEW_RATE_ADAPT_SUPPORT
+				if (pAd->rateAlg == RATE_ALG_GRP)
+					*ppTable = RateSwitchTableAdapt11N2S;
+				else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+				if (pAd->LatchRfRegs.Channel <= 14)
+     a1c:	e5d43df0 	ldrb	r3, [r4, #3568]	; 0xdf0
+     a20:	e353000e 	cmp	r3, #14
+					*ppTable = RateSwitchTable11N2S;
+     a24:	959f30e0 	ldrls	r3, [pc, #224]	; b0c <MlmeSelectTxRateTable+0x3e4>
+				else
+					*ppTable = RateSwitchTable11N2SForABand;			
+     a28:	83003000 	movwhi	r3, #0
+     a2c:	83403000 	movthi	r3, #0
+     a30:	e5853000 	str	r3, [r5]
+     a34:	eaffff65 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+			if (pAd->rateAlg == RATE_ALG_GRP)
+				*ppTable = RateSwitchTableAdapt11N1S;
+			else
+#endif
+			if ((pAd->LatchRfRegs.Channel <= 14) && (pEntry->SupportRateMode & (SUPPORT_CCK_MODE)))
+				*ppTable = RateSwitchTable11BGN1S;			
+     a38:	e59f30e0 	ldr	r3, [pc, #224]	; b20 <MlmeSelectTxRateTable+0x3f8>
+     a3c:	e5853000 	str	r3, [r5]
+     a40:	eaffff62 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+		/*else if ((pAd->StaActive.SupRateLen + pAd->StaActive.ExtRateLen == 12) && (pAd->StaActive.SupportedPhyInfo.MCSSet[0] == 0xff) &&*/
+		/*	(pAd->StaActive.SupportedPhyInfo.MCSSet[1] == 0xff) && (pAd->Antenna.field.TxPath == 2))*/
+		if ((pEntry->SupportRateMode & (SUPPORT_OFDM_MODE)) && 
+			(pEntry->HTCapability.MCSSet[0] != 0x00) &&
+			(pEntry->HTCapability.MCSSet[1] != 0x00) && 
+			(((pAd->Antenna.field.TxPath == 3) && (pEntry->HTCapability.MCSSet[2] == 0x00)) || (pAd->CommonCfg.TxStream == 2)))
+     a44:	e5d17633 	ldrb	r7, [r1, #1587]	; 0x633
+     a48:	e3570000 	cmp	r7, #0
+     a4c:	1affffb3 	bne	920 <MlmeSelectTxRateTable+0x1f8>
+#ifdef NEW_RATE_ADAPT_SUPPORT
+				if (pAd->rateAlg == RATE_ALG_GRP)
+					*ppTable = RateSwitchTableAdapt11N2S;
+				else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+			if ((pAd->LatchRfRegs.Channel <= 14) && (pEntry->SupportRateMode & (SUPPORT_CCK_MODE)))
+     a50:	e5d42df0 	ldrb	r2, [r4, #3568]	; 0xdf0
+     a54:	e352000e 	cmp	r2, #14
+     a58:	8a000003 	bhi	a6c <MlmeSelectTxRateTable+0x344>
+     a5c:	e3130001 	tst	r3, #1
+					*ppTable = RateSwitchTable11BGN2S;
+     a60:	159f30bc 	ldrne	r3, [pc, #188]	; b24 <MlmeSelectTxRateTable+0x3fc>
+     a64:	15853000 	strne	r3, [r5]
+     a68:	1affff58 	bne	7d0 <MlmeSelectTxRateTable+0xa8>
+				else
+					*ppTable = RateSwitchTable11BGN2SForABand;
+     a6c:	e59f30b4 	ldr	r3, [pc, #180]	; b28 <MlmeSelectTxRateTable+0x400>
+     a70:	e5853000 	str	r3, [r5]
+     a74:	eaffff55 	b	7d0 <MlmeSelectTxRateTable+0xa8>
+#endif /* DOT11N_SS3_SUPPORT */
+				}
+			}
+			else
+			{
+				if (pAd->CommonCfg.TxStream == 1)
+     a78:	e3530001 	cmp	r3, #1
+     a7c:	0a000007 	beq	aa0 <MlmeSelectTxRateTable+0x378>
+				{
+					*ppTable = RateSwitchTable11N1S;
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 1S AP \n"));
+				}
+				else if (pAd->CommonCfg.TxStream == 2)
+     a80:	e3530002 	cmp	r3, #2
+     a84:	0a000010 	beq	acc <MlmeSelectTxRateTable+0x3a4>
+     a88:	e3007000 	movw	r7, #0
+						*ppTable = RateSwitchTableAdapt11N3S;
+					else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+						*ppTable = RateSwitchTable11N3S;
+#else
+					*ppTable = RateSwitchTable11N2SForABand;
+     a8c:	e3002000 	movw	r2, #0
+     a90:	e3407000 	movt	r7, #0
+     a94:	e3402000 	movt	r2, #0
+     a98:	e5852000 	str	r2, [r5]
+     a9c:	eaffff7c 	b	894 <MlmeSelectTxRateTable+0x16c>
+			}
+			else
+			{
+				if (pAd->CommonCfg.TxStream == 1)
+				{
+					*ppTable = RateSwitchTable11N1S;
+     aa0:	e59f3070 	ldr	r3, [pc, #112]	; b18 <MlmeSelectTxRateTable+0x3f0>
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 1S AP \n"));
+     aa4:	e3007000 	movw	r7, #0
+     aa8:	e3407000 	movt	r7, #0
+			}
+			else
+			{
+				if (pAd->CommonCfg.TxStream == 1)
+				{
+					*ppTable = RateSwitchTable11N1S;
+     aac:	e5853000 	str	r3, [r5]
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 1S AP \n"));
+     ab0:	e5970000 	ldr	r0, [r7]
+     ab4:	e3500000 	cmp	r0, #0
+     ab8:	0affff44 	beq	7d0 <MlmeSelectTxRateTable+0xa8>
+     abc:	e3000000 	movw	r0, #0
+     ac0:	e3400000 	movt	r0, #0
+     ac4:	ebfffffe 	bl	0 <printk>
+     ac8:	eaffff71 	b	894 <MlmeSelectTxRateTable+0x16c>
+				}
+				else if (pAd->CommonCfg.TxStream == 2)
+				{
+					*ppTable = RateSwitchTable11N2S;
+     acc:	e59f3038 	ldr	r3, [pc, #56]	; b0c <MlmeSelectTxRateTable+0x3e4>
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 2S AP \n"));	
+     ad0:	e3007000 	movw	r7, #0
+     ad4:	e3407000 	movt	r7, #0
+					*ppTable = RateSwitchTable11N1S;
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 1S AP \n"));
+				}
+				else if (pAd->CommonCfg.TxStream == 2)
+				{
+					*ppTable = RateSwitchTable11N2S;
+     ad8:	e5853000 	str	r3, [r5]
+					DBGPRINT_RAW(RT_DEBUG_ERROR,("DRS: unkown mode,default use 11N 2S AP \n"));	
+     adc:	e5971000 	ldr	r1, [r7]
+     ae0:	e3510000 	cmp	r1, #0
+     ae4:	0affff39 	beq	7d0 <MlmeSelectTxRateTable+0xa8>
+     ae8:	e3000000 	movw	r0, #0
+     aec:	e3400000 	movt	r0, #0
+     af0:	ebfffffe 	bl	0 <printk>
+     af4:	eaffff66 	b	894 <MlmeSelectTxRateTable+0x16c>
+				}
+			}
+			else if (WMODE_CAP_N(pAd->CommonCfg.PhyMode) && 
+					(pEntry->HTCapability.MCSSet[0] != 0x00) && 
+					(pEntry->HTCapability.MCSSet[1] != 0x00) &&
+					(((pAd->Antenna.field.TxPath == 3) && (pEntry->HTCapability.MCSSet[2] == 0x00)) || (pAd->Antenna.field.TxPath == 2)))
+     af8:	e5d1c633 	ldrb	ip, [r1, #1587]	; 0x633
+     afc:	e35c0000 	cmp	ip, #0
+     b00:	0affffc5 	beq	a1c <MlmeSelectTxRateTable+0x2f4>
+     b04:	eaffff29 	b	7b0 <MlmeSelectTxRateTable+0x88>
+     b08:	00000100 	.word	0x00000100
+     b0c:	00000130 	.word	0x00000130
+     b10:	000000c8 	.word	0x000000c8
+     b14:	000000ac 	.word	0x000000ac
+     b18:	0000017c 	.word	0x0000017c
+     b1c:	0000003c 	.word	0x0000003c
+     b20:	000001c0 	.word	0x000001c0
+     b24:	00000204 	.word	0x00000204
+     b28:	00000070 	.word	0x00000070
+
+00000b2c <MlmeSelectTxRate>:
+	IN PRTMP_ADAPTER pAd,
+	IN PMAC_TABLE_ENTRY	pEntry,
+	IN CHAR		mcs[],
+	IN CHAR		Rssi,
+	IN CHAR		RssiOffset)
+{
+     b2c:	e92d0070 	push	{r4, r5, r6}
+		else
+			TxRateIdx = mcs[0];
+	}
+	else
+#endif /*  DOT11N_SS3_SUPPORT */
+	if ((pTable == RateSwitchTable11BGN2S) || (pTable == RateSwitchTable11BGN2SForABand) ||
+     b30:	e300c000 	movw	ip, #0
+	IN CHAR		mcs[],
+	IN CHAR		Rssi,
+	IN CHAR		RssiOffset)
+{
+	UCHAR TxRateIdx = 0;
+	UCHAR *pTable = pEntry->pTable;
+     b34:	e5914548 	ldr	r4, [r1, #1352]	; 0x548
+		else
+			TxRateIdx = mcs[0];
+	}
+	else
+#endif /*  DOT11N_SS3_SUPPORT */
+	if ((pTable == RateSwitchTable11BGN2S) || (pTable == RateSwitchTable11BGN2SForABand) ||
+     b38:	e340c000 	movt	ip, #0
+     b3c:	e28c5f81 	add	r5, ip, #516	; 0x204
+     b40:	e1540005 	cmp	r4, r5
+	IN PRTMP_ADAPTER pAd,
+	IN PMAC_TABLE_ENTRY	pEntry,
+	IN CHAR		mcs[],
+	IN CHAR		Rssi,
+	IN CHAR		RssiOffset)
+{
+     b44:	e1dd50dc 	ldrsb	r5, [sp, #12]
+		else
+			TxRateIdx = mcs[0];
+	}
+	else
+#endif /*  DOT11N_SS3_SUPPORT */
+	if ((pTable == RateSwitchTable11BGN2S) || (pTable == RateSwitchTable11BGN2SForABand) ||
+     b48:	0a000090 	beq	d90 <MlmeSelectTxRate+0x264>
+     b4c:	e28c6070 	add	r6, ip, #112	; 0x70
+     b50:	e1540006 	cmp	r4, r6
+     b54:	0a00008d 	beq	d90 <MlmeSelectTxRate+0x264>
+		(pTable == RateSwitchTable11N2S) || (pTable == RateSwitchTable11N2SForABand)
+     b58:	e28c6e13 	add	r6, ip, #304	; 0x130
+		else
+			TxRateIdx = mcs[0];
+	}
+	else
+#endif /*  DOT11N_SS3_SUPPORT */
+	if ((pTable == RateSwitchTable11BGN2S) || (pTable == RateSwitchTable11BGN2SForABand) ||
+     b5c:	e1540006 	cmp	r4, r6
+     b60:	0a00008a 	beq	d90 <MlmeSelectTxRate+0x264>
+		(pTable == RateSwitchTable11N2S) || (pTable == RateSwitchTable11N2SForABand)
+     b64:	e154000c 	cmp	r4, ip
+     b68:	0a000088 	beq	d90 <MlmeSelectTxRate+0x264>
+		else if (mcs[1]>=0 && (Rssi >= (-88+RssiOffset)) && (pEntry->SupportHTMCS[MCS_1]))
+			TxRateIdx = mcs[1];
+		else
+			TxRateIdx = mcs[0];
+	}
+	else if ((pTable == RateSwitchTable11BGN1S) ||
+     b6c:	e28c6d07 	add	r6, ip, #448	; 0x1c0
+     b70:	e1540006 	cmp	r4, r6
+     b74:	0a00004a 	beq	ca4 <MlmeSelectTxRate+0x178>
+			 (pTable == RateSwitchTable11N1S) ||
+     b78:	e28c6f5f 	add	r6, ip, #380	; 0x17c
+		else if (mcs[1]>=0 && (Rssi >= (-88+RssiOffset)) && (pEntry->SupportHTMCS[MCS_1]))
+			TxRateIdx = mcs[1];
+		else
+			TxRateIdx = mcs[0];
+	}
+	else if ((pTable == RateSwitchTable11BGN1S) ||
+     b7c:	e1540006 	cmp	r4, r6
+     b80:	0a000047 	beq	ca4 <MlmeSelectTxRate+0x178>
+			 (pTable == RateSwitchTable11N1S) ||
+			 (pTable == RateSwitchTable11N1SForABand)
+     b84:	e28cc03c 	add	ip, ip, #60	; 0x3c
+			TxRateIdx = mcs[1];
+		else
+			TxRateIdx = mcs[0];
+	}
+	else if ((pTable == RateSwitchTable11BGN1S) ||
+			 (pTable == RateSwitchTable11N1S) ||
+     b88:	e154000c 	cmp	r4, ip
+     b8c:	0a000044 	beq	ca4 <MlmeSelectTxRate+0x178>
+		}
+	}
+	else
+#endif /*  DOT11_N_SUPPORT */
+	{/*  Legacy mode */
+		if (mcs[7]>=0 && (Rssi > -70) && (pEntry->SupportOFDMMCS[MCS_7]))
+     b90:	e5d20007 	ldrb	r0, [r2, #7]
+     b94:	e3730045 	cmn	r3, #69	; 0x45
+     b98:	b3a0c000 	movlt	ip, #0
+     b9c:	a3a0c001 	movge	ip, #1
+     ba0:	e1e04000 	mvn	r4, r0
+     ba4:	e01c43a4 	ands	r4, ip, r4, lsr #7
+     ba8:	0a000002 	beq	bb8 <MlmeSelectTxRate+0x8c>
+     bac:	e5d1cc91 	ldrb	ip, [r1, #3217]	; 0xc91
+     bb0:	e35c0000 	cmp	ip, #0
+     bb4:	1a0000b4 	bne	e8c <MlmeSelectTxRate+0x360>
+		TxRateIdx = mcs[7];
+		else if (mcs[6]>=0 && (Rssi > -74) && (pEntry->SupportOFDMMCS[MCS_7]))
+     bb8:	e5d20006 	ldrb	r0, [r2, #6]
+     bbc:	e3730049 	cmn	r3, #73	; 0x49
+     bc0:	b3a0c000 	movlt	ip, #0
+     bc4:	a3a0c001 	movge	ip, #1
+     bc8:	e1e04000 	mvn	r4, r0
+     bcc:	e01c43a4 	ands	r4, ip, r4, lsr #7
+     bd0:	0a000002 	beq	be0 <MlmeSelectTxRate+0xb4>
+     bd4:	e5d1cc91 	ldrb	ip, [r1, #3217]	; 0xc91
+     bd8:	e35c0000 	cmp	ip, #0
+     bdc:	1a0000aa 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[6];
+		else if (mcs[5]>=0 && (Rssi > -78) && (pEntry->SupportOFDMMCS[MCS_7]))
+     be0:	e5d20005 	ldrb	r0, [r2, #5]
+     be4:	e373004d 	cmn	r3, #77	; 0x4d
+     be8:	b3a0c000 	movlt	ip, #0
+     bec:	a3a0c001 	movge	ip, #1
+     bf0:	e1e04000 	mvn	r4, r0
+     bf4:	e01c43a4 	ands	r4, ip, r4, lsr #7
+     bf8:	1a0000b2 	bne	ec8 <MlmeSelectTxRate+0x39c>
+			TxRateIdx = mcs[5];
+		else if (mcs[4]>=0 && (Rssi > -82) && (pEntry->SupportOFDMMCS[MCS_7]))
+     bfc:	e5d20004 	ldrb	r0, [r2, #4]
+     c00:	e3730051 	cmn	r3, #81	; 0x51
+     c04:	b3a0c000 	movlt	ip, #0
+     c08:	a3a0c001 	movge	ip, #1
+     c0c:	e1e04000 	mvn	r4, r0
+     c10:	e01c43a4 	ands	r4, ip, r4, lsr #7
+     c14:	0a0000fc 	beq	100c <MlmeSelectTxRate+0x4e0>
+     c18:	e5d1cc91 	ldrb	ip, [r1, #3217]	; 0xc91
+     c1c:	e35c0000 	cmp	ip, #0
+     c20:	1a000099 	bne	e8c <MlmeSelectTxRate+0x360>
+			else if (pEntry->SupportCCKMCS[MCS_0])
+				TxRateIdx = mcs[0];
+			else
+			TxRateIdx = mcs[3];
+		}
+		else if (mcs[3]>=0 && (Rssi > -85) && (pEntry->SupportOFDMMCS[MCS_3]))
+     c24:	e5d20003 	ldrb	r0, [r2, #3]
+     c28:	e3730054 	cmn	r3, #84	; 0x54
+     c2c:	b3a0c000 	movlt	ip, #0
+     c30:	a3a0c001 	movge	ip, #1
+     c34:	e1e04000 	mvn	r4, r0
+     c38:	e01c43a4 	ands	r4, ip, r4, lsr #7
+     c3c:	0a000002 	beq	c4c <MlmeSelectTxRate+0x120>
+     c40:	e5d1cc8d 	ldrb	ip, [r1, #3213]	; 0xc8d
+     c44:	e35c0000 	cmp	ip, #0
+     c48:	1a00008f 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[3];
+		else if (mcs[2]>=0 && (Rssi > -87) && (pEntry->SupportOFDMMCS[MCS_2]))
+     c4c:	e5d20002 	ldrb	r0, [r2, #2]
+     c50:	e3730056 	cmn	r3, #86	; 0x56
+     c54:	b3a0c000 	movlt	ip, #0
+     c58:	a3a0c001 	movge	ip, #1
+     c5c:	e1e04000 	mvn	r4, r0
+     c60:	e01c43a4 	ands	r4, ip, r4, lsr #7
+     c64:	0a000002 	beq	c74 <MlmeSelectTxRate+0x148>
+     c68:	e5d1cc8c 	ldrb	ip, [r1, #3212]	; 0xc8c
+     c6c:	e35c0000 	cmp	ip, #0
+     c70:	1a000085 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[2];
+		else if (mcs[1]>=0 && (Rssi > -90) && (pEntry->SupportOFDMMCS[MCS_1]))
+     c74:	e5d20001 	ldrb	r0, [r2, #1]
+     c78:	e3730059 	cmn	r3, #89	; 0x59
+     c7c:	b3a03000 	movlt	r3, #0
+     c80:	a3a03001 	movge	r3, #1
+     c84:	e1e0c000 	mvn	ip, r0
+     c88:	e013c3ac 	ands	ip, r3, ip, lsr #7
+     c8c:	0a000002 	beq	c9c <MlmeSelectTxRate+0x170>
+     c90:	e5d13c8b 	ldrb	r3, [r1, #3211]	; 0xc8b
+     c94:	e3530000 	cmp	r3, #0
+     c98:	1a00007b 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[1];
+		else
+			TxRateIdx = mcs[0];
+     c9c:	e5d20000 	ldrb	r0, [r2]
+     ca0:	ea00007a 	b	e90 <MlmeSelectTxRate+0x364>
+			|| (pTable == RateSwitchTableAdapt11N1S)
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+	)
+	{/*  N mode with 1 stream */
+#ifdef MT7601
+		if ( IS_MT7601(pAd))
+     ca4:	e590cd20 	ldr	ip, [r0, #3360]	; 0xd20
+     ca8:	e3a00000 	mov	r0, #0
+     cac:	e3470601 	movt	r0, #30209	; 0x7601
+     cb0:	e1a0c82c 	lsr	ip, ip, #16
+     cb4:	e150080c 	cmp	r0, ip, lsl #16
+		{		
+			//printk("RSSI=%d\n", Rssi);
+			if (mcs[7]>=0 && (Rssi > (-64+RssiOffset)) && (pEntry->SupportHTMCS[MCS_7]))
+     cb8:	e5d20007 	ldrb	r0, [r2, #7]
+			|| (pTable == RateSwitchTableAdapt11N1S)
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+	)
+	{/*  N mode with 1 stream */
+#ifdef MT7601
+		if ( IS_MT7601(pAd))
+     cbc:	0a000085 	beq	ed8 <MlmeSelectTxRate+0x3ac>
+			//printk("TxRateIdx = %d\n", TxRateIdx);
+		} 
+		else
+#endif /* MT7601 */
+		{
+			if (mcs[7]>=0 && (Rssi > (-72+RssiOffset)) && (pEntry->SupportHTMCS[MCS_7]))
+     cc0:	e3100080 	tst	r0, #128	; 0x80
+     cc4:	1a000005 	bne	ce0 <MlmeSelectTxRate+0x1b4>
+     cc8:	e245c048 	sub	ip, r5, #72	; 0x48
+     ccc:	e153000c 	cmp	r3, ip
+     cd0:	da000002 	ble	ce0 <MlmeSelectTxRate+0x1b4>
+     cd4:	e5d1cc99 	ldrb	ip, [r1, #3225]	; 0xc99
+     cd8:	e35c0000 	cmp	ip, #0
+     cdc:	1a00006a 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[7];
+			else if (mcs[6]>=0 && (Rssi > (-74+RssiOffset)) && (pEntry->SupportHTMCS[MCS_6]))
+     ce0:	e5d20006 	ldrb	r0, [r2, #6]
+     ce4:	e3100080 	tst	r0, #128	; 0x80
+     ce8:	1a000002 	bne	cf8 <MlmeSelectTxRate+0x1cc>
+     cec:	e245c04a 	sub	ip, r5, #74	; 0x4a
+     cf0:	e153000c 	cmp	r3, ip
+     cf4:	ca0000ea 	bgt	10a4 <MlmeSelectTxRate+0x578>
+				TxRateIdx = mcs[6];
+			else if (mcs[5]>=0 && (Rssi > (-77+RssiOffset)) && (pEntry->SupportHTMCS[MCS_5]))
+     cf8:	e5d20005 	ldrb	r0, [r2, #5]
+     cfc:	e3100080 	tst	r0, #128	; 0x80
+     d00:	1a000002 	bne	d10 <MlmeSelectTxRate+0x1e4>
+     d04:	e245c04d 	sub	ip, r5, #77	; 0x4d
+     d08:	e153000c 	cmp	r3, ip
+     d0c:	ca0000e8 	bgt	10b4 <MlmeSelectTxRate+0x588>
+				TxRateIdx = mcs[5];
+			else if (mcs[4]>=0 && (Rssi > (-79+RssiOffset)) && (pEntry->SupportHTMCS[MCS_4]))
+     d10:	e5d20004 	ldrb	r0, [r2, #4]
+     d14:	e3100080 	tst	r0, #128	; 0x80
+     d18:	1a000002 	bne	d28 <MlmeSelectTxRate+0x1fc>
+     d1c:	e245c04f 	sub	ip, r5, #79	; 0x4f
+     d20:	e153000c 	cmp	r3, ip
+     d24:	ca0000e6 	bgt	10c4 <MlmeSelectTxRate+0x598>
+				TxRateIdx = mcs[4];
+			else if (mcs[3]>=0 && (Rssi > (-81+RssiOffset)) && (pEntry->SupportHTMCS[MCS_3]))
+     d28:	e5d20003 	ldrb	r0, [r2, #3]
+     d2c:	e3100080 	tst	r0, #128	; 0x80
+     d30:	1a000005 	bne	d4c <MlmeSelectTxRate+0x220>
+     d34:	e245c051 	sub	ip, r5, #81	; 0x51
+     d38:	e153000c 	cmp	r3, ip
+     d3c:	da000002 	ble	d4c <MlmeSelectTxRate+0x220>
+     d40:	e5d1cc95 	ldrb	ip, [r1, #3221]	; 0xc95
+     d44:	e35c0000 	cmp	ip, #0
+     d48:	1a00004f 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[3];
+			else if (mcs[2]>=0 && (Rssi > (-83+RssiOffset)) && (pEntry->SupportHTMCS[MCS_2]))
+     d4c:	e5d20002 	ldrb	r0, [r2, #2]
+     d50:	e3100080 	tst	r0, #128	; 0x80
+     d54:	1a000005 	bne	d70 <MlmeSelectTxRate+0x244>
+     d58:	e245c053 	sub	ip, r5, #83	; 0x53
+     d5c:	e153000c 	cmp	r3, ip
+     d60:	da000002 	ble	d70 <MlmeSelectTxRate+0x244>
+     d64:	e5d1cc94 	ldrb	ip, [r1, #3220]	; 0xc94
+     d68:	e35c0000 	cmp	ip, #0
+     d6c:	1a000046 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[2];
+			else if (mcs[1]>=0 && (Rssi > (-86+RssiOffset)) && (pEntry->SupportHTMCS[MCS_1]))
+     d70:	e5d20001 	ldrb	r0, [r2, #1]
+     d74:	e3100080 	tst	r0, #128	; 0x80
+     d78:	1affffc7 	bne	c9c <MlmeSelectTxRate+0x170>
+     d7c:	e2455056 	sub	r5, r5, #86	; 0x56
+     d80:	e1530005 	cmp	r3, r5
+     d84:	ca00003d 	bgt	e80 <MlmeSelectTxRate+0x354>
+		else if (mcs[2]>=0 && (Rssi > -87) && (pEntry->SupportOFDMMCS[MCS_2]))
+			TxRateIdx = mcs[2];
+		else if (mcs[1]>=0 && (Rssi > -90) && (pEntry->SupportOFDMMCS[MCS_1]))
+			TxRateIdx = mcs[1];
+		else
+			TxRateIdx = mcs[0];
+     d88:	e5d20000 	ldrb	r0, [r2]
+     d8c:	ea00003f 	b	e90 <MlmeSelectTxRate+0x364>
+#ifdef NEW_RATE_ADAPT_SUPPORT
+		|| (pTable == RateSwitchTableAdapt11N2S)
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+	)
+	{/*  N mode with 2 stream */
+		if (mcs[15]>=0 && (Rssi >= (-70+RssiOffset)) && (pEntry->SupportHTMCS[MCS_15]))
+     d90:	e5d2000f 	ldrb	r0, [r2, #15]
+     d94:	e3100080 	tst	r0, #128	; 0x80
+     d98:	1a000002 	bne	da8 <MlmeSelectTxRate+0x27c>
+     d9c:	e245c046 	sub	ip, r5, #70	; 0x46
+     da0:	e153000c 	cmp	r3, ip
+     da4:	aa00003b 	bge	e98 <MlmeSelectTxRate+0x36c>
+			TxRateIdx = mcs[15];
+		else if (mcs[14]>=0 && (Rssi >= (-72+RssiOffset)) && (pEntry->SupportHTMCS[MCS_14]))
+     da8:	e5d2000e 	ldrb	r0, [r2, #14]
+     dac:	e3100080 	tst	r0, #128	; 0x80
+     db0:	1a000002 	bne	dc0 <MlmeSelectTxRate+0x294>
+     db4:	e245c048 	sub	ip, r5, #72	; 0x48
+     db8:	e153000c 	cmp	r3, ip
+     dbc:	aa000039 	bge	ea8 <MlmeSelectTxRate+0x37c>
+			TxRateIdx = mcs[14];
+		else if (mcs[13]>=0 && (Rssi >= (-76+RssiOffset)) && (pEntry->SupportHTMCS[MCS_13]))
+     dc0:	e5d2000d 	ldrb	r0, [r2, #13]
+     dc4:	e3100080 	tst	r0, #128	; 0x80
+     dc8:	1a000002 	bne	dd8 <MlmeSelectTxRate+0x2ac>
+     dcc:	e245c04c 	sub	ip, r5, #76	; 0x4c
+     dd0:	e153000c 	cmp	r3, ip
+     dd4:	aa000037 	bge	eb8 <MlmeSelectTxRate+0x38c>
+			TxRateIdx = mcs[13];
+		else if (mcs[12]>=0 && (Rssi >= (-78+RssiOffset)) && (pEntry->SupportHTMCS[MCS_12]))
+     dd8:	e5d2000c 	ldrb	r0, [r2, #12]
+     ddc:	e3100080 	tst	r0, #128	; 0x80
+     de0:	1a000005 	bne	dfc <MlmeSelectTxRate+0x2d0>
+     de4:	e245c04e 	sub	ip, r5, #78	; 0x4e
+     de8:	e153000c 	cmp	r3, ip
+     dec:	ba000002 	blt	dfc <MlmeSelectTxRate+0x2d0>
+     df0:	e5d1cc9e 	ldrb	ip, [r1, #3230]	; 0xc9e
+     df4:	e35c0000 	cmp	ip, #0
+     df8:	1a000023 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[12];
+		else if (mcs[4]>=0 && (Rssi >= (-82+RssiOffset)) && (pEntry->SupportHTMCS[MCS_4]))
+     dfc:	e5d20004 	ldrb	r0, [r2, #4]
+     e00:	e3100080 	tst	r0, #128	; 0x80
+     e04:	1a000005 	bne	e20 <MlmeSelectTxRate+0x2f4>
+     e08:	e245c052 	sub	ip, r5, #82	; 0x52
+     e0c:	e153000c 	cmp	r3, ip
+     e10:	ba000002 	blt	e20 <MlmeSelectTxRate+0x2f4>
+     e14:	e5d1cc96 	ldrb	ip, [r1, #3222]	; 0xc96
+     e18:	e35c0000 	cmp	ip, #0
+     e1c:	1a00001a 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[4];
+		else if (mcs[3]>=0 && (Rssi >= (-84+RssiOffset)) && (pEntry->SupportHTMCS[MCS_3]))
+     e20:	e5d20003 	ldrb	r0, [r2, #3]
+     e24:	e3100080 	tst	r0, #128	; 0x80
+     e28:	1a000005 	bne	e44 <MlmeSelectTxRate+0x318>
+     e2c:	e245c054 	sub	ip, r5, #84	; 0x54
+     e30:	e153000c 	cmp	r3, ip
+     e34:	ba000002 	blt	e44 <MlmeSelectTxRate+0x318>
+     e38:	e5d1cc95 	ldrb	ip, [r1, #3221]	; 0xc95
+     e3c:	e35c0000 	cmp	ip, #0
+     e40:	1a000011 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[3];
+		else if (mcs[2]>=0 && (Rssi >= (-86+RssiOffset)) && (pEntry->SupportHTMCS[MCS_2]))
+     e44:	e5d20002 	ldrb	r0, [r2, #2]
+     e48:	e3100080 	tst	r0, #128	; 0x80
+     e4c:	1a000005 	bne	e68 <MlmeSelectTxRate+0x33c>
+     e50:	e245c056 	sub	ip, r5, #86	; 0x56
+     e54:	e153000c 	cmp	r3, ip
+     e58:	ba000002 	blt	e68 <MlmeSelectTxRate+0x33c>
+     e5c:	e5d1cc94 	ldrb	ip, [r1, #3220]	; 0xc94
+     e60:	e35c0000 	cmp	ip, #0
+     e64:	1a000008 	bne	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[2];
+		else if (mcs[1]>=0 && (Rssi >= (-88+RssiOffset)) && (pEntry->SupportHTMCS[MCS_1]))
+     e68:	e5d20001 	ldrb	r0, [r2, #1]
+     e6c:	e3100080 	tst	r0, #128	; 0x80
+     e70:	1affff89 	bne	c9c <MlmeSelectTxRate+0x170>
+     e74:	e2455058 	sub	r5, r5, #88	; 0x58
+     e78:	e1530005 	cmp	r3, r5
+     e7c:	baffff86 	blt	c9c <MlmeSelectTxRate+0x170>
+				TxRateIdx = mcs[4];
+			else if (mcs[3]>=0 && (Rssi > (-81+RssiOffset)) && (pEntry->SupportHTMCS[MCS_3]))
+				TxRateIdx = mcs[3];
+			else if (mcs[2]>=0 && (Rssi > (-83+RssiOffset)) && (pEntry->SupportHTMCS[MCS_2]))
+				TxRateIdx = mcs[2];
+			else if (mcs[1]>=0 && (Rssi > (-86+RssiOffset)) && (pEntry->SupportHTMCS[MCS_1]))
+     e80:	e5d13c93 	ldrb	r3, [r1, #3219]	; 0xc93
+     e84:	e3530000 	cmp	r3, #0
+     e88:	0affff83 	beq	c9c <MlmeSelectTxRate+0x170>
+		else if (mcs[3]>=0 && (Rssi > -85) && (pEntry->SupportOFDMMCS[MCS_3]))
+			TxRateIdx = mcs[3];
+		else if (mcs[2]>=0 && (Rssi > -87) && (pEntry->SupportOFDMMCS[MCS_2]))
+			TxRateIdx = mcs[2];
+		else if (mcs[1]>=0 && (Rssi > -90) && (pEntry->SupportOFDMMCS[MCS_1]))
+			TxRateIdx = mcs[1];
+     e8c:	e6ef0070 	uxtb	r0, r0
+			TxRateIdx = mcs[0];
+	}
+
+
+	return TxRateIdx;
+}
+     e90:	e8bd0070 	pop	{r4, r5, r6}
+     e94:	e12fff1e 	bx	lr
+#ifdef NEW_RATE_ADAPT_SUPPORT
+		|| (pTable == RateSwitchTableAdapt11N2S)
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+	)
+	{/*  N mode with 2 stream */
+		if (mcs[15]>=0 && (Rssi >= (-70+RssiOffset)) && (pEntry->SupportHTMCS[MCS_15]))
+     e98:	e5d1cca1 	ldrb	ip, [r1, #3233]	; 0xca1
+     e9c:	e35c0000 	cmp	ip, #0
+     ea0:	0affffc0 	beq	da8 <MlmeSelectTxRate+0x27c>
+     ea4:	eafffff8 	b	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[15];
+		else if (mcs[14]>=0 && (Rssi >= (-72+RssiOffset)) && (pEntry->SupportHTMCS[MCS_14]))
+     ea8:	e5d1cca0 	ldrb	ip, [r1, #3232]	; 0xca0
+     eac:	e35c0000 	cmp	ip, #0
+     eb0:	0affffc2 	beq	dc0 <MlmeSelectTxRate+0x294>
+     eb4:	eafffff4 	b	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[14];
+		else if (mcs[13]>=0 && (Rssi >= (-76+RssiOffset)) && (pEntry->SupportHTMCS[MCS_13]))
+     eb8:	e5d1cc9f 	ldrb	ip, [r1, #3231]	; 0xc9f
+     ebc:	e35c0000 	cmp	ip, #0
+     ec0:	0affffc4 	beq	dd8 <MlmeSelectTxRate+0x2ac>
+     ec4:	eafffff0 	b	e8c <MlmeSelectTxRate+0x360>
+	{/*  Legacy mode */
+		if (mcs[7]>=0 && (Rssi > -70) && (pEntry->SupportOFDMMCS[MCS_7]))
+		TxRateIdx = mcs[7];
+		else if (mcs[6]>=0 && (Rssi > -74) && (pEntry->SupportOFDMMCS[MCS_7]))
+			TxRateIdx = mcs[6];
+		else if (mcs[5]>=0 && (Rssi > -78) && (pEntry->SupportOFDMMCS[MCS_7]))
+     ec8:	e5d1cc91 	ldrb	ip, [r1, #3217]	; 0xc91
+     ecc:	e35c0000 	cmp	ip, #0
+     ed0:	0affff49 	beq	bfc <MlmeSelectTxRate+0xd0>
+     ed4:	eaffffec 	b	e8c <MlmeSelectTxRate+0x360>
+	{/*  N mode with 1 stream */
+#ifdef MT7601
+		if ( IS_MT7601(pAd))
+		{		
+			//printk("RSSI=%d\n", Rssi);
+			if (mcs[7]>=0 && (Rssi > (-64+RssiOffset)) && (pEntry->SupportHTMCS[MCS_7]))
+     ed8:	e3100080 	tst	r0, #128	; 0x80
+     edc:	1a000005 	bne	ef8 <MlmeSelectTxRate+0x3cc>
+     ee0:	e245c040 	sub	ip, r5, #64	; 0x40
+     ee4:	e153000c 	cmp	r3, ip
+     ee8:	da000002 	ble	ef8 <MlmeSelectTxRate+0x3cc>
+     eec:	e5d1cc99 	ldrb	ip, [r1, #3225]	; 0xc99
+     ef0:	e35c0000 	cmp	ip, #0
+     ef4:	1affffe4 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[7];
+			else if (mcs[6]>=0 && (Rssi > (-66+RssiOffset)) && (pEntry->SupportHTMCS[MCS_6]))
+     ef8:	e5d20006 	ldrb	r0, [r2, #6]
+     efc:	e3100080 	tst	r0, #128	; 0x80
+     f00:	1a000005 	bne	f1c <MlmeSelectTxRate+0x3f0>
+     f04:	e245c042 	sub	ip, r5, #66	; 0x42
+     f08:	e153000c 	cmp	r3, ip
+     f0c:	da000002 	ble	f1c <MlmeSelectTxRate+0x3f0>
+     f10:	e5d1cc98 	ldrb	ip, [r1, #3224]	; 0xc98
+     f14:	e35c0000 	cmp	ip, #0
+     f18:	1affffdb 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[6];
+			else if (mcs[5]>=0 && (Rssi > (-70+RssiOffset)) && (pEntry->SupportHTMCS[MCS_5]))
+     f1c:	e5d20005 	ldrb	r0, [r2, #5]
+     f20:	e3100080 	tst	r0, #128	; 0x80
+     f24:	1a000005 	bne	f40 <MlmeSelectTxRate+0x414>
+     f28:	e245c046 	sub	ip, r5, #70	; 0x46
+     f2c:	e153000c 	cmp	r3, ip
+     f30:	da000002 	ble	f40 <MlmeSelectTxRate+0x414>
+     f34:	e5d1cc97 	ldrb	ip, [r1, #3223]	; 0xc97
+     f38:	e35c0000 	cmp	ip, #0
+     f3c:	1affffd2 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[5];
+			else if (mcs[4]>=0 && (Rssi > (-73+RssiOffset)) && (pEntry->SupportHTMCS[MCS_4]))
+     f40:	e5d20004 	ldrb	r0, [r2, #4]
+     f44:	e3100080 	tst	r0, #128	; 0x80
+     f48:	1a000005 	bne	f64 <MlmeSelectTxRate+0x438>
+     f4c:	e245c049 	sub	ip, r5, #73	; 0x49
+     f50:	e153000c 	cmp	r3, ip
+     f54:	da000002 	ble	f64 <MlmeSelectTxRate+0x438>
+     f58:	e5d1cc96 	ldrb	ip, [r1, #3222]	; 0xc96
+     f5c:	e35c0000 	cmp	ip, #0
+     f60:	1affffc9 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[4];
+			else if (mcs[3]>=0 && (Rssi > (-77+RssiOffset)) && (pEntry->SupportHTMCS[MCS_3]))
+     f64:	e5d20003 	ldrb	r0, [r2, #3]
+     f68:	e3100080 	tst	r0, #128	; 0x80
+     f6c:	1a000005 	bne	f88 <MlmeSelectTxRate+0x45c>
+     f70:	e245c04d 	sub	ip, r5, #77	; 0x4d
+     f74:	e153000c 	cmp	r3, ip
+     f78:	da000002 	ble	f88 <MlmeSelectTxRate+0x45c>
+     f7c:	e5d1cc95 	ldrb	ip, [r1, #3221]	; 0xc95
+     f80:	e35c0000 	cmp	ip, #0
+     f84:	1affffc0 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[3];
+			else if (mcs[2]>=0 && (Rssi > (-79+RssiOffset)) && (pEntry->SupportHTMCS[MCS_2]))
+     f88:	e5d20002 	ldrb	r0, [r2, #2]
+     f8c:	e3100080 	tst	r0, #128	; 0x80
+     f90:	1a000005 	bne	fac <MlmeSelectTxRate+0x480>
+     f94:	e245c04f 	sub	ip, r5, #79	; 0x4f
+     f98:	e153000c 	cmp	r3, ip
+     f9c:	da000002 	ble	fac <MlmeSelectTxRate+0x480>
+     fa0:	e5d1cc94 	ldrb	ip, [r1, #3220]	; 0xc94
+     fa4:	e35c0000 	cmp	ip, #0
+     fa8:	1affffb7 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[2];
+			else if (mcs[1]>=0 && (Rssi > (-81+RssiOffset)) && (pEntry->SupportHTMCS[MCS_1]))
+     fac:	e5d20001 	ldrb	r0, [r2, #1]
+     fb0:	e3100080 	tst	r0, #128	; 0x80
+     fb4:	1a00000b 	bne	fe8 <MlmeSelectTxRate+0x4bc>
+     fb8:	e245c051 	sub	ip, r5, #81	; 0x51
+     fbc:	e153000c 	cmp	r3, ip
+     fc0:	da000002 	ble	fd0 <MlmeSelectTxRate+0x4a4>
+     fc4:	e5d1cc93 	ldrb	ip, [r1, #3219]	; 0xc93
+     fc8:	e35c0000 	cmp	ip, #0
+     fcc:	1affffae 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[1];
+			else if (mcs[1]>=0 && (Rssi > (-83+RssiOffset)) && (pEntry->SupportHTMCS[MCS_0]))
+     fd0:	e2455053 	sub	r5, r5, #83	; 0x53
+     fd4:	e1530005 	cmp	r3, r5
+     fd8:	da000002 	ble	fe8 <MlmeSelectTxRate+0x4bc>
+     fdc:	e5d13c92 	ldrb	r3, [r1, #3218]	; 0xc92
+     fe0:	e3530000 	cmp	r3, #0
+     fe4:	1affff2c 	bne	c9c <MlmeSelectTxRate+0x170>
+				TxRateIdx = mcs[0];
+#ifdef CONFIG_STA_SUPPORT
+			else 
+			{
+				if ( (mcs[0] > 1 ) && pEntry->SupportCCKMCS[MCS_1] )
+     fe8:	e5d20000 	ldrb	r0, [r2]
+     fec:	e6af2070 	sxtb	r2, r0
+     ff0:	e3520001 	cmp	r2, #1
+     ff4:	daffffa4 	ble	e8c <MlmeSelectTxRate+0x360>
+     ff8:	e5d11c87 	ldrb	r1, [r1, #3207]	; 0xc87
+     ffc:	e3510000 	cmp	r1, #0
+					TxRateIdx=1;
+    1000:	13a00001 	movne	r0, #1
+			else if (mcs[1]>=0 && (Rssi > (-83+RssiOffset)) && (pEntry->SupportHTMCS[MCS_0]))
+				TxRateIdx = mcs[0];
+#ifdef CONFIG_STA_SUPPORT
+			else 
+			{
+				if ( (mcs[0] > 1 ) && pEntry->SupportCCKMCS[MCS_1] )
+    1004:	1affffa1 	bne	e90 <MlmeSelectTxRate+0x364>
+    1008:	eaffff9f 	b	e8c <MlmeSelectTxRate+0x360>
+			TxRateIdx = mcs[6];
+		else if (mcs[5]>=0 && (Rssi > -78) && (pEntry->SupportOFDMMCS[MCS_7]))
+			TxRateIdx = mcs[5];
+		else if (mcs[4]>=0 && (Rssi > -82) && (pEntry->SupportOFDMMCS[MCS_7]))
+			TxRateIdx = mcs[4];
+		else if (mcs[4] == -1)							/*  for B-only mode */
+    100c:	e6af0070 	sxtb	r0, r0
+    1010:	e3700001 	cmn	r0, #1
+    1014:	1affff02 	bne	c24 <MlmeSelectTxRate+0xf8>
+		{
+			if (mcs[3]>=0 && (Rssi > -85) && (pEntry->SupportCCKMCS[MCS_3]))
+    1018:	e5d20003 	ldrb	r0, [r2, #3]
+    101c:	e3730054 	cmn	r3, #84	; 0x54
+    1020:	b3a0c000 	movlt	ip, #0
+    1024:	a3a0c001 	movge	ip, #1
+    1028:	e1e04000 	mvn	r4, r0
+    102c:	e01c43a4 	ands	r4, ip, r4, lsr #7
+    1030:	0a000002 	beq	1040 <MlmeSelectTxRate+0x514>
+    1034:	e5d1cc89 	ldrb	ip, [r1, #3209]	; 0xc89
+    1038:	e35c0000 	cmp	ip, #0
+    103c:	1affff92 	bne	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[3];
+			else if (mcs[2]>=0 && (Rssi > -87) && (pEntry->SupportCCKMCS[MCS_2]))
+    1040:	e5d2c002 	ldrb	ip, [r2, #2]
+    1044:	e3730056 	cmn	r3, #86	; 0x56
+    1048:	b3a04000 	movlt	r4, #0
+    104c:	a3a04001 	movge	r4, #1
+    1050:	e1e0500c 	mvn	r5, ip
+    1054:	e01453a5 	ands	r5, r4, r5, lsr #7
+    1058:	0a000002 	beq	1068 <MlmeSelectTxRate+0x53c>
+    105c:	e5d14c88 	ldrb	r4, [r1, #3208]	; 0xc88
+    1060:	e3540000 	cmp	r4, #0
+    1064:	1a00001a 	bne	10d4 <MlmeSelectTxRate+0x5a8>
+				TxRateIdx = mcs[2];
+			else if (mcs[1]>=0 && (Rssi > -90) && (pEntry->SupportCCKMCS[MCS_1]))
+    1068:	e5d2c001 	ldrb	ip, [r2, #1]
+    106c:	e3730059 	cmn	r3, #89	; 0x59
+    1070:	b3a03000 	movlt	r3, #0
+    1074:	a3a03001 	movge	r3, #1
+    1078:	e1e0400c 	mvn	r4, ip
+    107c:	e01343a4 	ands	r4, r3, r4, lsr #7
+    1080:	0a000002 	beq	1090 <MlmeSelectTxRate+0x564>
+    1084:	e5d13c87 	ldrb	r3, [r1, #3207]	; 0xc87
+    1088:	e3530000 	cmp	r3, #0
+    108c:	1a000010 	bne	10d4 <MlmeSelectTxRate+0x5a8>
+				TxRateIdx = mcs[1];
+			else if (pEntry->SupportCCKMCS[MCS_0])
+    1090:	e5d11c86 	ldrb	r1, [r1, #3206]	; 0xc86
+    1094:	e3510000 	cmp	r1, #0
+    1098:	0affff7b 	beq	e8c <MlmeSelectTxRate+0x360>
+		else if (mcs[2]>=0 && (Rssi > -87) && (pEntry->SupportOFDMMCS[MCS_2]))
+			TxRateIdx = mcs[2];
+		else if (mcs[1]>=0 && (Rssi > -90) && (pEntry->SupportOFDMMCS[MCS_1]))
+			TxRateIdx = mcs[1];
+		else
+			TxRateIdx = mcs[0];
+    109c:	e5d20000 	ldrb	r0, [r2]
+    10a0:	eaffff7a 	b	e90 <MlmeSelectTxRate+0x364>
+		else
+#endif /* MT7601 */
+		{
+			if (mcs[7]>=0 && (Rssi > (-72+RssiOffset)) && (pEntry->SupportHTMCS[MCS_7]))
+				TxRateIdx = mcs[7];
+			else if (mcs[6]>=0 && (Rssi > (-74+RssiOffset)) && (pEntry->SupportHTMCS[MCS_6]))
+    10a4:	e5d1cc98 	ldrb	ip, [r1, #3224]	; 0xc98
+    10a8:	e35c0000 	cmp	ip, #0
+    10ac:	0affff11 	beq	cf8 <MlmeSelectTxRate+0x1cc>
+    10b0:	eaffff75 	b	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[6];
+			else if (mcs[5]>=0 && (Rssi > (-77+RssiOffset)) && (pEntry->SupportHTMCS[MCS_5]))
+    10b4:	e5d1cc97 	ldrb	ip, [r1, #3223]	; 0xc97
+    10b8:	e35c0000 	cmp	ip, #0
+    10bc:	0affff13 	beq	d10 <MlmeSelectTxRate+0x1e4>
+    10c0:	eaffff71 	b	e8c <MlmeSelectTxRate+0x360>
+				TxRateIdx = mcs[5];
+			else if (mcs[4]>=0 && (Rssi > (-79+RssiOffset)) && (pEntry->SupportHTMCS[MCS_4]))
+    10c4:	e5d1cc96 	ldrb	ip, [r1, #3222]	; 0xc96
+    10c8:	e35c0000 	cmp	ip, #0
+    10cc:	0affff15 	beq	d28 <MlmeSelectTxRate+0x1fc>
+    10d0:	eaffff6d 	b	e8c <MlmeSelectTxRate+0x360>
+			if (mcs[3]>=0 && (Rssi > -85) && (pEntry->SupportCCKMCS[MCS_3]))
+				TxRateIdx = mcs[3];
+			else if (mcs[2]>=0 && (Rssi > -87) && (pEntry->SupportCCKMCS[MCS_2]))
+				TxRateIdx = mcs[2];
+			else if (mcs[1]>=0 && (Rssi > -90) && (pEntry->SupportCCKMCS[MCS_1]))
+				TxRateIdx = mcs[1];
+    10d4:	e6ef007c 	uxtb	r0, ip
+    10d8:	eaffff6c 	b	e90 <MlmeSelectTxRate+0x364>
+
+000010dc <MlmeRAInit>:
+	pEntry->phyETxBf = pEntry->phyITxBf = FALSE;
+	pEntry->lastRatePhyTxBf = FALSE;
+	pEntry->lastNonBfRate = 0;
+#endif /* TXBF_SUPPORT */
+
+	pEntry->fLastSecAccordingRSSI = FALSE;
+    10dc:	e3a03000 	mov	r3, #0
+	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
+	pEntry->CurrTxRateIndex = 0;
+	pEntry->CurrTxRateStableTime = 0;
+	pEntry->TxRateUpPenalty = 0;
+
+	MlmeClearAllTxQuality(pEntry);
+    10e0:	e1a00001 	mov	r0, r1
+	pEntry->phyETxBf = pEntry->phyITxBf = FALSE;
+	pEntry->lastRatePhyTxBf = FALSE;
+	pEntry->lastNonBfRate = 0;
+#endif /* TXBF_SUPPORT */
+
+	pEntry->fLastSecAccordingRSSI = FALSE;
+    10e4:	e5c135a8 	strb	r3, [r1, #1448]	; 0x5a8
+	pEntry->LastSecTxRateChangeAction = RATE_NO_CHANGE;
+    10e8:	e5c135a9 	strb	r3, [r1, #1449]	; 0x5a9
+	pEntry->CurrTxRateIndex = 0;
+    10ec:	e5c13546 	strb	r3, [r1, #1350]	; 0x546
+	pEntry->CurrTxRateStableTime = 0;
+    10f0:	e58135d8 	str	r3, [r1, #1496]	; 0x5d8
+	pEntry->TxRateUpPenalty = 0;
+    10f4:	e5c135dc 	strb	r3, [r1, #1500]	; 0x5dc
+
+	MlmeClearAllTxQuality(pEntry);
+    10f8:	eafffffe 	b	1ec <MlmeClearAllTxQuality>
+
+000010fc <MlmeRALog>:
+	IN PRTMP_ADAPTER	pAd,
+	IN PMAC_TABLE_ENTRY	pEntry,
+	IN RA_LOG_TYPE		raLogType,
+	IN ULONG			TxErrorRatio,
+	IN ULONG			TxTotalCnt)
+{
+    10fc:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+    1100:	e24dd018 	sub	sp, sp, #24
+
+	do_gettimeofday(&tval);
+	newTime = (tval.tv_sec*1000000L + tval.tv_usec);
+#endif
+
+	if (TxTotalCnt !=0 || raLogType==RAL_QUICK_DRS
+    1104:	e2426002 	sub	r6, r2, #2
+	IN PRTMP_ADAPTER	pAd,
+	IN PMAC_TABLE_ENTRY	pEntry,
+	IN RA_LOG_TYPE		raLogType,
+	IN ULONG			TxErrorRatio,
+	IN ULONG			TxTotalCnt)
+{
+    1108:	e1a07002 	mov	r7, r2
+    110c:	e59dc030 	ldr	ip, [sp, #48]	; 0x30
+
+	do_gettimeofday(&tval);
+	newTime = (tval.tv_sec*1000000L + tval.tv_usec);
+#endif
+
+	if (TxTotalCnt !=0 || raLogType==RAL_QUICK_DRS
+    1110:	e2762000 	rsbs	r2, r6, #0
+    1114:	e0a22006 	adc	r2, r2, r6
+	IN PRTMP_ADAPTER	pAd,
+	IN PMAC_TABLE_ENTRY	pEntry,
+	IN RA_LOG_TYPE		raLogType,
+	IN ULONG			TxErrorRatio,
+	IN ULONG			TxTotalCnt)
+{
+    1118:	e1a06001 	mov	r6, r1
+
+	do_gettimeofday(&tval);
+	newTime = (tval.tv_sec*1000000L + tval.tv_usec);
+#endif
+
+	if (TxTotalCnt !=0 || raLogType==RAL_QUICK_DRS
+    111c:	e35c0000 	cmp	ip, #0
+    1120:	01a04002 	moveq	r4, r2
+    1124:	13824001 	orrne	r4, r2, #1
+    1128:	e3540000 	cmp	r4, #0
+	IN PRTMP_ADAPTER	pAd,
+	IN PMAC_TABLE_ENTRY	pEntry,
+	IN RA_LOG_TYPE		raLogType,
+	IN ULONG			TxErrorRatio,
+	IN ULONG			TxTotalCnt)
+{
+    112c:	e1a04003 	mov	r4, r3
+
+	do_gettimeofday(&tval);
+	newTime = (tval.tv_sec*1000000L + tval.tv_usec);
+#endif
+
+	if (TxTotalCnt !=0 || raLogType==RAL_QUICK_DRS
+    1130:	0a000017 	beq	1194 <MlmeRALog+0x98>
+	{
+		BOOLEAN stbc, csd=FALSE;
+		ULONG tp;
+
+		/*  Get STBC and StreamMode state */
+		stbc = (pEntry->HTPhyMode.field.STBC && pEntry->HTPhyMode.field.MCS<8);
+    1134:	e5d185ed 	ldrb	r8, [r1, #1517]	; 0x5ed
+    1138:	e2185006 	ands	r5, r8, #6
+    113c:	0a000004 	beq	1154 <MlmeRALog+0x58>
+    1140:	e5d155ec 	ldrb	r5, [r1, #1516]	; 0x5ec
+    1144:	e205507f 	and	r5, r5, #127	; 0x7f
+    1148:	e3550007 	cmp	r5, #7
+    114c:	c3a05000 	movgt	r5, #0
+    1150:	d3a05001 	movle	r5, #1
+				csd = (streamWord & 0xC0000)==0xC0000;
+		}
+#endif /* STREAM_MODE_SUPPORT */
+
+		/*  Normalized throughput - packets per RA Interval */
+		if (raLogType==RAL_QUICK_DRS)
+    1154:	e3520000 	cmp	r2, #0
+    1158:	1a00001f 	bne	11dc <MlmeRALog+0xe0>
+			tp = (100-TxErrorRatio)*TxTotalCnt*RA_INTERVAL/(100*pAd->ra_fast_interval);
+		else if (pEntry->LastSecTxRateChangeAction==RATE_NO_CHANGE
+    115c:	e5d625a9 	ldrb	r2, [r6, #1449]	; 0x5a9
+    1160:	e3520000 	cmp	r2, #0
+    1164:	1a00000c 	bne	119c <MlmeRALog+0xa0>
+#ifdef DBG_CTRL_SUPPORT
+				&& (pAd->CommonCfg.DebugFlags & DBF_FORCE_QUICK_DRS)==0
+#endif /* DBG_CTRL_SUPPORT */
+		)
+			tp = (100-TxErrorRatio)*TxTotalCnt/100;
+    1168:	e2642064 	rsb	r2, r4, #100	; 0x64
+    116c:	e308351f 	movw	r3, #34079	; 0x851f
+    1170:	e34531eb 	movt	r3, #20971	; 0x51eb
+    1174:	e000029c 	mul	r0, ip, r2
+    1178:	e08c2093 	umull	r2, ip, r3, r0
+    117c:	e1a0c2ac 	lsr	ip, ip, #5
+		}
+		else
+#endif /*  INCLUDE_DEBUG_QUEUE */
+#endif /*  DBG_CTRL_SUPPORT */
+		{
+			DBGPRINT_RAW(RT_DEBUG_ERROR,("%s[%d]: M=%d %c%c%c%c- PER=%ld%% TP=%ld ",
+    1180:	e3002000 	movw	r2, #0
+    1184:	e3402000 	movt	r2, #0
+    1188:	e5920000 	ldr	r0, [r2]
+    118c:	e3500000 	cmp	r0, #0
+    1190:	1a00001f 	bne	1214 <MlmeRALog+0x118>
+	pEntry->LastTxCount = TxCount;
+#endif /*  TXBF_SUPPORT */
+#ifdef TIMESTAMP_RA_LOG
+	saveRATime = newTime;
+#endif
+}
+    1194:	e28dd018 	add	sp, sp, #24
+    1198:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+				&& (pAd->CommonCfg.DebugFlags & DBF_FORCE_QUICK_DRS)==0
+#endif /* DBG_CTRL_SUPPORT */
+		)
+			tp = (100-TxErrorRatio)*TxTotalCnt/100;
+		else
+			tp = (100-TxErrorRatio)*TxTotalCnt*RA_INTERVAL/(100*(RA_INTERVAL-pAd->ra_fast_interval));
+    119c:	e30a36a4 	movw	r3, #42660	; 0xa6a4
+    11a0:	e340300a 	movt	r3, #10
+    11a4:	e30f1e0c 	movw	r1, #65036	; 0xfe0c
+    11a8:	e34f1fff 	movt	r1, #65535	; 0xffff
+    11ac:	e7902003 	ldr	r2, [r0, r3]
+    11b0:	e3e00063 	mvn	r0, #99	; 0x63
+    11b4:	e00e0491 	mul	lr, r1, r4
+    11b8:	e0010290 	mul	r1, r0, r2
+    11bc:	e28e3cc3 	add	r3, lr, #49920	; 0xc300
+    11c0:	e2830050 	add	r0, r3, #80	; 0x50
+    11c4:	e281ecc3 	add	lr, r1, #49920	; 0xc300
+    11c8:	e000009c 	mul	r0, ip, r0
+    11cc:	e28e1050 	add	r1, lr, #80	; 0x50
+    11d0:	ebfffffe 	bl	0 <__aeabi_uidiv>
+    11d4:	e1a0c000 	mov	ip, r0
+    11d8:	eaffffe8 	b	1180 <MlmeRALog+0x84>
+		}
+#endif /* STREAM_MODE_SUPPORT */
+
+		/*  Normalized throughput - packets per RA Interval */
+		if (raLogType==RAL_QUICK_DRS)
+			tp = (100-TxErrorRatio)*TxTotalCnt*RA_INTERVAL/(100*pAd->ra_fast_interval);
+    11dc:	e30f3e0c 	movw	r3, #65036	; 0xfe0c
+    11e0:	e34f3fff 	movt	r3, #65535	; 0xffff
+    11e4:	e30a16a4 	movw	r1, #42660	; 0xa6a4
+    11e8:	e340100a 	movt	r1, #10
+    11ec:	e0020493 	mul	r2, r3, r4
+    11f0:	e7903001 	ldr	r3, [r0, r1]
+    11f4:	e3a01064 	mov	r1, #100	; 0x64
+    11f8:	e282ecc3 	add	lr, r2, #49920	; 0xc300
+    11fc:	e28e0050 	add	r0, lr, #80	; 0x50
+    1200:	e0010391 	mul	r1, r1, r3
+    1204:	e000009c 	mul	r0, ip, r0
+    1208:	ebfffffe 	bl	0 <__aeabi_uidiv>
+    120c:	e1a0c000 	mov	ip, r0
+    1210:	eaffffda 	b	1180 <MlmeRALog+0x84>
+		}
+		else
+#endif /*  INCLUDE_DEBUG_QUEUE */
+#endif /*  DBG_CTRL_SUPPORT */
+		{
+			DBGPRINT_RAW(RT_DEBUG_ERROR,("%s[%d]: M=%d %c%c%c%c- PER=%ld%% TP=%ld ",
+    1214:	e3570002 	cmp	r7, #2
+    1218:	03001000 	movweq	r1, #0
+    121c:	03401000 	movteq	r1, #0
+    1220:	0a000005 	beq	123c <MlmeRALog+0x140>
+    1224:	e3003000 	movw	r3, #0
+    1228:	e3570001 	cmp	r7, #1
+    122c:	e3403000 	movt	r3, #0
+    1230:	e3001000 	movw	r1, #0
+    1234:	e3401000 	movt	r1, #0
+    1238:	01a01003 	moveq	r1, r3
+    123c:	e5d605ec 	ldrb	r0, [r6, #1516]	; 0x5ec
+    1240:	e31800c0 	tst	r8, #192	; 0xc0
+    1244:	e3002466 	movw	r2, #1126	; 0x466
+    1248:	e19620b2 	ldrh	r2, [r6, r2]
+    124c:	e200307f 	and	r3, r0, #127	; 0x7f
+    1250:	03a0e043 	moveq	lr, #67	; 0x43
+    1254:	0a000002 	beq	1264 <MlmeRALog+0x168>
+    1258:	e3180001 	tst	r8, #1
+    125c:	03a0e04c 	moveq	lr, #76	; 0x4c
+    1260:	13a0e053 	movne	lr, #83	; 0x53
+    1264:	e2006080 	and	r6, r0, #128	; 0x80
+    1268:	e3000000 	movw	r0, #0
+    126c:	e3400000 	movt	r0, #0
+    1270:	e58de000 	str	lr, [sp]
+    1274:	e6ef6076 	uxtb	r6, r6
+    1278:	e3a0e063 	mov	lr, #99	; 0x63
+    127c:	e3560000 	cmp	r6, #0
+    1280:	e58de00c 	str	lr, [sp, #12]
+    1284:	e58d4010 	str	r4, [sp, #16]
+    1288:	03a06032 	moveq	r6, #50	; 0x32
+    128c:	13a06034 	movne	r6, #52	; 0x34
+    1290:	e3550000 	cmp	r5, #0
+    1294:	e58d6004 	str	r6, [sp, #4]
+    1298:	e58dc014 	str	ip, [sp, #20]
+    129c:	03a05073 	moveq	r5, #115	; 0x73
+    12a0:	13a05053 	movne	r5, #83	; 0x53
+    12a4:	e58d5008 	str	r5, [sp, #8]
+    12a8:	ebfffffe 	bl	0 <printk>
+    12ac:	eaffffb8 	b	1194 <MlmeRALog+0x98>
+
+000012b0 <MlmeRestoreLastRate>:
+
+/*  MlmeRestoreLastRate - restore last saved rate */
+VOID MlmeRestoreLastRate(
+	IN PMAC_TABLE_ENTRY	pEntry)
+{
+	pEntry->CurrTxRateIndex = pEntry->lastRateIdx;
+    12b0:	e5d03547 	ldrb	r3, [r0, #1351]	; 0x547
+    12b4:	e5c03546 	strb	r3, [r0, #1350]	; 0x546
+	if (pEntry->eTxBfEnCond>0)
+		pEntry->phyETxBf = pEntry->lastRatePhyTxBf;
+	else
+		pEntry->phyITxBf = pEntry->lastRatePhyTxBf;
+#endif /*  TXBF_SUPPORT */
+}
+    12b8:	e12fff1e 	bx	lr
+
+000012bc <rtmp_get_rate_from_rate_tb>:
+	else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+	{
+		RTMP_RA_LEGACY_TB *rate_entry;
+
+		rate_entry = PTX_RA_LEGACY_ENTRY(table, idx);
+    12bc:	e2811001 	add	r1, r1, #1
+    12c0:	e081c101 	add	ip, r1, r1, lsl #2
+    12c4:	e080c00c 	add	ip, r0, ip
+		tx_rate->stbc = rate_entry->STBC;
+		tx_rate->nss = 0;
+	}
+
+	return TRUE;
+}
+    12c8:	e3a00001 	mov	r0, #1
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+	{
+		RTMP_RA_LEGACY_TB *rate_entry;
+
+		rate_entry = PTX_RA_LEGACY_ENTRY(table, idx);
+		tx_rate->mode = rate_entry->Mode;
+    12cc:	e5dc3001 	ldrb	r3, [ip, #1]
+    12d0:	e7e21253 	ubfx	r1, r3, #4, #3
+    12d4:	e5c21000 	strb	r1, [r2]
+		tx_rate->bw = rate_entry->BW;
+    12d8:	e5dc3001 	ldrb	r3, [ip, #1]
+    12dc:	e7e11153 	ubfx	r1, r3, #2, #2
+    12e0:	e5c21001 	strb	r1, [r2, #1]
+		tx_rate->mcs = rate_entry->CurrMCS;
+    12e4:	e5dc3002 	ldrb	r3, [ip, #2]
+    12e8:	e5c23002 	strb	r3, [r2, #2]
+		tx_rate->sgi = rate_entry->ShortGI;
+    12ec:	e5dc1001 	ldrb	r1, [ip, #1]
+    12f0:	e7e030d1 	ubfx	r3, r1, #1, #1
+    12f4:	e5c23004 	strb	r3, [r2, #4]
+		tx_rate->stbc = rate_entry->STBC;
+    12f8:	e5dcc001 	ldrb	ip, [ip, #1]
+		tx_rate->nss = 0;
+    12fc:	e3a01000 	mov	r1, #0
+    1300:	e5c21003 	strb	r1, [r2, #3]
+		rate_entry = PTX_RA_LEGACY_ENTRY(table, idx);
+		tx_rate->mode = rate_entry->Mode;
+		tx_rate->bw = rate_entry->BW;
+		tx_rate->mcs = rate_entry->CurrMCS;
+		tx_rate->sgi = rate_entry->ShortGI;
+		tx_rate->stbc = rate_entry->STBC;
+    1304:	e7e0305c 	ubfx	r3, ip, #0, #1
+    1308:	e5c23005 	strb	r3, [r2, #5]
+		tx_rate->nss = 0;
+	}
+
+	return TRUE;
+}
+    130c:	e12fff1e 	bx	lr
+
+00001310 <MlmeNewTxRate>:
+/*
+	MlmeNewTxRate - called when a new TX rate was selected. Sets TX PHY to
+		rate selected by pEntry->CurrTxRateIndex in pTable;
+*/
+VOID MlmeNewTxRate(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+{
+    1310:	e92d40f8 	push	{r3, r4, r5, r6, r7, lr}
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+		pNextTxRate = PTX_RA_LEGACY_ENTRY(pTable, pEntry->CurrTxRateIndex);
+
+	/*  Set new rate */
+#ifdef CONFIG_AP_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+    1314:	e30a6604 	movw	r6, #42500	; 0xa604
+    1318:	e340600a 	movt	r6, #10
+#ifdef NEW_RATE_ADAPT_SUPPORT
+	if (ADAPT_RATE_TABLE(pTable))
+		pNextTxRate = (RTMP_RA_LEGACY_TB *)PTX_RA_GRP_ENTRY(pTable, pEntry->CurrTxRateIndex);
+	else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+		pNextTxRate = PTX_RA_LEGACY_ENTRY(pTable, pEntry->CurrTxRateIndex);
+    131c:	e5d17546 	ldrb	r7, [r1, #1350]	; 0x546
+/*
+	MlmeNewTxRate - called when a new TX rate was selected. Sets TX PHY to
+		rate selected by pEntry->CurrTxRateIndex in pTable;
+*/
+VOID MlmeNewTxRate(RTMP_ADAPTER *pAd, MAC_TABLE_ENTRY *pEntry)
+{
+    1320:	e1a04001 	mov	r4, r1
+    1324:	e1a05000 	mov	r5, r0
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+		pNextTxRate = PTX_RA_LEGACY_ENTRY(pTable, pEntry->CurrTxRateIndex);
+
+	/*  Set new rate */
+#ifdef CONFIG_AP_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+    1328:	e7d03006 	ldrb	r3, [r0, r6]
+#ifdef NEW_RATE_ADAPT_SUPPORT
+	if (ADAPT_RATE_TABLE(pTable))
+		pNextTxRate = (RTMP_RA_LEGACY_TB *)PTX_RA_GRP_ENTRY(pTable, pEntry->CurrTxRateIndex);
+	else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+		pNextTxRate = PTX_RA_LEGACY_ENTRY(pTable, pEntry->CurrTxRateIndex);
+    132c:	e287c001 	add	ip, r7, #1
+    1330:	e5917548 	ldr	r7, [r1, #1352]	; 0x548
+
+	/*  Set new rate */
+#ifdef CONFIG_AP_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+    1334:	e3530001 	cmp	r3, #1
+#ifdef NEW_RATE_ADAPT_SUPPORT
+	if (ADAPT_RATE_TABLE(pTable))
+		pNextTxRate = (RTMP_RA_LEGACY_TB *)PTX_RA_GRP_ENTRY(pTable, pEntry->CurrTxRateIndex);
+	else
+#endif /* NEW_RATE_ADAPT_SUPPORT */
+		pNextTxRate = PTX_RA_LEGACY_ENTRY(pTable, pEntry->CurrTxRateIndex);
+    1338:	e08c210c 	add	r2, ip, ip, lsl #2
+    133c:	e0877002 	add	r7, r7, r2
+
+	/*  Set new rate */
+#ifdef CONFIG_AP_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+    1340:	0a000018 	beq	13a8 <MlmeNewTxRate+0x98>
+	{
+		APMlmeSetTxRate(pAd, pEntry, pNextTxRate);
+	}
+#endif /*  CONFIG_AP_SUPPORT */
+#ifdef CONFIG_STA_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
+    1344:	e3530000 	cmp	r3, #0
+    1348:	0a000011 	beq	1394 <MlmeNewTxRate+0x84>
+	}
+#endif /*  CONFIG_STA_SUPPORT */
+
+#ifdef DOT11_N_SUPPORT
+	/*  Disable invalid HT Duplicate modes to prevent PHY error */
+	if (pEntry->HTPhyMode.field.MCS==32)
+    134c:	e5d435ec 	ldrb	r3, [r4, #1516]	; 0x5ec
+    1350:	e203007f 	and	r0, r3, #127	; 0x7f
+    1354:	e3500020 	cmp	r0, #32
+    1358:	1a000007 	bne	137c <MlmeNewTxRate+0x6c>
+	{
+		if ((pEntry->HTPhyMode.field.BW!=BW_40) && (pEntry->HTPhyMode.field.BW!=BW_80))
+    135c:	e2032080 	and	r2, r3, #128	; 0x80
+    1360:	e6ef1072 	uxtb	r1, r2
+    1364:	e3510000 	cmp	r1, #0
+			pEntry->HTPhyMode.field.MCS = 0;
+    1368:	07c63011 	bfieq	r3, r1, #0, #7
+    136c:	05c435ec 	strbeq	r3, [r4, #1516]	; 0x5ec
+		else
+			pEntry->HTPhyMode.field.STBC = 0;
+    1370:	15d435ed 	ldrbne	r3, [r4, #1517]	; 0x5ed
+    1374:	17c2309f 	bfcne	r3, #1, #2
+    1378:	15c435ed 	strbne	r3, [r4, #1517]	; 0x5ed
+#ifdef TXBF_SUPPORT
+	if (pAd->chipCap.FlgHwTxBfCap)
+		txbf_rate_adjust(pAd, pEntry);
+#endif /*  TXBF_SUPPORT */
+
+	pAd->LastTxRate = (USHORT)(pEntry->HTPhyMode.word);
+    137c:	e30005ec 	movw	r0, #1516	; 0x5ec
+    1380:	e30c3fc4 	movw	r3, #53188	; 0xcfc4
+    1384:	e194c0b0 	ldrh	ip, [r4, r0]
+    1388:	e3403017 	movt	r3, #23
+    138c:	e785c003 	str	ip, [r5, r3]
+
+		/*  Update Stream Mode control reg */
+		RTMP_IO_WRITE32(pAd, pEntry->StreamModeMACReg+4, streamWord | (ULONG)(pEntry->Addr[4]) | (ULONG)(pEntry->Addr[5] << 8));
+	}
+#endif /* STREAM_MODE_SUPPORT */
+}
+    1390:	e8bd80f8 	pop	{r3, r4, r5, r6, r7, pc}
+	}
+#endif /*  CONFIG_AP_SUPPORT */
+#ifdef CONFIG_STA_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_STA(pAd)
+	{
+		MlmeSetTxRate(pAd, pEntry, pNextTxRate);
+    1394:	e1a00005 	mov	r0, r5
+    1398:	e1a01004 	mov	r1, r4
+    139c:	e1a02007 	mov	r2, r7
+    13a0:	ebfffffe 	bl	3d4 <MlmeSetTxRate>
+    13a4:	eaffffe8 	b	134c <MlmeNewTxRate+0x3c>
+
+	/*  Set new rate */
+#ifdef CONFIG_AP_SUPPORT
+	IF_DEV_CONFIG_OPMODE_ON_AP(pAd)
+	{
+		APMlmeSetTxRate(pAd, pEntry, pNextTxRate);
+    13a8:	e1a02007 	mov	r2, r7
+    13ac:	ebfffffe 	bl	250 <APMlmeSetTxRate>
+    13b0:	e7d53006 	ldrb	r3, [r5, r6]
+    13b4:	eaffffe2 	b	1344 <MlmeNewTxRate+0x34>
+
+000013b8 <RTMPSetSupportMCS>:
+	IN UCHAR vht_cap_len,
+	IN VHT_CAP_IE *vht_cap,
+#endif /* DOT11_VHT_AC */
+	IN HT_CAPABILITY_IE *pHtCapability,
+	IN UCHAR HtCapabilityLen)
+{
+    13b8:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+    13bc:	e24dd01c 	sub	sp, sp, #28
+    13c0:	e1a0a000 	mov	sl, r0
+    13c4:	e1a06001 	mov	r6, r1
+    13c8:	e5dd5040 	ldrb	r5, [sp, #64]	; 0x40
+    13cc:	e1a04002 	mov	r4, r2
+    13d0:	e59d9044 	ldr	r9, [sp, #68]	; 0x44
+	UCHAR idx, SupportedRatesLen = 0;
+	UCHAR SupportedRates[MAX_LEN_OF_SUPPORTED_RATES];
+
+	if (SupRateLen > 0)
+    13d4:	e3550000 	cmp	r5, #0
+	IN UCHAR vht_cap_len,
+	IN VHT_CAP_IE *vht_cap,
+#endif /* DOT11_VHT_AC */
+	IN HT_CAPABILITY_IE *pHtCapability,
+	IN UCHAR HtCapabilityLen)
+{
+    13d8:	e5dd8048 	ldrb	r8, [sp, #72]	; 0x48
+    13dc:	e59db04c 	ldr	fp, [sp, #76]	; 0x4c
+	UCHAR idx, SupportedRatesLen = 0;
+    13e0:	01a07005 	moveq	r7, r5
+	UCHAR SupportedRates[MAX_LEN_OF_SUPPORTED_RATES];
+
+	if (SupRateLen > 0)
+    13e4:	0a000016 	beq	1444 <RTMPSetSupportMCS+0x8c>
+	{
+		if (SupRateLen <= MAX_LEN_OF_SUPPORTED_RATES)
+    13e8:	e355000c 	cmp	r5, #12
+    13ec:	9a0000ef 	bls	17b0 <RTMPSetSupportMCS+0x3f8>
+			NdisMoveMemory(SupportedRates, SupRate, SupRateLen);
+			SupportedRatesLen = SupRateLen;
+		}
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+    13f0:	e3003000 	movw	r3, #0
+    13f4:	e3403000 	movt	r3, #0
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+			SupportedRatesLen = 8;
+			
+			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
+    13f8:	e3002000 	movw	r2, #0
+    13fc:	e3402000 	movt	r2, #0
+			NdisMoveMemory(SupportedRates, SupRate, SupRateLen);
+			SupportedRatesLen = SupRateLen;
+		}
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+    1400:	e5930000 	ldr	r0, [r3]
+    1404:	e28d7010 	add	r7, sp, #16
+    1408:	e5931004 	ldr	r1, [r3, #4]
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+    140c:	e28de004 	add	lr, sp, #4
+			SupportedRatesLen = 8;
+			
+			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
+    1410:	e592c000 	ldr	ip, [r2]
+		}
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+    1414:	e28d2018 	add	r2, sp, #24
+			NdisMoveMemory(SupportedRates, SupRate, SupRateLen);
+			SupportedRatesLen = SupRateLen;
+		}
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+    1418:	e8a70003 	stmia	r7!, {r0, r1}
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+			SupportedRatesLen = 8;
+			
+			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
+    141c:	e35c0002 	cmp	ip, #2
+		}
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+    1420:	e9120003 	ldmdb	r2, {r0, r1}
+    1424:	e88e0003 	stm	lr, {r0, r1}
+			SupportedRatesLen = 8;
+			
+			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
+    1428:	9a000004 	bls	1440 <RTMPSetSupportMCS+0x88>
+    142c:	e3001000 	movw	r1, #0
+    1430:	e3401000 	movt	r1, #0
+    1434:	e5910000 	ldr	r0, [r1]
+    1438:	e3500000 	cmp	r0, #0
+    143c:	0a00019e 	beq	1abc <RTMPSetSupportMCS+0x704>
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+			SupportedRatesLen = 8;
+    1440:	e3a07008 	mov	r7, #8
+			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
+							__FUNCTION__, SupRateLen));
+		}
+	}
+
+	if (ExtRateLen > 0)
+    1444:	e3580000 	cmp	r8, #0
+    1448:	0a000009 	beq	1474 <RTMPSetSupportMCS+0xbc>
+	{
+		if ((SupRateLen + ExtRateLen) <= MAX_LEN_OF_SUPPORTED_RATES)
+    144c:	e0853008 	add	r3, r5, r8
+    1450:	e353000c 	cmp	r3, #12
+    1454:	ca0000b5 	bgt	1730 <RTMPSetSupportMCS+0x378>
+		{
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, ExtRateLen);
+    1458:	e28de004 	add	lr, sp, #4
+    145c:	e1a01009 	mov	r1, r9
+    1460:	e08e0005 	add	r0, lr, r5
+    1464:	e1a02008 	mov	r2, r8
+    1468:	ebfffffe 	bl	0 <memcpy>
+			SupportedRatesLen += ExtRateLen;
+    146c:	e0875008 	add	r5, r7, r8
+    1470:	e6ef7075 	uxtb	r7, r5
+
+		}
+	}
+
+	/* Clear Supported MCS Table */
+	NdisZeroMemory(pEntry->SupportCCKMCS, MAX_LEN_OF_CCK_RATES);
+    1474:	e2845d32 	add	r5, r4, #3200	; 0xc80
+    1478:	e3a01004 	mov	r1, #4
+    147c:	e2850006 	add	r0, r5, #6
+    1480:	ebfffffe 	bl	0 <__memzero>
+	NdisZeroMemory(pEntry->SupportOFDMMCS, MAX_LEN_OF_OFDM_RATES);
+    1484:	e285000a 	add	r0, r5, #10
+    1488:	e3a01008 	mov	r1, #8
+    148c:	ebfffffe 	bl	0 <__memzero>
+	NdisZeroMemory(pEntry->SupportHTMCS, MAX_LEN_OF_HT_RATES);
+    1490:	e284cec9 	add	ip, r4, #3216	; 0xc90
+    1494:	e3a01018 	mov	r1, #24
+    1498:	e28c0002 	add	r0, ip, #2
+    149c:	ebfffffe 	bl	0 <__memzero>
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    14a0:	e3570000 	cmp	r7, #0
+	NdisZeroMemory(pEntry->SupportHTMCS, MAX_LEN_OF_HT_RATES);
+#ifdef DOT11_VHT_AC
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+    14a4:	e3a01000 	mov	r1, #0
+    14a8:	e5c41c85 	strb	r1, [r4, #3205]	; 0xc85
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    14ac:	0a000050 	beq	15f4 <RTMPSetSupportMCS+0x23c>
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    14b0:	e5dd3004 	ldrb	r3, [sp, #4]
+    14b4:	e247e001 	sub	lr, r7, #1
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+    14b8:	e3a01001 	mov	r1, #1
+    14bc:	e00e2001 	and	r2, lr, r1
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    14c0:	e203007f 	and	r0, r3, #127	; 0x7f
+    14c4:	e0803100 	add	r3, r0, r0, lsl #2
+    14c8:	e353006e 	cmp	r3, #110	; 0x6e
+    14cc:	0a0000b2 	beq	179c <RTMPSetSupportMCS+0x3e4>
+    14d0:	da00007c 	ble	16c8 <RTMPSetSupportMCS+0x310>
+    14d4:	e35300f0 	cmp	r3, #240	; 0xf0
+    14d8:	0a000168 	beq	1a80 <RTMPSetSupportMCS+0x6c8>
+    14dc:	ca0000be 	bgt	17dc <RTMPSetSupportMCS+0x424>
+    14e0:	e3530078 	cmp	r3, #120	; 0x78
+    14e4:	0a000151 	beq	1a30 <RTMPSetSupportMCS+0x678>
+    14e8:	e35300b4 	cmp	r3, #180	; 0xb4
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 180:
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    14ec:	05d43c85 	ldrbeq	r3, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 180:
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+    14f0:	05c41c8d 	strbeq	r1, [r4, #3213]	; 0xc8d
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    14f4:	0383c002 	orreq	ip, r3, #2
+    14f8:	05c4cc85 	strbeq	ip, [r4, #3205]	; 0xc85
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    14fc:	e3a03001 	mov	r3, #1
+    1500:	e1530007 	cmp	r3, r7
+    1504:	2a00003a 	bcs	15f4 <RTMPSetSupportMCS+0x23c>
+    1508:	e3520000 	cmp	r2, #0
+    150c:	0a000015 	beq	1568 <RTMPSetSupportMCS+0x1b0>
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1510:	e5dd0005 	ldrb	r0, [sp, #5]
+    1514:	e200207f 	and	r2, r0, #127	; 0x7f
+    1518:	e0822102 	add	r2, r2, r2, lsl #2
+    151c:	e352006e 	cmp	r2, #110	; 0x6e
+    1520:	0a0000a8 	beq	17c8 <RTMPSetSupportMCS+0x410>
+    1524:	da0000be 	ble	1824 <RTMPSetSupportMCS+0x46c>
+    1528:	e35200f0 	cmp	r2, #240	; 0xf0
+    152c:	0a000112 	beq	197c <RTMPSetSupportMCS+0x5c4>
+    1530:	da0000d1 	ble	187c <RTMPSetSupportMCS+0x4c4>
+    1534:	e3520e1e 	cmp	r2, #480	; 0x1e0
+    1538:	0a0000fb 	beq	192c <RTMPSetSupportMCS+0x574>
+    153c:	e3520f87 	cmp	r2, #540	; 0x21c
+    1540:	0a0000f4 	beq	1918 <RTMPSetSupportMCS+0x560>
+    1544:	e3520f5a 	cmp	r2, #360	; 0x168
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 360:
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1548:	05d4cc85 	ldrbeq	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 360:
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+    154c:	05c41c8f 	strbeq	r1, [r4, #3215]	; 0xc8f
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1550:	038c2002 	orreq	r2, ip, #2
+    1554:	05c42c85 	strbeq	r2, [r4, #3205]	; 0xc85
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    1558:	e2833001 	add	r3, r3, #1
+    155c:	e6ef3073 	uxtb	r3, r3
+    1560:	e1530007 	cmp	r3, r7
+    1564:	2a000022 	bcs	15f4 <RTMPSetSupportMCS+0x23c>
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1568:	e28dc018 	add	ip, sp, #24
+    156c:	e08ce003 	add	lr, ip, r3
+    1570:	e55e0014 	ldrb	r0, [lr, #-20]	; 0xffffffec
+    1574:	e200207f 	and	r2, r0, #127	; 0x7f
+    1578:	e0822102 	add	r2, r2, r2, lsl #2
+    157c:	e352006e 	cmp	r2, #110	; 0x6e
+    1580:	0a000125 	beq	1a1c <RTMPSetSupportMCS+0x664>
+    1584:	ca0000b1 	bgt	1850 <RTMPSetSupportMCS+0x498>
+    1588:	e3520037 	cmp	r2, #55	; 0x37
+    158c:	0a0000ff 	beq	1990 <RTMPSetSupportMCS+0x5d8>
+    1590:	ca0000c9 	bgt	18bc <RTMPSetSupportMCS+0x504>
+    1594:	e352000a 	cmp	r2, #10
+    1598:	0a00011a 	beq	1a08 <RTMPSetSupportMCS+0x650>
+    159c:	e3520014 	cmp	r2, #20
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 20:
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    15a0:	05d4cc85 	ldrbeq	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 20:
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+    15a4:	05c41c87 	strbeq	r1, [r4, #3207]	; 0xc87
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    15a8:	038ce001 	orreq	lr, ip, #1
+    15ac:	05c4ec85 	strbeq	lr, [r4, #3205]	; 0xc85
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    15b0:	e2833001 	add	r3, r3, #1
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    15b4:	e28dc018 	add	ip, sp, #24
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    15b8:	e6ef3073 	uxtb	r3, r3
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    15bc:	e08ce003 	add	lr, ip, r3
+    15c0:	e55e0014 	ldrb	r0, [lr, #-20]	; 0xffffffec
+    15c4:	e200207f 	and	r2, r0, #127	; 0x7f
+    15c8:	e0822102 	add	r2, r2, r2, lsl #2
+    15cc:	e352006e 	cmp	r2, #110	; 0x6e
+    15d0:	1affffd3 	bne	1524 <RTMPSetSupportMCS+0x16c>
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    15d4:	e2833001 	add	r3, r3, #1
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    15d8:	e5d4cc85 	ldrb	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+    15dc:	e5c41c89 	strb	r1, [r4, #3209]	; 0xc89
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    15e0:	e6ef3073 	uxtb	r3, r3
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    15e4:	e38c2001 	orr	r2, ip, #1
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    15e8:	e1530007 	cmp	r3, r7
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    15ec:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+    15f0:	3affffdc 	bcc	1568 <RTMPSetSupportMCS+0x1b0>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+		}	
+	}
+
+	if (HtCapabilityLen)
+    15f4:	e5dd1050 	ldrb	r1, [sp, #80]	; 0x50
+    15f8:	e3510000 	cmp	r1, #0
+    15fc:	0a00002f 	beq	16c0 <RTMPSetSupportMCS+0x308>
+		RT_PHY_INFO *pDesired_ht_phy = NULL;
+		UCHAR j, bitmask;
+		CHAR i;
+
+#ifdef CONFIG_STA_SUPPORT
+		if (OpMode == OPMODE_STA)
+    1600:	e3560000 	cmp	r6, #0
+			pDesired_ht_phy = &pAd->StaCfg.DesiredHtPhyInfo;
+    1604:	030ac544 	movweq	ip, #42308	; 0xa544
+    1608:	0340c00a 	movteq	ip, #10
+    160c:	008ac00c 	addeq	ip, sl, ip
+		RT_PHY_INFO *pDesired_ht_phy = NULL;
+		UCHAR j, bitmask;
+		CHAR i;
+
+#ifdef CONFIG_STA_SUPPORT
+		if (OpMode == OPMODE_STA)
+    1610:	1a000037 	bne	16f4 <RTMPSetSupportMCS+0x33c>
+#endif /* APCLI_SUPPORT */
+				pDesired_ht_phy = &pAd->ApCfg.MBSSID[pEntry->apidx].DesiredHtPhyInfo;
+		}
+#endif /* CONFIG_AP_SUPPORT */
+
+		if (pDesired_ht_phy == NULL)
+    1614:	e35c0000 	cmp	ip, #0
+    1618:	0a000028 	beq	16c0 <RTMPSetSupportMCS+0x308>
+    161c:	e1a05004 	mov	r5, r4
+    1620:	e3a09017 	mov	r9, #23
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    1624:	e3a00001 	mov	r0, #1
+		if (pDesired_ht_phy == NULL)
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+    1628:	e7a411d9 	sbfx	r1, r9, #3, #5
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+				&& (pHtCapability->MCSSet[j] & bitmask))
+			{
+				pEntry->SupportHTMCS[i] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_HT_MODE;
+    162c:	e2493001 	sub	r3, r9, #1
+		if (pDesired_ht_phy == NULL)
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+    1630:	e7a471d3 	sbfx	r7, r3, #3, #5
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+				&& (pHtCapability->MCSSet[j] & bitmask))
+			{
+				pEntry->SupportHTMCS[i] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_HT_MODE;
+    1634:	e2456001 	sub	r6, r5, #1
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    1638:	e6ef2071 	uxtb	r2, r1
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+    163c:	e08c8002 	add	r8, ip, r2
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    1640:	e6ef1077 	uxtb	r1, r7
+    1644:	e049a182 	sub	sl, r9, r2, lsl #3
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+    1648:	e08c7001 	add	r7, ip, r1
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    164c:	e1a09a10 	lsl	r9, r0, sl
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+    1650:	e5d88002 	ldrb	r8, [r8, #2]
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    1654:	e043e181 	sub	lr, r3, r1, lsl #3
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+				&& (pHtCapability->MCSSet[j] & bitmask))
+    1658:	e08b2002 	add	r2, fp, r2
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    165c:	e6ef9079 	uxtb	r9, r9
+    1660:	e1a0ae10 	lsl	sl, r0, lr
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+    1664:	e1190008 	tst	r9, r8
+			return;
+
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+    1668:	e6efa07a 	uxtb	sl, sl
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+    166c:	0a000005 	beq	1688 <RTMPSetSupportMCS+0x2d0>
+				&& (pHtCapability->MCSSet[j] & bitmask))
+    1670:	e5d2e003 	ldrb	lr, [r2, #3]
+    1674:	e119000e 	tst	r9, lr
+			{
+				pEntry->SupportHTMCS[i] = TRUE;
+    1678:	15c50ca9 	strbne	r0, [r5, #3241]	; 0xca9
+				pEntry->SupportRateMode |= SUPPORT_HT_MODE;
+    167c:	15d4ec85 	ldrbne	lr, [r4, #3205]	; 0xc85
+    1680:	138ee004 	orrne	lr, lr, #4
+    1684:	15c4ec85 	strbne	lr, [r4, #3205]	; 0xc85
+		for (i = 23; i >= 0; i--)
+		{
+			j = i / 8;
+			bitmask = (1 << (i - (j * 8)));
+
+			if ((pDesired_ht_phy->MCSSet[j] & bitmask)
+    1688:	e5d75002 	ldrb	r5, [r7, #2]
+    168c:	e11a0005 	tst	sl, r5
+    1690:	0a000006 	beq	16b0 <RTMPSetSupportMCS+0x2f8>
+				&& (pHtCapability->MCSSet[j] & bitmask))
+    1694:	e08b2001 	add	r2, fp, r1
+    1698:	e5d29003 	ldrb	r9, [r2, #3]
+    169c:	e11a0009 	tst	sl, r9
+			{
+				pEntry->SupportHTMCS[i] = TRUE;
+    16a0:	15c60ca9 	strbne	r0, [r6, #3241]	; 0xca9
+				pEntry->SupportRateMode |= SUPPORT_HT_MODE;
+    16a4:	15d49c85 	ldrbne	r9, [r4, #3205]	; 0xc85
+    16a8:	13899004 	orrne	r9, r9, #4
+    16ac:	15c49c85 	strbne	r9, [r4, #3205]	; 0xc85
+    16b0:	e2439001 	sub	r9, r3, #1
+    16b4:	e2465001 	sub	r5, r6, #1
+#endif /* CONFIG_AP_SUPPORT */
+
+		if (pDesired_ht_phy == NULL)
+			return;
+
+		for (i = 23; i >= 0; i--)
+    16b8:	e3790001 	cmn	r9, #1
+    16bc:	1affffd9 	bne	1628 <RTMPSetSupportMCS+0x270>
+					break;
+			}
+		}
+#endif /* DOT11_VHT_AC */
+	}
+}
+    16c0:	e28dd01c 	add	sp, sp, #28
+    16c4:	e8bd8ff0 	pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    16c8:	e3530037 	cmp	r3, #55	; 0x37
+    16cc:	0a0000dc 	beq	1a44 <RTMPSetSupportMCS+0x68c>
+    16d0:	da00004b 	ble	1804 <RTMPSetSupportMCS+0x44c>
+    16d4:	e353003c 	cmp	r3, #60	; 0x3c
+    16d8:	0a0000e3 	beq	1a6c <RTMPSetSupportMCS+0x6b4>
+    16dc:	e353005a 	cmp	r3, #90	; 0x5a
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 90:
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    16e0:	05d4ec85 	ldrbeq	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 90:
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+    16e4:	05c41c8b 	strbeq	r1, [r4, #3211]	; 0xc8b
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    16e8:	038e0002 	orreq	r0, lr, #2
+    16ec:	05c40c85 	strbeq	r0, [r4, #3205]	; 0xc85
+    16f0:	eaffff81 	b	14fc <RTMPSetSupportMCS+0x144>
+		if (OpMode == OPMODE_STA)
+			pDesired_ht_phy = &pAd->StaCfg.DesiredHtPhyInfo;
+#endif /* CONFIG_STA_SUPPORT */
+
+#ifdef CONFIG_AP_SUPPORT
+		if (OpMode == OPMODE_AP)
+    16f4:	e3560001 	cmp	r6, #1
+    16f8:	1afffff0 	bne	16c0 <RTMPSetSupportMCS+0x308>
+		{
+#ifdef APCLI_SUPPORT
+			if (IS_ENTRY_APCLI(pEntry))
+    16fc:	e594e000 	ldr	lr, [r4]
+				pDesired_ht_phy = &pAd->ApCfg.ApCliTab[pEntry->apidx].DesiredHtPhyInfo;
+    1700:	e5d40207 	ldrb	r0, [r4, #519]	; 0x207
+
+#ifdef CONFIG_AP_SUPPORT
+		if (OpMode == OPMODE_AP)
+		{
+#ifdef APCLI_SUPPORT
+			if (IS_ENTRY_APCLI(pEntry))
+    1704:	e35e0003 	cmp	lr, #3
+				pDesired_ht_phy = &pAd->ApCfg.ApCliTab[pEntry->apidx].DesiredHtPhyInfo;
+			else
+#endif /* APCLI_SUPPORT */
+				pDesired_ht_phy = &pAd->ApCfg.MBSSID[pEntry->apidx].DesiredHtPhyInfo;
+    1708:	1303c5e0 	movwne	ip, #13792	; 0x35e0
+#ifdef CONFIG_AP_SUPPORT
+		if (OpMode == OPMODE_AP)
+		{
+#ifdef APCLI_SUPPORT
+			if (IS_ENTRY_APCLI(pEntry))
+				pDesired_ht_phy = &pAd->ApCfg.ApCliTab[pEntry->apidx].DesiredHtPhyInfo;
+    170c:	030323b0 	movweq	r2, #13232	; 0x33b0
+			else
+#endif /* APCLI_SUPPORT */
+				pDesired_ht_phy = &pAd->ApCfg.MBSSID[pEntry->apidx].DesiredHtPhyInfo;
+    1710:	102ca09c 	mlane	ip, ip, r0, sl
+#ifdef CONFIG_AP_SUPPORT
+		if (OpMode == OPMODE_AP)
+		{
+#ifdef APCLI_SUPPORT
+			if (IS_ENTRY_APCLI(pEntry))
+				pDesired_ht_phy = &pAd->ApCfg.ApCliTab[pEntry->apidx].DesiredHtPhyInfo;
+    1714:	0309cd7a 	movweq	ip, #40314	; 0x9d7a
+    1718:	002aa092 	mlaeq	sl, r2, r0, sl
+    171c:	0340c003 	movteq	ip, #3
+			else
+#endif /* APCLI_SUPPORT */
+				pDesired_ht_phy = &pAd->ApCfg.MBSSID[pEntry->apidx].DesiredHtPhyInfo;
+    1720:	128ccd52 	addne	ip, ip, #5248	; 0x1480
+    1724:	128cc016 	addne	ip, ip, #22
+#ifdef CONFIG_AP_SUPPORT
+		if (OpMode == OPMODE_AP)
+		{
+#ifdef APCLI_SUPPORT
+			if (IS_ENTRY_APCLI(pEntry))
+				pDesired_ht_phy = &pAd->ApCfg.ApCliTab[pEntry->apidx].DesiredHtPhyInfo;
+    1728:	008ac00c 	addeq	ip, sl, ip
+    172c:	eaffffb8 	b	1614 <RTMPSetSupportMCS+0x25c>
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, ExtRateLen);
+			SupportedRatesLen += ExtRateLen;
+		}
+		else
+		{
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, MAX_LEN_OF_SUPPORTED_RATES - ExtRateLen);
+    1730:	e28d7004 	add	r7, sp, #4
+    1734:	e268200c 	rsb	r2, r8, #12
+    1738:	e1a01009 	mov	r1, r9
+
+		}
+	}
+
+	/* Clear Supported MCS Table */
+	NdisZeroMemory(pEntry->SupportCCKMCS, MAX_LEN_OF_CCK_RATES);
+    173c:	e2848d32 	add	r8, r4, #3200	; 0xc80
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, ExtRateLen);
+			SupportedRatesLen += ExtRateLen;
+		}
+		else
+		{
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, MAX_LEN_OF_SUPPORTED_RATES - ExtRateLen);
+    1740:	e0870005 	add	r0, r7, r5
+			SupportedRatesLen = MAX_LEN_OF_SUPPORTED_RATES;
+    1744:	e3a0700c 	mov	r7, #12
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, ExtRateLen);
+			SupportedRatesLen += ExtRateLen;
+		}
+		else
+		{
+			NdisMoveMemory(&SupportedRates[SupRateLen], ExtRate, MAX_LEN_OF_SUPPORTED_RATES - ExtRateLen);
+    1748:	ebfffffe 	bl	0 <memcpy>
+
+		}
+	}
+
+	/* Clear Supported MCS Table */
+	NdisZeroMemory(pEntry->SupportCCKMCS, MAX_LEN_OF_CCK_RATES);
+    174c:	e2880006 	add	r0, r8, #6
+    1750:	e3a01004 	mov	r1, #4
+    1754:	ebfffffe 	bl	0 <__memzero>
+	NdisZeroMemory(pEntry->SupportOFDMMCS, MAX_LEN_OF_OFDM_RATES);
+    1758:	e288000a 	add	r0, r8, #10
+    175c:	e3a01008 	mov	r1, #8
+    1760:	ebfffffe 	bl	0 <__memzero>
+	NdisZeroMemory(pEntry->SupportHTMCS, MAX_LEN_OF_HT_RATES);
+    1764:	e2842ec9 	add	r2, r4, #3216	; 0xc90
+    1768:	e2820002 	add	r0, r2, #2
+    176c:	e3a01018 	mov	r1, #24
+    1770:	ebfffffe 	bl	0 <__memzero>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1774:	e5dd3004 	ldrb	r3, [sp, #4]
+    1778:	e247e001 	sub	lr, r7, #1
+	NdisZeroMemory(pEntry->SupportHTMCS, MAX_LEN_OF_HT_RATES);
+#ifdef DOT11_VHT_AC
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+    177c:	e3a0c000 	mov	ip, #0
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1780:	e203007f 	and	r0, r3, #127	; 0x7f
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+    1784:	e3a01001 	mov	r1, #1
+	NdisZeroMemory(pEntry->SupportHTMCS, MAX_LEN_OF_HT_RATES);
+#ifdef DOT11_VHT_AC
+	NdisZeroMemory(pEntry->SupportVHTMCS, MAX_LEN_OF_VHT_RATES);
+#endif /* DOT11_VHT_AC */
+
+	pEntry->SupportRateMode = 0;
+    1788:	e5c4cc85 	strb	ip, [r4, #3205]	; 0xc85
+    178c:	e00e2001 	and	r2, lr, r1
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1790:	e0803100 	add	r3, r0, r0, lsl #2
+    1794:	e353006e 	cmp	r3, #110	; 0x6e
+    1798:	1affff4c 	bne	14d0 <RTMPSetSupportMCS+0x118>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    179c:	e5d43c85 	ldrb	r3, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+    17a0:	e5c41c89 	strb	r1, [r4, #3209]	; 0xc89
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    17a4:	e383c001 	orr	ip, r3, #1
+    17a8:	e5c4cc85 	strb	ip, [r4, #3205]	; 0xc85
+    17ac:	eaffff52 	b	14fc <RTMPSetSupportMCS+0x144>
+
+	if (SupRateLen > 0)
+	{
+		if (SupRateLen <= MAX_LEN_OF_SUPPORTED_RATES)
+		{
+			NdisMoveMemory(SupportedRates, SupRate, SupRateLen);
+    17b0:	e28d0004 	add	r0, sp, #4
+    17b4:	e1a01003 	mov	r1, r3
+    17b8:	e1a02005 	mov	r2, r5
+    17bc:	e1a07005 	mov	r7, r5
+    17c0:	ebfffffe 	bl	0 <memcpy>
+    17c4:	eaffff1e 	b	1444 <RTMPSetSupportMCS+0x8c>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    17c8:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+    17cc:	e5c41c89 	strb	r1, [r4, #3209]	; 0xc89
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    17d0:	e18e2003 	orr	r2, lr, r3
+    17d4:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    17d8:	eaffff5e 	b	1558 <RTMPSetSupportMCS+0x1a0>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    17dc:	e3530e1e 	cmp	r3, #480	; 0x1e0
+    17e0:	0a0000b0 	beq	1aa8 <RTMPSetSupportMCS+0x6f0>
+    17e4:	e3530f87 	cmp	r3, #540	; 0x21c
+    17e8:	0a0000a9 	beq	1a94 <RTMPSetSupportMCS+0x6dc>
+    17ec:	e3530f5a 	cmp	r3, #360	; 0x168
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 360:
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    17f0:	05d43c85 	ldrbeq	r3, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 360:
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+    17f4:	05c41c8f 	strbeq	r1, [r4, #3215]	; 0xc8f
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    17f8:	0383c002 	orreq	ip, r3, #2
+    17fc:	05c4cc85 	strbeq	ip, [r4, #3205]	; 0xc85
+    1800:	eaffff3d 	b	14fc <RTMPSetSupportMCS+0x144>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1804:	e353000a 	cmp	r3, #10
+    1808:	0a000092 	beq	1a58 <RTMPSetSupportMCS+0x6a0>
+    180c:	e3530014 	cmp	r3, #20
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 20:
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+    1810:	05c41c87 	strbeq	r1, [r4, #3207]	; 0xc87
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1814:	05d43c85 	ldrbeq	r3, [r4, #3205]	; 0xc85
+    1818:	03833001 	orreq	r3, r3, #1
+    181c:	05c43c85 	strbeq	r3, [r4, #3205]	; 0xc85
+    1820:	eaffff35 	b	14fc <RTMPSetSupportMCS+0x144>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1824:	e3520037 	cmp	r2, #55	; 0x37
+    1828:	0a000049 	beq	1954 <RTMPSetSupportMCS+0x59c>
+    182c:	da00001a 	ble	189c <RTMPSetSupportMCS+0x4e4>
+    1830:	e352003c 	cmp	r2, #60	; 0x3c
+    1834:	0a000041 	beq	1940 <RTMPSetSupportMCS+0x588>
+    1838:	e352005a 	cmp	r2, #90	; 0x5a
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 90:
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    183c:	05d42c85 	ldrbeq	r2, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 90:
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+    1840:	05c41c8b 	strbeq	r1, [r4, #3211]	; 0xc8b
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1844:	03822002 	orreq	r2, r2, #2
+    1848:	05c42c85 	strbeq	r2, [r4, #3205]	; 0xc85
+    184c:	eaffff41 	b	1558 <RTMPSetSupportMCS+0x1a0>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    1850:	e35200f0 	cmp	r2, #240	; 0xf0
+    1854:	0a000057 	beq	19b8 <RTMPSetSupportMCS+0x600>
+    1858:	ca00001f 	bgt	18dc <RTMPSetSupportMCS+0x524>
+    185c:	e3520078 	cmp	r2, #120	; 0x78
+    1860:	0a00004f 	beq	19a4 <RTMPSetSupportMCS+0x5ec>
+    1864:	e35200b4 	cmp	r2, #180	; 0xb4
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 180:
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1868:	05d4cc85 	ldrbeq	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 180:
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+    186c:	05c41c8d 	strbeq	r1, [r4, #3213]	; 0xc8d
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1870:	038ce002 	orreq	lr, ip, #2
+    1874:	05c4ec85 	strbeq	lr, [r4, #3205]	; 0xc85
+				break;
+    1878:	eaffff4c 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    187c:	e3520078 	cmp	r2, #120	; 0x78
+    1880:	0a000038 	beq	1968 <RTMPSetSupportMCS+0x5b0>
+    1884:	e35200b4 	cmp	r2, #180	; 0xb4
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 180:
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1888:	05d40c85 	ldrbeq	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 180:
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+    188c:	05c41c8d 	strbeq	r1, [r4, #3213]	; 0xc8d
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1890:	03802002 	orreq	r2, r0, #2
+    1894:	05c42c85 	strbeq	r2, [r4, #3205]	; 0xc85
+    1898:	eaffff2e 	b	1558 <RTMPSetSupportMCS+0x1a0>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    189c:	e352000a 	cmp	r2, #10
+    18a0:	0a000017 	beq	1904 <RTMPSetSupportMCS+0x54c>
+    18a4:	e3520014 	cmp	r2, #20
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 20:
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+    18a8:	05c41c87 	strbeq	r1, [r4, #3207]	; 0xc87
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    18ac:	05d42c85 	ldrbeq	r2, [r4, #3205]	; 0xc85
+    18b0:	03822001 	orreq	r2, r2, #1
+    18b4:	05c42c85 	strbeq	r2, [r4, #3205]	; 0xc85
+    18b8:	eaffff26 	b	1558 <RTMPSetSupportMCS+0x1a0>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    18bc:	e352003c 	cmp	r2, #60	; 0x3c
+    18c0:	0a000041 	beq	19cc <RTMPSetSupportMCS+0x614>
+    18c4:	e352005a 	cmp	r2, #90	; 0x5a
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 90:
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    18c8:	05d4cc85 	ldrbeq	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 90:
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+    18cc:	05c41c8b 	strbeq	r1, [r4, #3211]	; 0xc8b
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    18d0:	038ce002 	orreq	lr, ip, #2
+    18d4:	05c4ec85 	strbeq	lr, [r4, #3205]	; 0xc85
+				break;
+    18d8:	eaffff34 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+
+	pEntry->SupportRateMode = 0;
+
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+    18dc:	e3520e1e 	cmp	r2, #480	; 0x1e0
+    18e0:	0a000043 	beq	19f4 <RTMPSetSupportMCS+0x63c>
+    18e4:	e3520f87 	cmp	r2, #540	; 0x21c
+    18e8:	0a00003c 	beq	19e0 <RTMPSetSupportMCS+0x628>
+    18ec:	e3520f5a 	cmp	r2, #360	; 0x168
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 360:
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    18f0:	05d4cc85 	ldrbeq	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 360:
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+    18f4:	05c41c8f 	strbeq	r1, [r4, #3215]	; 0xc8f
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    18f8:	038ce002 	orreq	lr, ip, #2
+    18fc:	05c4ec85 	strbeq	lr, [r4, #3205]	; 0xc85
+				break;
+    1900:	eaffff2a 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+		{
+			case 10:
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1904:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+		{
+			case 10:
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+    1908:	e5c41c86 	strb	r1, [r4, #3206]	; 0xc86
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    190c:	e3802001 	orr	r2, r0, #1
+    1910:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    1914:	eaffff0f 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 540:
+				pEntry->SupportOFDMMCS[MCS_7] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1918:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 540:
+				pEntry->SupportOFDMMCS[MCS_7] = TRUE;
+    191c:	e5c41c91 	strb	r1, [r4, #3217]	; 0xc91
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1920:	e38e2002 	orr	r2, lr, #2
+    1924:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    1928:	eaffff0a 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 480:
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    192c:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 480:
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+    1930:	e5c41c90 	strb	r1, [r4, #3216]	; 0xc90
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1934:	e3802002 	orr	r2, r0, #2
+    1938:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    193c:	eaffff05 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 60:
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1940:	e5d4cc85 	ldrb	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 60:
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+    1944:	e5c41c8a 	strb	r1, [r4, #3210]	; 0xc8a
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1948:	e38c2002 	orr	r2, ip, #2
+    194c:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    1950:	eaffff00 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 55:
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1954:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 55:
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+    1958:	e5c41c88 	strb	r1, [r4, #3208]	; 0xc88
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    195c:	e38e2001 	orr	r2, lr, #1
+    1960:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    1964:	eafffefb 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 120:
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1968:	e5d42c85 	ldrb	r2, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 120:
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+    196c:	e5c41c8c 	strb	r1, [r4, #3212]	; 0xc8c
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1970:	e3822002 	orr	r2, r2, #2
+    1974:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    1978:	eafffef6 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 240:
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    197c:	e5d42c85 	ldrb	r2, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 240:
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+    1980:	e5c41c8e 	strb	r1, [r4, #3214]	; 0xc8e
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1984:	e3822002 	orr	r2, r2, #2
+    1988:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+    198c:	eafffef1 	b	1558 <RTMPSetSupportMCS+0x1a0>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 55:
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1990:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 55:
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+    1994:	e5c41c88 	strb	r1, [r4, #3208]	; 0xc88
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1998:	e3802001 	orr	r2, r0, #1
+    199c:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+				break;
+    19a0:	eaffff02 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 120:
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19a4:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 120:
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+    19a8:	e5c41c8c 	strb	r1, [r4, #3212]	; 0xc8c
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19ac:	e3802002 	orr	r2, r0, #2
+    19b0:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+				break;
+    19b4:	eafffefd 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 240:
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19b8:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 240:
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+    19bc:	e5c41c8e 	strb	r1, [r4, #3214]	; 0xc8e
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19c0:	e3802002 	orr	r2, r0, #2
+    19c4:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+				break;
+    19c8:	eafffef8 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 60:
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19cc:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 60:
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+    19d0:	e5c41c8a 	strb	r1, [r4, #3210]	; 0xc8a
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19d4:	e3802002 	orr	r2, r0, #2
+    19d8:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+				break;
+    19dc:	eafffef3 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 540:
+				pEntry->SupportOFDMMCS[MCS_7] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19e0:	e5d4cc85 	ldrb	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 540:
+				pEntry->SupportOFDMMCS[MCS_7] = TRUE;
+    19e4:	e5c41c91 	strb	r1, [r4, #3217]	; 0xc91
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19e8:	e38ce002 	orr	lr, ip, #2
+    19ec:	e5c4ec85 	strb	lr, [r4, #3205]	; 0xc85
+				break;
+    19f0:	eafffeee 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 480:
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19f4:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 480:
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+    19f8:	e5c41c90 	strb	r1, [r4, #3216]	; 0xc90
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    19fc:	e3802002 	orr	r2, r0, #2
+    1a00:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+				break;
+    1a04:	eafffee9 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+		{
+			case 10:
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a08:	e5d40c85 	ldrb	r0, [r4, #3205]	; 0xc85
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+		{
+			case 10:
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+    1a0c:	e5c41c86 	strb	r1, [r4, #3206]	; 0xc86
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a10:	e3802001 	orr	r2, r0, #1
+    1a14:	e5c42c85 	strb	r2, [r4, #3205]	; 0xc85
+				break;
+    1a18:	eafffee4 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a1c:	e5d4cc85 	ldrb	ip, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 110:
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+    1a20:	e5c41c89 	strb	r1, [r4, #3209]	; 0xc89
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a24:	e38ce001 	orr	lr, ip, #1
+    1a28:	e5c4ec85 	strb	lr, [r4, #3205]	; 0xc85
+				break;
+    1a2c:	eafffedf 	b	15b0 <RTMPSetSupportMCS+0x1f8>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 120:
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a30:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 120:
+				pEntry->SupportOFDMMCS[MCS_2] = TRUE;
+    1a34:	e5c41c8c 	strb	r1, [r4, #3212]	; 0xc8c
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a38:	e38e0002 	orr	r0, lr, #2
+    1a3c:	e5c40c85 	strb	r0, [r4, #3205]	; 0xc85
+    1a40:	eafffead 	b	14fc <RTMPSetSupportMCS+0x144>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 55:
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a44:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_1] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 55:
+				pEntry->SupportCCKMCS[MCS_2] = TRUE;
+    1a48:	e5c41c88 	strb	r1, [r4, #3208]	; 0xc88
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a4c:	e38e0001 	orr	r0, lr, #1
+    1a50:	e5c40c85 	strb	r0, [r4, #3205]	; 0xc85
+    1a54:	eafffea8 	b	14fc <RTMPSetSupportMCS+0x144>
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+		{
+			case 10:
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a58:	e5d43c85 	ldrb	r3, [r4, #3205]	; 0xc85
+	for(idx = 0; idx < SupportedRatesLen; idx ++)
+	{
+		switch((SupportedRates[idx] & 0x7F)*5)
+		{
+			case 10:
+				pEntry->SupportCCKMCS[MCS_0] = TRUE;
+    1a5c:	e5c41c86 	strb	r1, [r4, #3206]	; 0xc86
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+    1a60:	e383c001 	orr	ip, r3, #1
+    1a64:	e5c4cc85 	strb	ip, [r4, #3205]	; 0xc85
+    1a68:	eafffea3 	b	14fc <RTMPSetSupportMCS+0x144>
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 60:
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a6c:	e5d43c85 	ldrb	r3, [r4, #3205]	; 0xc85
+				pEntry->SupportCCKMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_CCK_MODE;
+				break;
+
+			case 60:
+				pEntry->SupportOFDMMCS[MCS_0] = TRUE;
+    1a70:	e5c41c8a 	strb	r1, [r4, #3210]	; 0xc8a
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a74:	e383c002 	orr	ip, r3, #2
+    1a78:	e5c4cc85 	strb	ip, [r4, #3205]	; 0xc85
+    1a7c:	eafffe9e 	b	14fc <RTMPSetSupportMCS+0x144>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 240:
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a80:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_3] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 240:
+				pEntry->SupportOFDMMCS[MCS_4] = TRUE;
+    1a84:	e5c41c8e 	strb	r1, [r4, #3214]	; 0xc8e
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a88:	e38e0002 	orr	r0, lr, #2
+    1a8c:	e5c40c85 	strb	r0, [r4, #3205]	; 0xc85
+    1a90:	eafffe99 	b	14fc <RTMPSetSupportMCS+0x144>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 540:
+				pEntry->SupportOFDMMCS[MCS_7] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a94:	e5d4ec85 	ldrb	lr, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 540:
+				pEntry->SupportOFDMMCS[MCS_7] = TRUE;
+    1a98:	e5c41c91 	strb	r1, [r4, #3217]	; 0xc91
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1a9c:	e38e0002 	orr	r0, lr, #2
+    1aa0:	e5c40c85 	strb	r0, [r4, #3205]	; 0xc85
+    1aa4:	eafffe94 	b	14fc <RTMPSetSupportMCS+0x144>
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 480:
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1aa8:	e5d43c85 	ldrb	r3, [r4, #3205]	; 0xc85
+				pEntry->SupportOFDMMCS[MCS_5] = TRUE;
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+				break;
+
+			case 480:
+				pEntry->SupportOFDMMCS[MCS_6] = TRUE;
+    1aac:	e5c41c90 	strb	r1, [r4, #3216]	; 0xc90
+				pEntry->SupportRateMode |= SUPPORT_OFDM_MODE;
+    1ab0:	e383c002 	orr	ip, r3, #2
+    1ab4:	e5c4cc85 	strb	ip, [r4, #3205]	; 0xc85
+    1ab8:	eafffe8f 	b	14fc <RTMPSetSupportMCS+0x144>
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+			SupportedRatesLen = 8;
+			
+			DBGPRINT(RT_DEBUG_TRACE,("%s():wrong SUPP RATES., Len=%d\n",
+    1abc:	e3000000 	movw	r0, #0
+    1ac0:	e2831008 	add	r1, r3, #8
+    1ac4:	e3400000 	movt	r0, #0
+    1ac8:	e1a02005 	mov	r2, r5
+    1acc:	ebfffffe 	bl	0 <printk>
+		else
+		{
+			UCHAR RateDefault[8] = {0x82, 0x84, 0x8b, 0x96, 0x12, 0x24, 0x48, 0x6c};
+			
+			NdisMoveMemory(SupportedRates, RateDefault, 8);
+			SupportedRatesLen = 8;
+    1ad0:	e3a07008 	mov	r7, #8
+    1ad4:	eafffe5a 	b	1444 <RTMPSetSupportMCS+0x8c>
+
+00001ad8 <Set_RateAlg_Proc>:
+}
+
+INT	Set_RateAlg_Proc(
+	IN	PRTMP_ADAPTER			pAd,
+	IN	PSTRING					arg)
+{
+    1ad8:	e92d40f8 	push	{r3, r4, r5, r6, r7, lr}
+	UINT32 ra_alg;
+
+	ra_alg = simple_strtol(arg, 0, 10);
+    1adc:	e3a0200a 	mov	r2, #10
+}
+
+INT	Set_RateAlg_Proc(
+	IN	PRTMP_ADAPTER			pAd,
+	IN	PSTRING					arg)
+{
+    1ae0:	e1a04000 	mov	r4, r0
+	UINT32 ra_alg;
+
+	ra_alg = simple_strtol(arg, 0, 10);
+    1ae4:	e1a00001 	mov	r0, r1
+    1ae8:	e3a01000 	mov	r1, #0
+    1aec:	ebfffffe 	bl	0 <simple_strtol>
+
+	if ((ra_alg < RATE_ALG_MAX_NUM) && (ra_alg != pAd->rateAlg))
+    1af0:	e3500003 	cmp	r0, #3
+	IN	PRTMP_ADAPTER			pAd,
+	IN	PSTRING					arg)
+{
+	UINT32 ra_alg;
+
+	ra_alg = simple_strtol(arg, 0, 10);
+    1af4:	e1a02000 	mov	r2, r0
+
+	if ((ra_alg < RATE_ALG_MAX_NUM) && (ra_alg != pAd->rateAlg))
+    1af8:	8a000016 	bhi	1b58 <Set_RateAlg_Proc+0x80>
+    1afc:	e30a3608 	movw	r3, #42504	; 0xa608
+    1b00:	e340300a 	movt	r3, #10
+    1b04:	e7941003 	ldr	r1, [r4, r3]
+    1b08:	e1510000 	cmp	r1, r0
+    1b0c:	0a000011 	beq	1b58 <Set_RateAlg_Proc+0x80>
+	{
+		UINT32 IdEntry;
+
+		pAd->rateAlg = ra_alg;
+		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
+    1b10:	e3a07c96 	mov	r7, #38400	; 0x9600
+    1b14:	e3407001 	movt	r7, #1
+
+	if ((ra_alg < RATE_ALG_MAX_NUM) && (ra_alg != pAd->rateAlg))
+	{
+		UINT32 IdEntry;
+
+		pAd->rateAlg = ra_alg;
+    1b18:	e3a00000 	mov	r0, #0
+    1b1c:	e7842003 	str	r2, [r4, r3]
+		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
+			pAd->MacTab.Content[IdEntry].rateAlg = ra_alg;
+    1b20:	e2803ecb 	add	r3, r0, #3248	; 0xcb0
+		}
+#endif /* DOT11_VHT_AC */
+	}
+}
+
+INT	Set_RateAlg_Proc(
+    1b24:	e0846000 	add	r6, r4, r0
+    1b28:	e30d149c 	movw	r1, #54428	; 0xd49c
+	{
+		UINT32 IdEntry;
+
+		pAd->rateAlg = ra_alg;
+		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
+			pAd->MacTab.Content[IdEntry].rateAlg = ra_alg;
+    1b2c:	e2830ecb 	add	r0, r3, #3248	; 0xcb0
+		}
+#endif /* DOT11_VHT_AC */
+	}
+}
+
+INT	Set_RateAlg_Proc(
+    1b30:	e0845003 	add	r5, r4, r3
+    1b34:	e3401015 	movt	r1, #21
+    1b38:	e30de49c 	movw	lr, #54428	; 0xd49c
+    1b3c:	e340e015 	movt	lr, #21
+    1b40:	e086c001 	add	ip, r6, r1
+    1b44:	e085300e 	add	r3, r5, lr
+	if ((ra_alg < RATE_ALG_MAX_NUM) && (ra_alg != pAd->rateAlg))
+	{
+		UINT32 IdEntry;
+
+		pAd->rateAlg = ra_alg;
+		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
+    1b48:	e1500007 	cmp	r0, r7
+			pAd->MacTab.Content[IdEntry].rateAlg = ra_alg;
+    1b4c:	e58c2000 	str	r2, [ip]
+    1b50:	e5832000 	str	r2, [r3]
+	if ((ra_alg < RATE_ALG_MAX_NUM) && (ra_alg != pAd->rateAlg))
+	{
+		UINT32 IdEntry;
+
+		pAd->rateAlg = ra_alg;
+		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
+    1b54:	1afffff1 	bne	1b20 <Set_RateAlg_Proc+0x48>
+			pAd->MacTab.Content[IdEntry].rateAlg = ra_alg;
+	}
+
+	DBGPRINT(RT_DEBUG_ERROR, ("%s: Set Alg = %d\n", __FUNCTION__, ra_alg));
+    1b58:	e300c000 	movw	ip, #0
+    1b5c:	e340c000 	movt	ip, #0
+    1b60:	e59c0000 	ldr	r0, [ip]
+    1b64:	e3500000 	cmp	r0, #0
+    1b68:	1a000001 	bne	1b74 <Set_RateAlg_Proc+0x9c>
+	return TRUE;
+}
+    1b6c:	e3a00001 	mov	r0, #1
+    1b70:	e8bd80f8 	pop	{r3, r4, r5, r6, r7, pc}
+		pAd->rateAlg = ra_alg;
+		for(IdEntry = 0; IdEntry < MAX_LEN_OF_MAC_TABLE; IdEntry++)
+			pAd->MacTab.Content[IdEntry].rateAlg = ra_alg;
+	}
+
+	DBGPRINT(RT_DEBUG_ERROR, ("%s: Set Alg = %d\n", __FUNCTION__, ra_alg));
+    1b74:	e3000000 	movw	r0, #0
+    1b78:	e59f1008 	ldr	r1, [pc, #8]	; 1b88 <Set_RateAlg_Proc+0xb0>
+    1b7c:	e3400000 	movt	r0, #0
+    1b80:	ebfffffe 	bl	0 <printk>
+    1b84:	eafffff8 	b	1b6c <Set_RateAlg_Proc+0x94>
+    1b88:	0000001c 	.word	0x0000001c

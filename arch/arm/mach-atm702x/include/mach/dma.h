@@ -32,7 +32,7 @@
 #include <mach/clock.h>
 #include <mach/debug.h>
 
-#if defined(CONFIG_ARCH_LEOPARD)
+#if defined(CONFIG_ARCH_ATM702X)
 #define NUM_DMA_CHANNELS                4
 #define DMA_CHANNEL_LEN                 0x00000030
 #else
@@ -98,8 +98,6 @@ extern struct dma_chan atm702x_dma_table[];
 extern spinlock_t dma_regop_lock;
 
 typedef void (*irqhandler_t)(int,void *);
-
-
 void atm702x_dma_irq_init(void);
 
 /**
@@ -132,7 +130,6 @@ int request_atm702x_dma(unsigned int chan_type, const char *dev_str, irqhandler_
  * The longer description can have multiple paragraphs.
  */
 void free_atm702x_dma(unsigned int dmanr);
-
 struct dma_chan *get_dma_chan(unsigned int dmanr);
 
 static __inline__ void set_dma_cpu_priority(unsigned int prio)
@@ -154,7 +151,6 @@ static __inline__ int get_dma_cpu_priority(void)
 static __inline__ void reset_dma(unsigned int dmanr)
 {
 }
-
 
 /**
  * pause_dma() - pause the dma transfer
