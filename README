@@ -1,3 +1,6 @@
+This is, at the moment, a non-working kernel. Trying to build this WILL fail! 
+Fixes and patches are welcome and encouraged.
+
         Linux kernel release 3.x <http://kernel.org/>
 
 These are the release notes for Linux version 3.  Read them carefully,
