@@ -29,10 +29,7 @@
 
 #include <asm/mach-types.h>
 
-//#include <../../../drivers/staging/android/timed_output.h>
 #include "timed_output.h"
-
-
 
 static struct vibrator {
 	struct wake_lock wklock;

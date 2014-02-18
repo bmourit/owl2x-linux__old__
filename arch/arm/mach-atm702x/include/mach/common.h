@@ -12,28 +12,24 @@
  * option) any later version.
  */
 
-#ifndef ASMARM_ARCH_SMP_H
-#define ASMARM_ARCH_SMP_H
+#ifndef ARCH_ARM_MACH_ATM702X_COMMON_H
+#define ARCH_ARM_MACH_ATM702X_COMMON_H
+#ifndef __ASSEBLER__
 
-#include <asm/hardware/gic.h>
+#include <linux/irq.h>
+#include <linux/i2c.h>
+#include <linux/i2c/twl.h>
+#include <linux/i2c-atm702x.h>
+#include <linux/delay.h>
+
+#include <asm/proc-fns.h>
+
+#include "i2c.h"
+#include "serial.h"
+#include "usb.h"
 
 /* This is required to wakeup the secondary core */
 extern void atm702x_secondary_startup(void);
+extern void atm702x_secondary_init(unsigned int cpu);
 
-#define hard_smp_processor_id()             \
-    ({                      \
-        unsigned int cpunum;            \
-        __asm__("mrc p15, 0, %0, c0, c0, 5" \
-            : "=r" (cpunum));       \
-        cpunum &= 0x0F;             \
-    })
-
-/*
- * We use IRQ1 as the IPI
- */
-static inline void smp_cross_call(const struct cpumask *mask)
-{
-    gic_raise_softirq(mask, 1);
-}
-
-#endif /* ASMARM_ARCH_SMP_H */
+#endif

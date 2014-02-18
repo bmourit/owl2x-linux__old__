@@ -40,9 +40,7 @@
 #endif
 
 #define NUM_ACT702X_DMA_CHANNELS        NUM_DMA_CHANNELS
-
-/* DMA Channel Base Addresses */
-#define DMA_CHANNEL_BASE                IO_ADDRESS(BDMA0_BASE)
+#define DMA_CHANNEL_BASE                IO_ADDRESS(BDMA0_BASE) //0xb0220100
 
 /* Register Offsets */
 #define DMA_MODE                        0x0000
@@ -56,14 +54,14 @@
 #define DMA_COUNT_MASK                  0x00ffffff
 #define DMA_IRQPD_DXTP(x)               (1 << ((x) * 2))
 
-#define DMA_CACHE_USERS_STRONG_ORDERED  (0x0)
-#define DMA_CACHE_USERS_DEVICE          (0x1)
-#define DMA_CACHE_USERS_UNCACHEABLE     (0x3)
-#define DMA_CACHE_USERS_WRITE_THROUGH   (0x6)
-#define DMA_CACHE_USERS_WRITEBACK_NOALLOC   (0x7)
-#define DMA_CACHE_USERS_WRITEBACK_ALLOC (0xf)
-#define DMA_CACHE_USERS_SHARED          (1)
-#define DMA_CACHE_WBA_S                 (0xf1f)
+#define DMA_CACHE_USERS_STRONG_ORDERED		(0x0)
+#define DMA_CACHE_USERS_DEVICE			(0x1)
+#define DMA_CACHE_USERS_UNCACHEABLE		(0x3)
+#define DMA_CACHE_USERS_WRITE_THROUGH		(0x6)
+#define DMA_CACHE_USERS_WRITEBACK_NOALLOC	(0x7)
+#define DMA_CACHE_USERS_WRITEBACK_ALLOC 	(0xf)
+#define DMA_CACHE_USERS_SHARED			(1)
+#define DMA_CACHE_WBA_S				(0xf1f)
 
 #ifndef _ASSEMBLER_
 enum {
@@ -85,13 +83,13 @@ typedef void (*chan_callback_t)(unsigned int, void *);
  * dma_chan struct definition
  */
 struct dma_chan {
-    int is_used;        /* this channel is allocated if !=0, free if == 0 */
-    unsigned int io;
-    const char *dev_str;
-    int irq;
-    void *irq_dev;
-    unsigned int chan_type;
-    chan_callback_t callback;       /* callback to this channel */
+	int is_used;		//this channel is allocated if !=0, free if == 0
+	unsigned int io;
+	const char *dev_str;
+	int irq;
+	void *irq_dev;
+	unsigned int chan_type;
+	chan_callback_t callback;	//callback to this channel
 };
 
 extern struct dma_chan atm702x_dma_table[];
@@ -116,7 +114,7 @@ void atm702x_dma_irq_init(void);
  * otherwise return the dma channel number
  */
 int request_atm702x_dma(unsigned int chan_type, const char *dev_str, irqhandler_t irqhandler,
-                        unsigned long irqflags, void *irq_dev_id);
+			unsigned long irqflags, void *irq_dev_id);
 
 /**
  * free_atm702x_dma() - free the dma channel
@@ -134,12 +132,12 @@ struct dma_chan *get_dma_chan(unsigned int dmanr);
 
 static __inline__ void set_dma_cpu_priority(unsigned int prio)
 {
-    act_writel(prio&0x0000000f, DMA_CTL);
+	act_writel(prio&0x0000000f, DMA_CTL);
 }
 
 static __inline__ int get_dma_cpu_priority(void)
 {
-    return (act_readl(DMA_CTL) & 0x0000000f);
+	return (act_readl(DMA_CTL) & 0x0000000f);
 }
 
 /**
@@ -160,15 +158,15 @@ static __inline__ void reset_dma(unsigned int dmanr)
  */
 static __inline__ void pause_dma(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    unsigned long flag;
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	unsigned long flag;
 
-    if (!chan)
-        return;
+	if (!chan)
+		return;
 
-    spin_lock_irqsave(&dma_regop_lock, flag);
-    act_writel((1 << dmanr) | act_readl(DMA_PAUSE), DMA_PAUSE);
-    spin_unlock_irqrestore(&dma_regop_lock, flag);
+	spin_lock_irqsave(&dma_regop_lock, flag);
+	act_writel((1 << dmanr) | act_readl(DMA_PAUSE), DMA_PAUSE);
+	spin_unlock_irqrestore(&dma_regop_lock, flag);
 }
 
 /**
@@ -179,15 +177,15 @@ static __inline__ void pause_dma(unsigned int dmanr)
  */
 static __inline__ void resume_dma(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    unsigned long flag;
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	unsigned long flag;
 
-    if (!chan)
-        return;
+	if (!chan)
+		return;
 
-    spin_lock_irqsave(&dma_regop_lock, flag);
-    act_writel( (~(1 << dmanr)) & act_readl(DMA_PAUSE), DMA_PAUSE);
-    spin_unlock_irqrestore(&dma_regop_lock, flag);
+	spin_lock_irqsave(&dma_regop_lock, flag);
+	act_writel( (~(1 << dmanr)) & act_readl(DMA_PAUSE), DMA_PAUSE);
+	spin_unlock_irqrestore(&dma_regop_lock, flag);
 }
 
 /**
@@ -198,12 +196,11 @@ static __inline__ void resume_dma(unsigned int dmanr)
  */
 static __inline__ int dma_paused(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return 1;
 
-    if (!chan)
-        return 1;
-
-    return (act_readl(DMA_PAUSE) & (1 << dmanr)) ? 1 : 0;
+	return (act_readl(DMA_PAUSE) & (1 << dmanr)) ? 1 : 0;
 }
 
 /**
@@ -214,17 +211,18 @@ static __inline__ int dma_paused(unsigned int dmanr)
  */
 static __inline__ void start_dma(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    resume_dma(dmanr);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
 
-    /*
-     * Shareable cacheable write data may not automatically become visible to ACP
-     */
-    isb();
-    dsb();
-    act_writel(DMA_START, chan->io + DMA_CMD);
+	resume_dma(dmanr);
+	/**
+	 * Shareable cacheable write data may not 
+	 * automatically become visible to ACP
+	 */
+	isb();
+	dsb();
+	act_writel(DMA_START, chan->io + DMA_CMD);
 }
 
 /**
@@ -235,35 +233,40 @@ static __inline__ void start_dma(unsigned int dmanr)
  */
 static __inline__ int dma_started(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return 0;
-    return (act_readl(chan->io + DMA_CMD) & DMA_START) ? 1 : 0;
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return 0;
+
+	return (act_readl(chan->io + DMA_CMD) & DMA_START) ? 1 : 0;
 }
 
 static __inline__ void stop_dma_by_ddr2ddr_mode(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    unsigned long flag;
-    unsigned int mode, mode_bak;
-    if (!chan)
-        return;
-    printk("[DMA%d] %s: before rescue, DMA_MODE 0x%x, DMA_CMD 0x%x\n",
-        dmanr, __FUNCTION__, act_readl(chan->io + DMA_MODE), act_readl(chan->io + DMA_CMD));
-    spin_lock_irqsave(&dma_regop_lock, flag);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	unsigned long flag;
+	unsigned int mode, mode_bak;
+	if (!chan)
+		return;
 
-    mode_bak = act_readl(chan->io + DMA_MODE);
-    mode = mode_bak;
-    mode &= ~0x1f001f;
-    mode |= 0x120012;
-    act_writel(mode, chan->io + DMA_MODE);
-    act_writel((~DMA_START) & act_readl(chan->io + DMA_CMD),
-        chan->io + DMA_CMD);
-    udelay(1);
-    act_writel(mode_bak, chan->io + DMA_MODE);
-    spin_unlock_irqrestore(&dma_regop_lock, flag);
-    printk("[DMA%d] %s: after rescue, DMA_MODE 0x%x, DMA_CMD 0x%x\n",
-        dmanr, __FUNCTION__, act_readl(chan->io + DMA_MODE), act_readl(chan->io + DMA_CMD));
+	printk("[DMA%d] %s: before rescue, DMA_MODE 0x%x, DMA_CMD 0x%x\n",
+			dmanr, __FUNCTION__, act_readl(chan->io + DMA_MODE),
+			act_readl(chan->io + DMA_CMD));
+
+	spin_lock_irqsave(&dma_regop_lock, flag);
+
+	mode_bak = act_readl(chan->io + DMA_MODE);
+	mode = mode_bak;
+	mode &= ~0x1f001f;
+	mode |= 0x120012;
+	act_writel(mode, chan->io + DMA_MODE);
+	act_writel((~DMA_START) & act_readl(chan->io + DMA_CMD), chan->io + DMA_CMD);
+	udelay(1);
+	act_writel(mode_bak, chan->io + DMA_MODE);
+	spin_unlock_irqrestore(&dma_regop_lock, flag);
+
+	printk("[DMA%d] %s: after rescue, DMA_MODE 0x%x, DMA_CMD 0x%x\n",
+			dmanr, __FUNCTION__, act_readl(chan->io + DMA_MODE),
+			act_readl(chan->io + DMA_CMD));
 }
 
 /**
@@ -275,18 +278,19 @@ static __inline__ void stop_dma_by_ddr2ddr_mode(unsigned int dmanr)
  */
 static __inline__ void wait_dma_stopped(unsigned int dmanr, int timeout_us)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    while (timeout_us > 0 && (act_readl(chan->io + DMA_CMD) & DMA_START) != 0) {
-        udelay(1);
-        timeout_us -= 1;
-    }
-    if (timeout_us <= 0) {
-        pr_err("[DMA] error: wait dma%d stopped timeout!!!\n", dmanr);
-        /* rescue the DMA DRQ by ddr2ddr mode */
-        stop_dma_by_ddr2ddr_mode(dmanr);
-    }
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
+	while (timeout_us > 0 && (act_readl(chan->io + DMA_CMD) & DMA_START) != 0) {
+	udelay(1);
+	timeout_us -= 1;
+	}
+
+	if (timeout_us <= 0) {
+		pr_err("[DMA] error: wait dma%d stopped timeout!!!\n", dmanr);
+	/* rescue the DMA DRQ by ddr2ddr mode */
+	stop_dma_by_ddr2ddr_mode(dmanr);
+	}
 }
 
 
@@ -298,16 +302,16 @@ static __inline__ void wait_dma_stopped(unsigned int dmanr, int timeout_us)
  */
 static __inline__ void stop_dma(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    unsigned long flag;
-    if (!chan)
-        return;
-    pause_dma(dmanr);
-    spin_lock_irqsave(&dma_regop_lock, flag);
-    act_writel((~DMA_START) & act_readl(chan->io + DMA_CMD), chan->io + DMA_CMD);
-    spin_unlock_irqrestore(&dma_regop_lock, flag);
-    /* wait timeout: 1000us */
-    wait_dma_stopped(dmanr, 1000);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	unsigned long flag;
+	if (!chan)
+		return;
+	pause_dma(dmanr);
+	spin_lock_irqsave(&dma_regop_lock, flag);
+	act_writel((~DMA_START) & act_readl(chan->io + DMA_CMD), chan->io + DMA_CMD);
+	spin_unlock_irqrestore(&dma_regop_lock, flag);
+	/* wait timeout: 1000us */
+	wait_dma_stopped(dmanr, 1000);
 }
 
 /**
@@ -319,10 +323,10 @@ static __inline__ void stop_dma(unsigned int dmanr)
  */
 static __inline__ void set_dma_mode(unsigned int dmanr, unsigned int mode)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    act_writel(mode, chan->io + DMA_MODE);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
+	act_writel(mode, chan->io + DMA_MODE);
 }
 
 /**
@@ -334,10 +338,10 @@ static __inline__ void set_dma_mode(unsigned int dmanr, unsigned int mode)
  */
 static __inline__ void set_dma_cache_mode(unsigned int dmanr, unsigned int mode)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    act_writel(mode, chan->io + DMA_CACHE);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
+	act_writel(mode, chan->io + DMA_CACHE);
 }
 
 /**
@@ -348,10 +352,10 @@ static __inline__ void set_dma_cache_mode(unsigned int dmanr, unsigned int mode)
  */
 static __inline__ unsigned int get_dma_mode(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return 0;
-    return act_readl(chan->io + DMA_MODE);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return 0;
+	return act_readl(chan->io + DMA_MODE);
 }
 
 /**
@@ -363,10 +367,10 @@ static __inline__ unsigned int get_dma_mode(unsigned int dmanr)
  */
 static __inline__ void set_dma_src_addr(unsigned int dmanr, unsigned int a)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    act_writel(a, chan->io + DMA_SRC);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
+	act_writel(a, chan->io + DMA_SRC);
 }
 
 /**
@@ -378,10 +382,11 @@ static __inline__ void set_dma_src_addr(unsigned int dmanr, unsigned int a)
  */
 static __inline__ void set_dma_dst_addr(unsigned int dmanr, unsigned int a)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    act_writel(a, chan->io + DMA_DST);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
+
+	act_writel(a, chan->io + DMA_DST);
 }
 
 /**
@@ -393,22 +398,24 @@ static __inline__ void set_dma_dst_addr(unsigned int dmanr, unsigned int a)
  */
 static __inline__ void set_dma_count(unsigned int dmanr, unsigned int count)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return;
-    count &= DMA_COUNT_MASK;
-    act_writel(count, chan->io + DMA_CNT);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return;
+
+	count &= DMA_COUNT_MASK;
+	act_writel(count, chan->io + DMA_CNT);
 }
 
 static __inline__ int get_dma_count(unsigned int dmanr)
 {
-    int count;
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return -1;
-    count = act_readl(chan->io + DMA_CNT) & DMA_COUNT_MASK;
+	int count;
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return -1;
 
-    return count;
+	count = act_readl(chan->io + DMA_CNT) & DMA_COUNT_MASK;
+
+	return count;
 }
 
 /**
@@ -419,13 +426,14 @@ static __inline__ int get_dma_count(unsigned int dmanr)
  */
 static __inline__ int get_dma_remain(unsigned int dmanr)
 {
-    int count;
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return -1;
-    count = act_readl(chan->io + DMA_REM) & DMA_COUNT_MASK;
+	int count;
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return -1;
+	
+	count = act_readl(chan->io + DMA_REM) & DMA_COUNT_MASK;
 
-    return count;
+	return count;
 }
 
 /**
@@ -436,12 +444,13 @@ static __inline__ int get_dma_remain(unsigned int dmanr)
  */
 static __inline__ int clear_dma_remain(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    if (!chan)
-        return -1;
-    act_writel(0, chan->io + DMA_REM);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	if (!chan)
+		return -1;
 
-    return 0;
+	act_writel(0, chan->io + DMA_REM);
+
+	return 0;
 }
 
 /**
@@ -452,12 +461,12 @@ static __inline__ int clear_dma_remain(unsigned int dmanr)
  */
 static __inline__ int get_dma_tcirq_pend(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
+	struct dma_chan *chan = get_dma_chan(dmanr);
 
-    if (!chan)
-        return -1;
+	if (!chan)
+		return -1;
 
-    return (act_readl(DMA_IRQPD) & (1<<(dmanr*2))) ? 1 : 0;
+	return (act_readl(DMA_IRQPD) & (1<<(dmanr*2))) ? 1 : 0;
 }
 
 /**
@@ -468,14 +477,14 @@ static __inline__ int get_dma_tcirq_pend(unsigned int dmanr)
  */
 static __inline__ int clear_dma_tcirq_pend(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
+	struct dma_chan *chan = get_dma_chan(dmanr);
 
-    if (!chan)
-        return -1;
-    else
-        act_writel(1<<(dmanr*2), DMA_IRQPD);
+	if (!chan)
+		return -1;
+	else
+		act_writel(1 << (dmanr * 2), DMA_IRQPD);
 
-    return 0;
+	return 0;
 }
 
 /**
@@ -486,15 +495,16 @@ static __inline__ int clear_dma_tcirq_pend(unsigned int dmanr)
  */
 static __inline__ int enable_dma_tcirq(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    unsigned long flag;
-    if (!chan)
-        return -1;
-    spin_lock_irqsave(&dma_regop_lock, flag);
-    act_writel(act_readl(DMA_IRQEN)|(1<<(dmanr*2)), DMA_IRQEN);
-    spin_unlock_irqrestore(&dma_regop_lock, flag);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	unsigned long flag;
+	if (!chan)
+		return -1;
 
-    return 0;
+	spin_lock_irqsave(&dma_regop_lock, flag);
+	act_writel(act_readl(DMA_IRQEN)|(1<<(dmanr*2)), DMA_IRQEN);
+	spin_unlock_irqrestore(&dma_regop_lock, flag);
+
+	return 0;
 }
 
 /**
@@ -505,15 +515,16 @@ static __inline__ int enable_dma_tcirq(unsigned int dmanr)
  */
 static __inline__ int disable_dma_tcirq(unsigned int dmanr)
 {
-    struct dma_chan *chan = get_dma_chan(dmanr);
-    unsigned long flag;
-    if (!chan)
-        return -1;
-    spin_lock_irqsave(&dma_regop_lock, flag);
-    act_writel(act_readl(DMA_IRQEN)&(~(1<<(dmanr*2))), DMA_IRQEN);
-    spin_unlock_irqrestore(&dma_regop_lock, flag);
+	struct dma_chan *chan = get_dma_chan(dmanr);
+	unsigned long flag;
+	if (!chan)
+		return -1;
 
-    return 0;
+	spin_lock_irqsave(&dma_regop_lock, flag);
+	act_writel(act_readl(DMA_IRQEN)&(~(1<<(dmanr*2))), DMA_IRQEN);
+	spin_unlock_irqrestore(&dma_regop_lock, flag);
+
+	return 0;
 }
 
 #endif /*_ASSEMBLER_*/

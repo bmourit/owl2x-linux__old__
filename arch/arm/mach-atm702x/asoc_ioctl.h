@@ -34,46 +34,47 @@ extern "C" {
 #define DMA_MEM_FREE                    _IOWR(DMA_MAGIC_NUMBER, 5, struct mem_info_t)
 /*cmd free the memory to reserved zone after lib unload*/
 #define DMA_MEM_EXIT                    _IOWR(DMA_MAGIC_NUMBER, 6, u32)
-#define DMA_MEM_GETSIZE                    _IOWR(DMA_MAGIC_NUMBER, 7, u32)
+
+#define DMA_MEM_GETSIZE			_IOWR(DMA_MAGIC_NUMBER, 7, u32)
 /******************************************************************************/
 
 
 /******************************************************************************/
 #define FRAMEBUFFER_MAGIC_NUMBER      'f'
 /******************************************************************************/
-#define FBIOSET_START_VIDEO             _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 0, u32)   /*进入视频输出状态*/
-#define FBIOSET_CLEAR_SCREEN			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 1, u32)  
+#define FBIOSET_START_VIDEO		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 0, u32)   /*进入视频输出状态*/
+#define FBIOSET_CLEAR_SCREEN		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 1, u32)  
 #define FBIOSET_RESET_REGION            _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 2, layer_region_config)
 #define FBIOSET_SET_REGION              _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 3, layer_region_config)
 #define FBIOGET_REGION_CONFIG           _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 4, layer_region_config)
 #define FBIOSET_FLIP_REGION             _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 5, layer_region_config)
 #define FBIOSET_PAN_REGION              _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 6, layer_region_config)
 #define FBIOSET_COLORKEY                _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 7, ColorKey)
-#define FBIOGET_CUR_FLUSH_ADDR			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 8, u32)
+#define FBIOGET_CUR_FLUSH_ADDR		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 8, u32)
 #define FBIOGET_READY_FLUSH_ADDR        _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 9, u32)
 #define FBIOSET_DISPLAYER               _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 10, Displayer_config)
 #define FBIOSET_OPEN_RGB_LCD            _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 11, u32)
 #define FBIOSET_CLOSE_RGB_LCD           _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 12, u32)
-#define FBIOSET_FRAME_INFO				_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 13, disp_frame_info_t)
-#define FBIOSET_UPDATE_VIDEO			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 14, disp_frame_addr_t)
-#define FBIOSET_END_VIDEO				_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 15, u32)
-#define FBIOGET_DISPLAYER				_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 16, Displayer_config)
-#define FBIOSET_SCALE_REGION			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 17, disp_scale_t)
-#define FBIOGET_MAX_SCALE_RATE			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 18, unsigned int)
-#define FBIOSET_PRINT_INFO				_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 19, u32)
-#define FBIOSET_MOVE_REGION 			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 20, layer_region_config)
-#define FBIOSET_BACKGROUND_COLOR 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 21, struct rgb_color)
-#define FBIOSET_REGION_OPACITY 			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 22, layer_region_config)
-#define FBIOGET_FRAMEBUFFER_DATA 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 23, struct framebuffer_data_info)
-#define FBIOSET_CLOSE_DISP_DEV 			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 24, u32)
-#define FBIOSET_OPEN_DISP_DEV 			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 25, u32)
-#define FBIOSET_END_VIDEO_BLANK 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 26, u32)
-#define FBIO_SYNC 						_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 27, u32)
-#define FBIOGET_DISPLAYER_ATTR 			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 28, disp_dev_t)
+#define FBIOSET_FRAME_INFO		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 13, disp_frame_info_t)
+#define FBIOSET_UPDATE_VIDEO		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 14, disp_frame_addr_t)
+#define FBIOSET_END_VIDEO		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 15, u32)
+#define FBIOGET_DISPLAYER		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 16, Displayer_config)
+#define FBIOSET_SCALE_REGION		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 17, disp_scale_t)
+#define FBIOGET_MAX_SCALE_RATE		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 18, unsigned int)
+#define FBIOSET_PRINT_INFO		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 19, u32)
+#define FBIOSET_MOVE_REGION 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 20, layer_region_config)
+#define FBIOSET_BACKGROUND_COLOR 	_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 21, struct rgb_color)
+#define FBIOSET_REGION_OPACITY 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 22, layer_region_config)
+#define FBIOGET_FRAMEBUFFER_DATA 	_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 23, struct framebuffer_data_info)
+#define FBIOSET_CLOSE_DISP_DEV 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 24, u32)
+#define FBIOSET_OPEN_DISP_DEV 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 25, u32)
+#define FBIOSET_END_VIDEO_BLANK 	_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 26, u32)
+#define FBIO_SYNC 			_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 27, u32)
+#define FBIOGET_DISPLAYER_ATTR 		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 28, disp_dev_t)
 
 /*######interfaces that midleware uses###################################*/
 #define FBIOSET_START_VIDEO             _IOWR(FRAMEBUFFER_MAGIC_NUMBER, 0, u32)   /*进入视频输出状态*/
-#define FBIOSET_END_VIDEO				_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 15, u32)
+#define FBIOSET_END_VIDEO		_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 15, u32)
 
 /**these interfaces can only be valid between FBIOSET_START_VIDEO and FBIOSET_END_VIDEO****************/
 #define FBIOSET_FRAME_INFO				_IOWR(FRAMEBUFFER_MAGIC_NUMBER, 13, disp_frame_info_t)
@@ -191,12 +192,12 @@ extern "C" {
 #define UPDATE_MBR				_IOW(NAND_MAGIC, 0x9, unsigned int)
 #define UPGRADE_LOGIC_WRITE		_IOW(NAND_MAGIC, 0xa, unsigned int)
 
-typedef struct{
+typedef struct {
 	int part_id;
 	int	lba_off;
 	int sector_num;
 	void *buf;
-}update_logic_op_w_t;
+} update_logic_op_w_t;
 
 /******************************************************************************/
 #define HANTRO_MAGIC              'o'

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2011 Actions Semi Inc.
  * Author: Actions Semi, Inc.
  *
@@ -23,9 +23,9 @@ struct atc260x_dev;
  */
 int atc260x_reg_read(struct atc260x_dev *atc260x, unsigned short reg);
 int atc260x_reg_write(struct atc260x_dev *atc260x, unsigned short reg,
-         unsigned short val);
+	 unsigned short val);
 int atc260x_set_bits(struct atc260x_dev *atc260x, unsigned short reg,
-            unsigned short mask, unsigned short val);
+	    unsigned short mask, unsigned short val);
 
 /* 
  * ATC260X SPI interface access mode
@@ -34,34 +34,30 @@ int atc260x_set_bits(struct atc260x_dev *atc260x, unsigned short reg,
 #define ATC260X_SPI_ACCESS_MODE_DIRECT      (1)     /* access SPI controller directly */
 int atc260x_set_access_mode(struct atc260x_dev *atc260x, int mode);
 
-/*
- * ATC260X AuxADC interface
- */
+/* ATC260X AuxADC interface */
 enum atc260x_auxadc {
-    ATC260X_AUX_IREF     = 0,
-    ATC260X_AUX_CHGI     = 1,
-    ATC260X_AUX_VBUSI    = 2,
-    ATC260X_AUX_WALLI    = 3,
-    ATC260X_AUX_BATI     = 4,
-    ATC260X_AUX_REMCON   = 5,
-    ATC260X_AUX_TEMP     = 6,
-    ATC260X_AUX_BATV     = 7,
-    ATC260X_AUX_BAKBATV  = 8,
-    ATC260X_AUX_SYSPWRV  = 9,
-    ATC260X_AUX_WALLV    = 10,
-    ATC260X_AUX_VBUSV    = 11,
-    ATC260X_AUX_AUX3     = 12,
-    ATC260X_AUX_AUX2     = 13,
-    ATC260X_AUX_AUX1     = 14,
-    ATC260X_AUX_AUX0     = 15,
+	ATC260X_AUX_IREF     = 0,
+	ATC260X_AUX_CHGI     = 1,
+	ATC260X_AUX_VBUSI    = 2,
+	ATC260X_AUX_WALLI    = 3,
+	ATC260X_AUX_BATI     = 4,
+	ATC260X_AUX_REMCON   = 5,
+	ATC260X_AUX_TEMP     = 6,
+	ATC260X_AUX_BATV     = 7,
+	ATC260X_AUX_BAKBATV  = 8,
+	ATC260X_AUX_SYSPWRV  = 9,
+	ATC260X_AUX_WALLV    = 10,
+	ATC260X_AUX_VBUSV    = 11,
+	ATC260X_AUX_AUX3     = 12,
+	ATC260X_AUX_AUX2     = 13,
+	ATC260X_AUX_AUX1     = 14,
+	ATC260X_AUX_AUX0     = 15,
 };
 
 int atc260x_auxadc_reg_read(struct atc260x_dev *atc260x, enum atc260x_auxadc input);
 int atc260x_auxadc_read(struct atc260x_dev *atc260x, enum atc260x_auxadc input);
 
-/*
- *  ATC260X chip version
- */ 
+/* ATC260X chip version */ 
 enum ATC260X_CHIP_VERSION {
 	ATC260X_VER_A = 0x0000,
 	ATC260X_VER_B = 0x0001,
@@ -70,10 +66,8 @@ enum ATC260X_CHIP_VERSION {
 
 int atc260x_get_version(void);
 
-/*
- *  ATC260X CMU interface
- */ 
-#define ATC260X_CMU_MODULE_NUM           (5) /* CMU module count */
+/* ATC260X CMU interface */ 
+#define ATC260X_CMU_MODULE_NUM           (5) // CMU module count
 #define ATC260X_CMU_MODULE_TP            (0)
 #define ATC260X_CMU_MODULE_MFP           (1)
 #define ATC260X_CMU_MODULE_INTS          (2)
@@ -84,13 +78,14 @@ int atc260x_cmu_reset(struct atc260x_dev *atc260x, int cmu_module);
 int atc260x_cmu_enable(struct atc260x_dev *atc260x, int cmu_module);
 int atc260x_cmu_disable(struct atc260x_dev *atc260x, int cmu_module);
 
-
-/*
- *  ATC260X MFD interface
- */ 
+/* ATC260X MFD interface */ 
 enum atc260x_mfp_mod_id { 
-  MOD_ID_RMII, MOD_ID_SMII, MOD_ID_REMCON, MOD_ID_TP, 
-  MOD_ID_LED0, MOD_ID_LED1, 
+	MOD_ID_RMII,
+	MOD_ID_SMII,
+	MOD_ID_REMCON,
+	MOD_ID_TP, 
+	MOD_ID_LED0,
+	MOD_ID_LED1,
 };
 
 #define  ATC260X_MFP_OPT_CAN_SLEEP       (0) 
@@ -100,9 +95,7 @@ int atc260x_mfp_lock (enum atc260x_mfp_mod_id mod_id, int opt, struct device *de
 int atc260x_mfp_locked (enum atc260x_mfp_mod_id mod_id, int opt);
 int atc260x_mfp_unlock (enum atc260x_mfp_mod_id mod_id, int opt);
 
-/*
- *  ATC260X IRQ interface
- */
+/* ATC260X IRQ interface */
 #define ATC260X_IRQ_NUM                  (11)        /* internal IRQ source count */
 #define ATC260X_IRQ_AUDIO                (0)
 #define ATC260X_IRQ_TP                   (1)
@@ -116,16 +109,10 @@ int atc260x_mfp_unlock (enum atc260x_mfp_mod_id mod_id, int opt);
 #define ATC260X_IRQ_WKUP                 (9)
 #define ATC260X_IRQ_IR                   (10)
 
-/*
- *  ATC260X internal GPIO count.
- */ 
+/* ATC260X internal GPIO count */ 
 #define ATC260X_GPIO_NUM                 (32)        /* internal GPIO count */
 
-
-/*
- *  ATC260X Power Management
- */ 
-/* power state mode */
+/* ATC260X Power Management */ 
 #define POWER_MODE_WORKING              (0)     /* S1 */
 #define POWER_MODE_STANDBY              (1)     /* S2 */
 #define POWER_MODE_SLEEP                (2)     /* S3 */
@@ -143,7 +130,6 @@ int atc260x_mfp_unlock (enum atc260x_mfp_mod_id mod_id, int opt);
 #define WAKEUP_SRC_ONOFF_LONG           (1 << 8)
 #define WAKEUP_SRC_WALL_IN              (1 << 9)
 #define WAKEUP_SRC_VBUS_IN              (1 << 10)
-
 #define WAKEUP_SRC_ALL                  (0x7ff)
 
 struct pmic_suspend_ops {
@@ -156,13 +142,10 @@ struct pmic_suspend_ops {
     void (*finish)(void);
 };
 
-/* gl5302_PMU_SYS_CTL3 FW reserved flag*/
+/* gl5302_PMU_SYS_CTL3 FW reserved flag */
 #define PMU_SYS_CTL3_FW_FLAG_S2         (1 << 4)    /* suspend to S2 flag */
 
-/*
- *  ATC260X misc interface
- */ 
-
+/* ATC260X misc interface */ 
 int atc260x_enable_vbusotg(int on);
 
 #endif /* __ATC260X_H__ */

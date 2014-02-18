@@ -17,7 +17,7 @@
 #include <linux/gpio.h>
 #include <actions_soc.h>
 
-#include "../gl5201de/display.h"
+#include "../atm702x_de/display.h"
 
 #define DEFAULT_CLR        0x0066ff33
 
