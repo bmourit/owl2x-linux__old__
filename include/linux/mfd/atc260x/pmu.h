@@ -8,23 +8,23 @@
  *  option) any later version.
  */
 
-#ifndef __ATC260X_H__
-#define __ATC260X_H__
+#ifndef __MFD_ATC260X_PMU_H__
+#define __MFD_ATC260X_PMU_H__
 
-#include <mach/atc260x/atc260x_reg.h>
+#include <linux/mfd/atc260x/regulator.h>
 
 #define PSY_NAME_WALL  "atc260x-wall"
 #define PSY_NAME_USB   "atc260x-usb"
 /* ATC260X device */
-struct atc260x_dev;
+struct atc260x;
 
 /*
  * ATC260X register interface
  */
-int atc260x_reg_read(struct atc260x_dev *atc260x, unsigned short reg);
-int atc260x_reg_write(struct atc260x_dev *atc260x, unsigned short reg,
+int atc260x_reg_read(struct atc260x *atc260x, unsigned short reg);
+int atc260x_reg_write(struct atc260x *atc260x, unsigned short reg,
 	 unsigned short val);
-int atc260x_set_bits(struct atc260x_dev *atc260x, unsigned short reg,
+int atc260x_set_bits(struct atc260x *atc260x, unsigned short reg,
 	    unsigned short mask, unsigned short val);
 
 /* 
@@ -32,7 +32,7 @@ int atc260x_set_bits(struct atc260x_dev *atc260x, unsigned short reg,
  */
 #define ATC260X_SPI_ACCESS_MODE_NORMAL      (0)     /* access by standard SPI driver interface */
 #define ATC260X_SPI_ACCESS_MODE_DIRECT      (1)     /* access SPI controller directly */
-int atc260x_set_access_mode(struct atc260x_dev *atc260x, int mode);
+int atc260x_set_access_mode(struct atc260x *atc260x, int mode);
 
 /* ATC260X AuxADC interface */
 enum atc260x_auxadc {
@@ -54,8 +54,8 @@ enum atc260x_auxadc {
 	ATC260X_AUX_AUX0     = 15,
 };
 
-int atc260x_auxadc_reg_read(struct atc260x_dev *atc260x, enum atc260x_auxadc input);
-int atc260x_auxadc_read(struct atc260x_dev *atc260x, enum atc260x_auxadc input);
+int atc260x_auxadc_reg_read(struct atc260x *atc260x, enum atc260x_auxadc input);
+int atc260x_auxadc_read(struct atc260x *atc260x, enum atc260x_auxadc input);
 
 /* ATC260X chip version */ 
 enum ATC260X_CHIP_VERSION {
@@ -74,22 +74,22 @@ int atc260x_get_version(void);
 #define ATC260X_CMU_MODULE_ETHPHY        (3)
 #define ATC260X_CMU_MODULE_AUDIO         (4)
 
-int atc260x_cmu_reset(struct atc260x_dev *atc260x, int cmu_module);
-int atc260x_cmu_enable(struct atc260x_dev *atc260x, int cmu_module);
-int atc260x_cmu_disable(struct atc260x_dev *atc260x, int cmu_module);
+int atc260x_cmu_reset(struct atc260x *atc260x, int cmu_module);
+int atc260x_cmu_enable(struct atc260x *atc260x, int cmu_module);
+int atc260x_cmu_disable(struct atc260x *atc260x, int cmu_module);
 
 /* ATC260X MFD interface */ 
-enum atc260x_mfp_mod_id { 
+enum atc260x_mfp_mod_id {
 	MOD_ID_RMII,
 	MOD_ID_SMII,
 	MOD_ID_REMCON,
-	MOD_ID_TP, 
+	MOD_ID_TP,
 	MOD_ID_LED0,
 	MOD_ID_LED1,
 };
 
-#define  ATC260X_MFP_OPT_CAN_SLEEP       (0) 
-#define  ATC260X_MFP_OPT_CANNOT_SLEEP    (1) 
+#define  ATC260X_MFP_OPT_CAN_SLEEP       (0)
+#define  ATC260X_MFP_OPT_CANNOT_SLEEP    (1)
 
 int atc260x_mfp_lock (enum atc260x_mfp_mod_id mod_id, int opt, struct device *dev);
 int atc260x_mfp_locked (enum atc260x_mfp_mod_id mod_id, int opt);

@@ -1,5 +1,5 @@
 /*
- * Register definitions for Actions ATC260X integrated pmu/audio codec chips
+ * Regulator definitions for Actions ATC260X integrated pmu/audio codec chips
  *
  * Copyright (C) 2013
  *
@@ -10,8 +10,8 @@
  * warranty of any kind, whether express or implied.
  */
 
-#ifndef __ATC260X_REG_DEFINITION_H___
-#define __ATC260X_REG_DEFINITION_H___
+#ifndef __MFD_ATC260X_REGULATOR_H___
+#define __MFD_ATC260X_REGULATOR_H___
 
 /* PMU */
 #define	PMU_BASE			0x0000
