@@ -1,0 +1,75 @@
+#include atm7029.dtsi
+#include atm7029-pinctrl.dtsi
+
+        model = "Ainol Novo 10 Hero 2 (ATM7029)";
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "actions,atm7029-hero2";
+        interrupt-parent = <&gic>;
+
+&i2c0 {
+        clock-frequency = <400000>;
+        status = "disabled";
+        pinctrl-names = "default";
+        pinctrl-0 = <10>;
+};
+
+&i2c1 {
+        clock-frequency = <400000>;
+        status = "okay";
+        pinctrl-names = "default";
+        pinctrl-0 = <11>;
+
+        touchpanel {
+                compatible = "actions,tp";
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                ft5x06@38 {
+                        compatible = "ft5x06";
+                        reg = <0x38>;
+                        rst_gpios = <12 35 1>;
+                        max_point = <5>;
+                        x_pixel = <1280>;
+                        y_pixel = <800>;
+                        irq_number = <0x5d>;
+                        tp_vcc = "ldo5";
+                        rotate = <1>;
+                        vol_range = <3100000 3110000>;
+                };
+        };
+};
+
+&i2c2 {
+        clock-frequency = <400000>;
+        status = "okay";
+        pinctrl-names = "default";
+        pinctrl-0 = <13>;
+
+        gsensor {
+                compatible = "actions,gsensor";
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                mc3210@38 {
+                        compatible = "mc3210";
+                        position = "3";
+                        calibration = <0 0 0>;
+                };
+
+                lis3dh@18 {
+                        compatible = "lis3dh";
+                        reg = <18>;
+                        position = "-2";
+                        calibration = <0 0 0>;
+                };
+        };
+};
+
+&i2c3 {
+                clock-frequency = <400000>;
+                status = "okay";
+                pinctrl-names = "default";
+                pinctrl-0 = <14>;
+
+};
