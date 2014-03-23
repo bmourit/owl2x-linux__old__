@@ -38,19 +38,10 @@
                 i2c0 = &i2c0;
                 i2c1 = &i2c1;
                 i2c2 = &i2c2;
-                spi0 = "/spi@b0200000";
-                spi1 = "/spi@b0204000";
-                spi2 = "/spi@b0208000";
-                spi3 = "/spi@b020c000";
-                isp0 = "/isp@b0270000";
-                sdboot = "/mmc@b0230000";
-                mmc0 = "/mmc@b0230000";
-                mmc1 = "/mmc@b0234000";
-                mmc2 = "/mmc@b0238000";
         };
 
         chosen {
-                bootargs = "console=ttyS5 earlyprintk";
+                bootargs = "console=ttyS5,11592 earlyprintk";
         };
 
         memory {
@@ -59,13 +50,14 @@
         };
 
         cpus {
-                #size-cells = <0x0>;
-                #address-cells = <0x1>;
+                #size-cells = <0>;
+                #address-cells = <1>;
 
                 cpu@0 {
                         device_type = "cpu";
                         compatible = "arm,cortex-a5";
-                        reg = <0x0>;
+                        reg = <0>;
+
                         transition-latency = <0xee6c>;
                         cpuvdd-supply = <0x2>;
                 };
@@ -73,19 +65,19 @@
                 cpu@1 {
                         device_type = "cpu";
                         compatible = "arm,cortex-a5";
-                        reg = <0x1>;
+                        reg = <1>;
                 };
 
                 cpu@2 {
                         device_type = "cpu";
                         compatible = "arm,cortex-a5";
-                        reg = <0x1>;
+                        reg = <2>;
                 };
 
                 cpu@3 {
                         device_type = "cpu";
                         compatible = "arm,cortex-a5";
-                        reg = <0x1>;
+                        reg = <3>;
                 };
         };
 
@@ -257,43 +249,322 @@
                 status = "disabled";
         };
 
-        atm7029-gpio: gpio@b01b0000 {
+        atm7029-gpio: gpio@b01c0000 {
                 compatible = "actions,atm7029-gpio";
-                reg = <0xb01b0000 0x40>;
+                reg = <0xb01c0000 0x40>;
                 interrupts = <0x0 0x24 0x4 0x0 0x25 0x4 0x0 0x26 0x4 0x0 0x27 0x4 0x0 0x28 0x4>;
                 #gpio-cells = <2>;
                 gpio-controller;
                 #interrupt-cells = <2>;
-                interrupt-controller;
+                atm7029-gpio-irq: interrupt-controller;
                 status = "okay";
         };
 
-        atm7029-pwm: pwm@b01b0050 {
+        atm7029-pwm: pwm@b01c0050 {
                 compatible = "actions,atm7029-pwm";
-                reg = <0xb01b0050 0x10>;
+                reg = <0xb01c0050 0x10>;
                 #pwm-cells = <3>;
 
                 pwm0 {
                         id = <0>;
                         pinctrl-names = "default";
-                        pinctrl-0 = <0x11>;
+                        pinctrl-0 = <17>;
                 };
 
                 pwm1 {
                         id = <1>;
                         pinctrl-names = "default";
-                        pinctrl-0 = <0x12>;
+                        pinctrl-0 = <18>;
                 };
 
                 pwm2 {
                         id = <2>;
                         pinctrl-names = "default";
-                        pinctrl-0 = <0x13>;
+                        pinctrl-0 = <19>;
                 };
 
                 pwm3 {
                         id = <3>;
                         pinctrl-names = "default";
-                        pinctrl-0 = <0x14>;
+                        pinctrl-0 = <20>;
                 };
         };
+
+        nand@b0210000 {
+                #address-cells = <1>;
+                #size-cells = <0>;
+                compatible = "actions,atm7029-nand";
+                reg = <0xb0210000 0x10000>;
+                interrupts = <0 41 4>;
+                clock-source = "NANDPLL";
+                nand_max_freq = <0x23>;
+                nand_support_dqs = <1>;
+                nand_support_dqsn = <0>;
+                nand_ce_map = <0x1 0x2 0x84 0x86 0xffffffff 0xffffffff 0xffffffff 0xffffffff>;
+                pinctrl-names = "default";
+                pinctrl-0 = <21>;
+                status = "disabled";
+        };
+
+
+        ethernet@b0310000 {
+                #address-cells = <1>;
+                #size-cells = <0>;
+                compatible = "actions,atm7029-ethernet";
+                reg = <0xb0310000 0x10000>;
+                interrupts = <0 0 4 0 13 4>;
+                pin-ctl-grp-num = <1>;
+                pin-ctl-grp.1 = "default";
+                phy-mode = "rmii";
+                phy-handle = <22>;
+                phy-reset-gpios = <12 32 0>;
+                address-bits = <48>;
+                local-mac-address = [00 18 fe 66 66 66];
+                max-frame-size = <0x5ee>;
+                status = "okay";
+
+                ethernet-phy@0 {
+                        compatible = "micrel,ksz8041tl";
+                        reg = <0x0>;
+                        linux,phandle = <22>;
+                        phandle = <22>;
+                };
+        };
+
+        mmc@b0230000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x0>;
+                compatible = "actions,atm7029-mmc";
+                reg = <0xb0230000 0x4000>;
+                pinctrl-names = "default";
+                pinctrl-0 = <0x17>;
+                card-type = "memory";
+                card-detect-mode = "gpio";
+                cd-gpios = <0xc 0x22 0x0>;
+                interrupts = <0x0 0x2a 0x4>;
+                status = "okay";
+                sd_vcc = "switch1";
+                sdio_uart_supported;
+        };
+
+        mmc@b0234000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x0>;
+                compatible = "actions,atm7029-mmc";
+                reg = <0xb0234000 0x4000>;
+                interrupts = <0x0 0x2b 0x4>;
+                pinctrl-names = "default";
+                pinctrl-0 = <0x18>;
+                card-type = "wifi";
+                gpio_wl_bt_power_en = <0xc 0x14 0x0>;
+                gpio_wl_dis = <0xc 0x10 0x0>;
+                status = "okay";
+        };
+
+        mmc@b0238000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x0>;
+                compatible = "actions,atm7029-mmc";
+                reg = <0xb0238000 0x4000>;
+                interrupts = <0x0 0x2c 0x4>;
+                status = "disabled";
+        };
+
+        usb@b02b8000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x0>;
+                compatible = "actions,atm7029-usb-2.0";
+                reg = <0xb02b8000 0x1000>;
+                interrupts = <0x0 0x18 0x4>;
+                vbus-src = "regulator";
+                gpios = <0xc 0x15 0x0>;
+                vbus-regulator = "LDO1";
+                regulator-scope = <0x325aa0 0x3567e0>;
+                status = "disabled";
+        };
+
+        usb@b0400000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x0>;
+                compatible = "actions,atm7029-actionsusb-3.0";
+                usb_serialnumber_config = <0x1>;
+                reg = <0xb0400000 0xcd00 0xb040cd00 0x59>;
+                interrupts = <0x0 0x17 0x4>;
+                vbus_otg_engpio = "gpio";
+                gpios = <0xc 0x74 0x0>;
+                usb3_vbus_pad = "VBUS0";
+                status = "okay";
+        };
+
+        isp@b0270000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x0>;
+                compatible = "actions,atm7029-isp";
+                reg = <0xb0270000 0x400>;
+                interrupts = <0x0 0xc 0x4>;
+                avdd-src = "gpio";
+                avdd-gpios = <0xc 0x46 0x0>;
+                avdd-regulator = "ldo1";
+                avdd-regulator-scope = <0x2ab980 0x2ae090>;
+                dvdd-regulator = "ldo7";
+                dvdd-regulator-scope = <0x1b7740 0x1b9e50>;
+                sensors = "dual";
+                pwdn-rear-gpios = <0xc 0x3e 0x0>;
+                pwdn-front-gpios = <0xc 0x3f 0x0>;
+                reset-gpios = <0xc 0x40 0x1>;
+                status = "okay";
+                linux,phandle = <0x1c>;
+                phandle = <0x1c>;
+        };
+
+
+
+
+
+
+
+        lcd0@b02a0000 {
+                compatible = "actions,atm7029-lcd";
+                interrupts = <0x0 0x2d 0x4>;
+                pinctrl-names = "default";
+                pinctrl-0 = <0x1a>;
+                lcdpower-gpios = <0xc 0x42 0x0>;
+                lcdpower2-gpios = <0xc 0x49 0x0>;
+                port_type = "lvds";
+                data_width = <0x0>;
+                videomode-0 = <0x1b>;
+                vsync_inversion = <0x0>;
+                hsync_inversion = <0x0>;
+                dclk_inversion = <0x0>;
+                lde_inversion = <0x0>;
+                lvds_ctl = <0xa9547>;
+                lvds_alg_ctl0 = <0xc141a070>;
+                linux,phandle = <0x22>;
+                phandle = <0x22>;
+
+                mode@2048x1536p50 {
+                        refresh = <0x32>;
+                        xres = <0x800>;
+                        yres = <0x600>;
+                        pixclock = <0x1326>;
+                        left_margin = <0x190>;
+                        right_margin = <0x64>;
+                        upper_margin = <0x7>;
+                        lower_margin = <0x3>;
+                        hsync_len = <0x14>;
+                        vsync_len = <0x3>;
+                        vmode = <0x0>;
+                        linux,phandle = <0x1b>;
+                        phandle = <0x1b>;
+                };
+        };
+
+        dsi@b0220000 {
+                compatible = "actions,atm7029-dsi";
+                interrupts = <0x0 0x33 0x4>;
+                status = "disabled";
+        };
+
+        atm7029-bl: backlight {
+                compatible = "atm7029-pwm-backlight";
+                en-gpios = <0xc 0x24 0x0>;
+                pwms = <0x10 0x2 0xa6a 0x1>;
+                total_steps = <0x400>;
+                min_brightness = <0xe1>;
+                max_brightness = <0x2bc>;
+                dft_brightness = <0x15e>;
+        };
+
+        gpu@b0300000 {
+                compatible = "actions,atm7029-gpu";
+                reg = <0xb0300000 0x10000>;
+                interrupts = <0x0 0x3 0x4>;
+                strategy = <0x1>;
+                normal_pll = "DISPLAYPLL";
+                normal_clk_freq = <0xc8>;
+                perf_pll = "DISPLAYPLL";
+                perf_clk_freq = <0x168>;
+                high_pll = "DISPLAYPLL";
+                high_clk_freq = <0x1a4>;
+                status = "okay";
+        };
+
+        isp-rear-sensor {
+                compatible = "ov5640";
+                rear = <0x1>;
+                bus_type = "dvp";
+                data_type = "yuv";
+                host = <0x1c>;
+                i2c_adapter = <0x1d>;
+                channel = <0x1>;
+                pinctrl-names = "default";
+                pinctrl-0 = <0x1e>;
+                status = "disabled";
+                linux,phandle = <0x20>;
+                phandle = <0x20>;
+        };
+
+        isp-front-sensor {
+                compatible = "gc2035";
+                rear = <0x0>;
+                bus_type = "dvp";
+                data_type = "yuv";
+                host = <0x1c>;
+                i2c_adapter = <0x1f>;
+                channel = <0x1>;
+                pinctrl-names = "default";
+                pinctrl-0 = <0x1e>;
+                status = "disabled";
+                linux,phandle = <0x21>;
+                phandle = <0x21>;
+        };
+
+        bisp-raw {
+                compatible = "bisp";
+                rear = <0x20>;
+                front = <0x21>;
+                status = "disabled";
+        };
+
+        framebuffer {
+                compatible = "atm7029,framebuffer";
+                status = "disabled";
+
+                ovl_boot {
+                        usage = "boot";
+                        disp_dev = <0x22>;
+                        ovl_id = <0x0>;
+                        bpp = <0x20>;
+                        img_width = <0x800>;
+                        img_height = <0x600>;
+                        arrange = "full";
+                };
+
+                ovl_extra {
+                        usage = "extra";
+                        ovl_id = <0x3>;
+                        bpp = <0x10>;
+                        img_width = <0x500>;
+                        img_height = <0x2d0>;
+                        arrange = "full";
+                };
+        };
+
+        atm7029-vibrator: vibrator {
+                compatible = "atm7029,vibrator";
+                max_timeout = <0x2710>;
+                min_timeout = <0x0>;
+                vib_gpio = <0xc 0x21 0x0>;
+        };
+
+        clocksrc: clk-tempsrc {
+                dev_clk = "HOSC";
+                nic_clk = "DDRPLL";
+        };
+
+        atm7029-bt: bluetooth {
+                compatible = "realtek,bluetooth,rtl8723as_vt";
+                bt_power_gpio = <0xc 0x14 0x0>;
+                bt_en_gpio = <0xc 0x17 0x0>;
+        };
+};
