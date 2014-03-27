@@ -319,7 +319,7 @@ static void sunzilog_kbdms_receive_chars(struct uart_sunzilog_port *up,
 				serio_interrupt(&up->serio, ch, 0);
 #endif
 			break;
-		};
+		}
 	}
 }
 
@@ -897,7 +897,7 @@ sunzilog_convert_to_zs(struct uart_sunzilog_port *up, unsigned int cflag,
 		up->curregs[R5] |= Tx8;
 		up->parity_mask = 0xff;
 		break;
-	};
+	}
 	up->curregs[R4] &= ~0x0c;
 	if (cflag & CSTOPB)
 		up->curregs[R4] |= SB2;
@@ -1239,7 +1239,7 @@ static int __init sunzilog_console_setup(struct console *con, char *options)
 	default: case B9600: baud = 9600; break;
 	case B19200: baud = 19200; break;
 	case B38400: baud = 38400; break;
-	};
+	}
 
 	brg = BPS_TO_BRG(baud, ZS_CLOCK / ZS_CLOCK_DIVISOR);
 
@@ -1495,7 +1495,7 @@ static int zs_probe(struct platform_device *op)
 		kbm_inst++;
 	}
 
-	dev_set_drvdata(&op->dev, &up[0]);
+	platform_set_drvdata(op, &up[0]);
 
 	return 0;
 }
@@ -1512,7 +1512,7 @@ static void zs_remove_one(struct uart_sunzilog_port *up)
 
 static int zs_remove(struct platform_device *op)
 {
-	struct uart_sunzilog_port *up = dev_get_drvdata(&op->dev);
+	struct uart_sunzilog_port *up = platform_get_drvdata(op);
 	struct zilog_layout __iomem *regs;
 
 	zs_remove_one(&up[0]);
@@ -1520,8 +1520,6 @@ static int zs_remove(struct platform_device *op)
 
 	regs = sunzilog_chip_regs[up[0].port.line / 2];
 	of_iounmap(&op->resource[0], regs, sizeof(struct zilog_layout));
-
-	dev_set_drvdata(&op->dev, NULL);
 
 	return 0;
 }

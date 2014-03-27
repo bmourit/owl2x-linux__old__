@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/uncompress.h
+ * arch/arm/mach-gl5202/include/mach/uncompress.h
  *
  * Serial port stubs for kernel decompress status messages
  *

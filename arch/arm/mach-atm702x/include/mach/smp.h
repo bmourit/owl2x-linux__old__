@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/smp.h
+ * arch/arm/mach-gl5202/include/mach/smp.h
  *
  * SMP definitions
  *
@@ -18,7 +18,7 @@
 #include <asm/hardware/gic.h>
 
 /* This is required to wakeup the secondary core */
-extern void atm702x_secondary_startup(void);
+extern void asoc_secondary_startup(void);
 
 #define hard_smp_processor_id()             \
     ({                      \
@@ -27,6 +27,7 @@ extern void atm702x_secondary_startup(void);
             : "=r" (cpunum));       \
         cpunum &= 0x0F;             \
     })
+
 
 /*
  * We use IRQ1 as the IPI

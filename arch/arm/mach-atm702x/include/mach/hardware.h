@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/hardware.h
+ * arch/arm/mach-gl5202/include/mach/hardware.h
  *
  * hardware support
  *
@@ -15,16 +15,16 @@
 #ifndef __ASM_ARCH_HARDWARE_H
 #define __ASM_ARCH_HARDWARE_H
 
-#include <mach/atm702x_reg.h>
+#include <mach/actions_reg_gl5202.h>
 
-#define ATM702X_SDRAM_BASE             UL(0x00000000)
-#define ATM702X_IO_DEVICE_BASE         UL(0xB0000000)
+#define ASOC_SDRAM_BASE             UL(0x00000000)
+#define ASOC_IO_DEVICE_BASE         UL(0xB0000000)
 
-#define ATM702X_IO_ADDR_BASE           0xF8000000
+#define ASOC_IO_ADDR_BASE           0xF8000000
 
 /* macro to get at IO space when running virtually */
 #ifdef CONFIG_MMU
-/**
+/*
  * Statically mapped addresses:
  *
  * b0xx xxxx -> f8xx xxxx
@@ -32,7 +32,7 @@
  * b2xx xxxx -> faxx xxxx
  * b3xx xxxx -> fbxx xxxx
  */
-#define IO_ADDRESS(x)       (ATM702X_IO_ADDR_BASE + ((x) & 0x03ffffff))
+#define IO_ADDRESS(x)       (ASOC_IO_ADDR_BASE + ((x) & 0x03ffffff))
 #else
 #define IO_ADDRESS(x)       (x)
 #endif
@@ -43,73 +43,74 @@
 /******************************************************************************/
 static void inline act_writeb(u8 val, u32 reg)
 {
-        *(volatile u8 *)(IO_ADDRESS(reg)) = val;
+    *(volatile u8 *)(IO_ADDRESS(reg)) = val;
 }
 
 static void inline act_writew(u16 val, u32 reg)
 {
-        *(volatile u16 *)(IO_ADDRESS(reg)) = val;
+    *(volatile u16 *)(IO_ADDRESS(reg)) = val;
 }
 
 static void inline act_writel(u32 val, u32 reg)
 {
-        *(volatile u32 *)(IO_ADDRESS(reg)) = val;
+    *(volatile u32 *)(IO_ADDRESS(reg)) = val;
 }
 /******************************************************************************/
 static inline u8 act_readb(u32 reg)
 {
-        return (*(volatile u8 *)IO_ADDRESS(reg));
+    return (*(volatile u8 *)IO_ADDRESS(reg));
 }
 
 static inline u16 act_readw(u32 reg)
 {
-        return (*(volatile u16 *)IO_ADDRESS(reg));
+    return (*(volatile u16 *)IO_ADDRESS(reg));
 }
 
 static inline u32 act_readl(u32 reg)
 {
-        return (*(volatile u32 *)IO_ADDRESS(reg));
+    return (*(volatile u32 *)IO_ADDRESS(reg));
 }
 /******************************************************************************/
 static void inline act_setb(u8 val,u32 reg)
 {
-        *(volatile u8 *)IO_ADDRESS(reg) |= val;
+    *(volatile u8 *)IO_ADDRESS(reg) |= val;
 }
 
 static void inline act_setw(u16 val,u32 reg)
 {
-        *(volatile u16 *)IO_ADDRESS(reg) |= val;
+    *(volatile u16 *)IO_ADDRESS(reg) |= val;
 }
 
 static void inline act_setl(u32 val,u32 reg)
 {
-        *(volatile u32 *)IO_ADDRESS(reg) |= val;
+    *(volatile u32 *)IO_ADDRESS(reg) |= val;
 }
 /******************************************************************************/
 static void inline act_clearb(u8 val,u32 reg)
 {
-        *(volatile u8 *)IO_ADDRESS(reg) &= ~val;
+    *(volatile u8 *)IO_ADDRESS(reg) &= ~val;
 }
 
 static void inline act_clearw(u16 val,u32 reg)
 {
-        *(volatile u16 *)IO_ADDRESS(reg) &= ~val;
+    *(volatile u16 *)IO_ADDRESS(reg) &= ~val;
 }
 
 static void inline act_clearl(u32 val,u32 reg)
 {
-        *(volatile u32 *)IO_ADDRESS(reg) &= ~val;
+    *(volatile u32 *)IO_ADDRESS(reg) &= ~val;
 }
 /******************************************************************************/
 
-extern int atm702x_run_config(void);
-extern int atm702x_get_board_opt(void);
-extern int atm702x_get_board_opt_flags(void);
+extern int asoc_run_config(void);
+
+extern int asoc_get_board_opt(void);
+extern int asoc_get_board_opt_flags(void);
 
 extern int set_hdmi_status(unsigned int on);
 extern int set_safe_status(unsigned int on);
 
-extern unsigned int atm702x_get_ion_size(void);
+extern unsigned int asoc_get_ion_size(void);
 
 #endif
 

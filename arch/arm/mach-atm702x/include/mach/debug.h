@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/debug.h
+ * arch/arm/mach-gl5202/include/mach/debug.h
  *
  * debug stuff
  *
@@ -15,7 +15,7 @@
 #ifndef __ASM_ARCH_DEBUG_H
 #define __ASM_ARCH_DEBUG_H
 
-extern void atm702x_dump_mem(void *startaddr, int size, void *showaddr, int show_bytes);
-extern void atm702x_dump_reg(unsigned int addr, int size);
+extern void asoc_dump_mem(void *startaddr, int size, void *showaddr, int show_bytes);
+extern void asoc_dump_reg(unsigned int addr, int size);
 
 #endif /* __ASM_ARCH_DEBUG_H */

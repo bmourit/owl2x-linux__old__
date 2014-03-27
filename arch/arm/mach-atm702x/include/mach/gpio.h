@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/gpio.h
+ * arch/arm/mach-leopard/include/mach/gpio.h
  *
  * GPIO definitions
  *
@@ -15,21 +15,21 @@
 #ifndef __ASM_ARCH_GPIO_H
 #define __ASM_ARCH_GPIO_H
 
-#define ATM702X_GPIO_BANKS	5
-#define ATM702X_GPIO_PER_BANK	32
+#define ASOC_GPIO_BANKS         5
+#define ASOC_GPIO_PER_BANK      32
 
-/* GPIOA/B/C/D, GPIOE0 ~ 3 */
-#define ATM702X_NR_GPIO		(4 * 32 + 4)
+/* GPIOA/B/C/D, GPIOE0~3 */
+#define ASOC_NR_GPIO            (4 * 32 + 4)
 
-#define ATM702X_GPIO_PORTA(x) ((x) + ATM702X_GPIO_PER_BANK * 0)
-#define ATM702X_GPIO_PORTB(x) ((x) + ATM702X_GPIO_PER_BANK * 1)
-#define ATM702X_GPIO_PORTC(x) ((x) + ATM702X_GPIO_PER_BANK * 2)
-#define ATM702X_GPIO_PORTD(x) ((x) + ATM702X_GPIO_PER_BANK * 3)
-#define ATM702X_GPIO_PORTE(x) ((x) + ATM702X_GPIO_PER_BANK * 4)
+#define ASOC_GPIO_PORTA(x)      ((x) + ASOC_GPIO_PER_BANK * 0)
+#define ASOC_GPIO_PORTB(x)      ((x) + ASOC_GPIO_PER_BANK * 1)
+#define ASOC_GPIO_PORTC(x)      ((x) + ASOC_GPIO_PER_BANK * 2)
+#define ASOC_GPIO_PORTD(x)      ((x) + ASOC_GPIO_PER_BANK * 3)
+#define ASOC_GPIO_PORTE(x)      ((x) + ASOC_GPIO_PER_BANK * 4)
 
-#define ATM702X_GPIO_PORT(iogroup, pin_num) ((pin_num) + ATM702X_GPIO_PER_BANK * (iogroup))
+#define ASOC_GPIO_PORT(iogroup, pin_num) ((pin_num) + ASOC_GPIO_PER_BANK * (iogroup))
 
-extern int atm702x_gpio_init(void);
+extern int asoc_gpio_init(void);
 
 /**
  * struct icpad - ic pad information
@@ -39,16 +39,17 @@ extern int atm702x_gpio_init(void);
  * @status:
  * @dev: currently belongs to which device
  */
-struct gpio_pre_cfg {
-	unsigned char iogroup;		// A, B, C, D, etc
-	unsigned char pin_num;		// 0 - 31
-	unsigned char gpio_dir;		// INPUT/OUTPUT
-	unsigned char init_level;	// the initialize value
-	unsigned char active_level;	// active level
-	unsigned char unactive_level;	// unactive level
-	unsigned char valid;		// valid
-	unsigned char reserved[6];
-	char name[64];
+struct gpio_pre_cfg
+{
+    unsigned char iogroup;          // A, B, C, D, etc
+    unsigned char pin_num;          // 0-31
+    unsigned char gpio_dir;         // INPUT/OUTPUT
+    unsigned char init_level;       // the initialize value
+    unsigned char active_level;     // active level
+    unsigned char unactive_level;   // unactive level
+    unsigned char valid;            // valid
+    unsigned char reserved[6];
+    char name[64];
 } __attribute__ ((packed));
 
 extern int gpio_get_pre_cfg(char *gpio_name, struct gpio_pre_cfg *m_gpio);

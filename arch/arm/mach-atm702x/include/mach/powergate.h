@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/powergate.h
+ * arch/arm/mach-leopard/include/mach/powergate.h
  *
  * powergate definitions
  *
@@ -15,24 +15,24 @@
 #ifndef __ASM_ARCH_POWERGATE_H
 #define __ASM_ARCH_POWERGATE_H
 
-enum atm702x_powergate_id {
-    ATM702X_POWERGATE_CPU1 = 0,
-    ATM702X_POWERGATE_CPU23,
-    ATM702X_POWERGATE_GPU3D,
-    ATM702X_POWERGATE_GPS,
-    ATM702X_POWERGATE_VCE_BISP,
-    ATM702X_POWERGATE_VDE,
-    ATM702X_POWERGATE_L2,
-    ATM702X_POWERGATE_GPU2D,
-    ATM702X_POWERGATE_MAXID,
+enum asoc_powergate_id {
+    ASOC_POWERGATE_CPU1 = 0,
+    ASOC_POWERGATE_CPU23,
+    ASOC_POWERGATE_GPU3D,
+    ASOC_POWERGATE_GPS,
+    ASOC_POWERGATE_VCE_BISP,
+    ASOC_POWERGATE_VDE,
+    ASOC_POWERGATE_L2,
+    ASOC_POWERGATE_GPU2D,
+    ASOC_POWERGATE_MAXID,
 };
 
-int  __init atm702x_powergate_init(void);
+int  __init asoc_powergate_init(void);
 
-int atm702x_cpu_powergate_id(int cpuid);
-int atm702x_powergate_is_powered(enum atm702x_powergate_id id);
-int atm702x_powergate_power_on(enum atm702x_powergate_id id);
-int atm702x_powergate_power_off(enum atm702x_powergate_id id);
-int atm702x_powergate_power_on_l2(void);
+int asoc_cpu_powergate_id(int cpuid);
+int asoc_powergate_is_powered(enum asoc_powergate_id id);
+int asoc_powergate_power_on(enum asoc_powergate_id id);
+int asoc_powergate_power_off(enum asoc_powergate_id id);
+int asoc_powergate_power_on_l2(void);
 
 #endif /* __ASM_ARCH_POWERGATE_H */

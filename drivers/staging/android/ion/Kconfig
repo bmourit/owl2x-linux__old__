@@ -17,12 +17,15 @@ config ION_TEST
 	  Choose this option to create a device that can be used to test the
 	  kernel and device side ION functions.
 
-config ION_ACT702X
-	tristate "Ion for Actions ATM702X Chipsets"
-	depends on ARCH_ATM702X && ION
+config ION_DUMMY
+	bool "Dummy Ion driver"
+	depends on ION
 	help
-	  Choose this option if you are building for ATM702x chipset
-	  and want to use ion.
+	  Provides a dummy ION driver that registers the
+	  /dev/ion device and some basic heaps. This can
+	  be used for testing the ION infrastructure if
+	  one doesn't have access to hardware drivers that
+	  use ION.
 
 config ION_TEGRA
 	tristate "Ion for Tegra"

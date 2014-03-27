@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/io.h
+ * arch/arm/mach-gl5202/include/mach/io.h
  *
  * IO definitions
  *

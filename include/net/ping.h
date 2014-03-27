@@ -31,28 +31,28 @@
 
 /* Compatibility glue so we can support IPv6 when it's compiled as a module */
 struct pingv6_ops {
-	int (*ipv6_recv_error)(struct sock *sk, struct msghdr *msg, int len);
-	int (*ip6_datagram_recv_ctl)(struct sock *sk, struct msghdr *msg,
-				     struct sk_buff *skb);
+	int (*ipv6_recv_error)(struct sock *sk, struct msghdr *msg, int len,
+			       int *addr_len);
+	void (*ip6_datagram_recv_common_ctl)(struct sock *sk,
+					     struct msghdr *msg,
+					     struct sk_buff *skb);
+	void (*ip6_datagram_recv_specific_ctl)(struct sock *sk,
+					       struct msghdr *msg,
+					       struct sk_buff *skb);
 	int (*icmpv6_err_convert)(u8 type, u8 code, int *err);
 	void (*ipv6_icmp_error)(struct sock *sk, struct sk_buff *skb, int err,
 				__be16 port, u32 info, u8 *payload);
 	int (*ipv6_chk_addr)(struct net *net, const struct in6_addr *addr,
-			     struct net_device *dev, int strict);
-};
-
-struct ping_table {
-	struct hlist_nulls_head	hash[PING_HTABLE_SIZE];
-	rwlock_t		lock;
+			     const struct net_device *dev, int strict);
 };
 
 struct ping_iter_state {
 	struct seq_net_private  p;
 	int			bucket;
+	sa_family_t		family;
 };
 
 extern struct proto ping_prot;
-extern struct ping_table ping_table;
 #if IS_ENABLED(CONFIG_IPV6)
 extern struct pingv6_ops pingv6_ops;
 #endif
@@ -79,16 +79,29 @@ int  ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 		  size_t len, int noblock, int flags, int *addr_len);
 int  ping_common_sendmsg(int family, struct msghdr *msg, size_t len,
 			 void *user_icmph, size_t icmph_len);
-int  ping_v4_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
-		     size_t len);
 int  ping_v6_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 		     size_t len);
 int  ping_queue_rcv_skb(struct sock *sk, struct sk_buff *skb);
 void ping_rcv(struct sk_buff *skb);
 
 #ifdef CONFIG_PROC_FS
-extern int __init ping_proc_init(void);
-extern void ping_proc_exit(void);
+struct ping_seq_afinfo {
+	char				*name;
+	sa_family_t			family;
+	const struct file_operations	*seq_fops;
+	const struct seq_operations	seq_ops;
+};
+
+extern const struct file_operations ping_seq_fops;
+
+void *ping_seq_start(struct seq_file *seq, loff_t *pos, sa_family_t family);
+void *ping_seq_next(struct seq_file *seq, void *v, loff_t *pos);
+void ping_seq_stop(struct seq_file *seq, void *v);
+int ping_proc_register(struct net *net, struct ping_seq_afinfo *afinfo);
+void ping_proc_unregister(struct net *net, struct ping_seq_afinfo *afinfo);
+
+int __init ping_proc_init(void);
+void ping_proc_exit(void);
 #endif
 
 void __init ping_init(void);

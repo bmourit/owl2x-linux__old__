@@ -1,7 +1,7 @@
 #ifndef __XML_PINCTRL_H___
 #define __XML_PINCTRL_H___
 
-#include "../../ATM702X_pinctrl.h"
+#include "../../pinctrl-asoc.h"
 
 #define GPIO_CFG_MAX 32
 
@@ -17,8 +17,8 @@ typedef struct pcfg_s
 
 #define MAX_PINMUX_GROUP_PINS 32
 #define MAX_PINMUX_GROUP_REGCFGS 4
-#define MAX_ATM702X_PINMUX_GROUPS 64
-#define MAX_ATM702X_PINMUX_FUNCS 64
+#define MAX_ASOC_PINMUX_GROUPS 64
+#define MAX_ASOC_PINMUX_FUNCS 64
 
 struct pinctrl_map_data {
 	char dev_name[32];
@@ -36,13 +36,13 @@ typedef struct
 }handle_element_attr;
 
 
-struct atm702x_pinmux_group_data {
+struct asoc_pinmux_group_data {
 	char name[32];
 	unsigned int pins[MAX_PINMUX_GROUP_PINS];
-    struct atm702x_regcfg regcfgs[MAX_PINMUX_GROUP_REGCFGS];
+    struct asoc_regcfg regcfgs[MAX_PINMUX_GROUP_REGCFGS];
 };
 
-struct atm702x_pinmux_name {
+struct asoc_pinmux_name {
 	char name[32];
 	char *groups[8];
 };
@@ -53,11 +53,11 @@ struct pinctrl_args
 	unsigned int mappings_i;
 	unsigned int fuctions_i;
 
-	unsigned int addr_atm702x_pinmux_group_datas;
-	unsigned int addr_atm702x_pinmux_groups;
-	unsigned int addr_atm702x_pinmux_func_names;
-	unsigned int addr_atm702x_pinmux_func_groups;
-	unsigned int addr_atm702x_pinmux_funcs;
+	unsigned int addr_asoc_pinmux_group_datas;
+	unsigned int addr_asoc_pinmux_groups;
+	unsigned int addr_asoc_pinmux_func_names;
+	unsigned int addr_asoc_pinmux_func_groups;
+	unsigned int addr_asoc_pinmux_funcs;
 	unsigned int addr_pinctrl_map_datas;
 	unsigned int addr_pinctrl_maps;		
 

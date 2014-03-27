@@ -147,7 +147,7 @@ static void fat_write_failed(struct address_space *mapping, loff_t to)
 	struct inode *inode = mapping->host;
 
 	if (to > inode->i_size) {
-		truncate_pagecache(inode, to, inode->i_size);
+		truncate_pagecache(inode, inode->i_size);
 		fat_truncate_blocks(inode, inode->i_size);
 	}
 }
@@ -548,6 +548,16 @@ static void fat_set_state(struct super_block *sb,
 	brelse(bh);
 }
 
+static void delayed_free(struct rcu_head *p)
+{
+	struct msdos_sb_info *sbi = container_of(p, struct msdos_sb_info, rcu);
+	unload_nls(sbi->nls_disk);
+	unload_nls(sbi->nls_io);
+	if (sbi->options.iocharset != fat_default_iocharset)
+		kfree(sbi->options.iocharset);
+	kfree(sbi);
+}
+
 static void fat_put_super(struct super_block *sb)
 {
 	struct msdos_sb_info *sbi = MSDOS_SB(sb);
@@ -557,14 +567,7 @@ static void fat_put_super(struct super_block *sb)
 	iput(sbi->fsinfo_inode);
 	iput(sbi->fat_inode);
 
-	unload_nls(sbi->nls_disk);
-	unload_nls(sbi->nls_io);
-
-	if (sbi->options.iocharset != fat_default_iocharset)
-		kfree(sbi->options.iocharset);
-
-	sb->s_fs_info = NULL;
-	kfree(sbi);
+	call_rcu(&sbi->rcu, delayed_free);
 }
 
 static struct kmem_cache *fat_inode_cachep;
@@ -1252,7 +1255,6 @@ int fat_fill_super(struct super_block *sb, void *data, int silent, int isvfat,
 	struct inode *fsinfo_inode = NULL;
 	struct buffer_head *bh;
 	struct fat_boot_sector *b;
-	struct fat_boot_bsx *bsx;
 	struct msdos_sb_info *sbi;
 	u16 logical_sector_size;
 	u32 total_sectors, total_clusters, fat_clusters, rootdir_sectors;
@@ -1399,8 +1401,6 @@ int fat_fill_super(struct super_block *sb, void *data, int silent, int isvfat,
 			goto out_fail;
 		}
 
-		bsx = (struct fat_boot_bsx *)(bh->b_data + FAT32_BSX_OFFSET);
-
 		fsinfo = (struct fat_boot_fsinfo *)fsinfo_bh->b_data;
 		if (!IS_FSINFO(fsinfo)) {
 			fat_msg(sb, KERN_WARNING, "Invalid FSINFO signature: "
@@ -1416,13 +1416,19 @@ int fat_fill_super(struct super_block *sb, void *data, int silent, int isvfat,
 		}
 
 		brelse(fsinfo_bh);
-	} else {
-		bsx = (struct fat_boot_bsx *)(bh->b_data + FAT16_BSX_OFFSET);
 	}
 
 	/* interpret volume ID as a little endian 32 bit integer */
-	sbi->vol_id = (((u32)bsx->vol_id[0]) | ((u32)bsx->vol_id[1] << 8) |
-		((u32)bsx->vol_id[2] << 16) | ((u32)bsx->vol_id[3] << 24));
+	if (sbi->fat_bits == 32)
+		sbi->vol_id = (((u32)b->fat32.vol_id[0]) |
+					((u32)b->fat32.vol_id[1] << 8) |
+					((u32)b->fat32.vol_id[2] << 16) |
+					((u32)b->fat32.vol_id[3] << 24));
+	else /* fat 16 or 12 */
+		sbi->vol_id = (((u32)b->fat16.vol_id[0]) |
+					((u32)b->fat16.vol_id[1] << 8) |
+					((u32)b->fat16.vol_id[2] << 16) |
+					((u32)b->fat16.vol_id[3] << 24));
 
 	sbi->dir_per_block = sb->s_blocksize / sizeof(struct msdos_dir_entry);
 	sbi->dir_per_block_bits = ffs(sbi->dir_per_block) - 1;

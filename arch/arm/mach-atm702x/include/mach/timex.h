@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/timex.h
+ * arch/arm/mach-gl5202/include/mach/timex.h
  *
  * timex definitions
  *

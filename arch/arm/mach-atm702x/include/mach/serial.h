@@ -1,5 +1,5 @@
 /*
- * arch/arm/mach-atm702x/include/mach/io.h
+ * arch/arm/mach-gl5202/include/mach/io.h
  *
  * serial definitions
  *
@@ -15,7 +15,7 @@
 #ifndef __ASM_ARCH_SERIAL_H
 #define __ASM_ARCH_SERIAL_H
 
-struct atm702x_uart_platform_data
+struct asoc_uart_platform_data
 {
     /* tx dma config */
     int use_dma_tx;

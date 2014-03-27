@@ -1,3 +1,0 @@
-source "drivers/video/actx/act_vout/Kconfig"
-source "drivers/video/actx/actfb/Kconfig"
-source "drivers/video/actx/act_de/Kconfig"
