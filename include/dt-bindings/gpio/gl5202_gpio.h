@@ -1,10 +1,8 @@
 /*
- * arch/arm/mach-gl5202/include/mach/gl5202_gpio.h
+ * GPIO device tree bindings for ATM702x based SoCs
  *
- * gpio support for Actions SOC
- *
- * Copyright 2012 Actions Semi Inc.
- * Author: Actions Semi, Inc.
+ * Copyright (C) 2014
+ * Author: B. Mouritsen
  *
  * This program is free software; you can redistribute  it and/or modify it
  * under  the terms of  the GNU General  Public License as published by the
@@ -12,25 +10,17 @@
  * option) any later version.
  */
 
-/******************************************************************************/
-#ifndef __ATV5201_GPIO_H__
-#define __ATV5201_GPIO_H__
+#ifndef _DT_BINDINGS_GPIO_ATM702X_GPIO_H
+#define _DT_BINDINGS_GPIO_ATM702X_GPIO_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <dt-bindings/gpio/gpio.h>
 
-enum gpio_group
-{
-    GPIO_GROUP_INVALID = -1,
-    GPIO_GROUP_A = 0,
-    GPIO_GROUP_B,
-    GPIO_GROUP_C,
-    GPIO_GROUP_D,
-    GPIO_GROUP_E,
-    GPIO_GROUP_5302,    // specially for GL5302
-};
-
+#define ATM702X_GPIO_PORT_A     1
+#define ATM702X_GPIO_PORT_B     2
+#define ATM702X_GPIO_PORT_C     3
+#define ATM702X_GPIO_PORT_D     4
+#define ATM702X_GPIO_PORT_E     5
+#define ATM702X_GPIO_PORT_EXT   6
 
 /* list of all the configurable MFP pins */
 enum pad_id
@@ -52,7 +42,7 @@ enum pad_id
     P_BT_TS_ERROR,
 
     // ETH
-    PAD_ETH_TXD0,12
+    PAD_ETH_TXD0,
     PAD_ETH_TXD1,
     PAD_ETH_TX_EN,
     PAD_ETH_RX_ER,
@@ -64,19 +54,19 @@ enum pad_id
     PAD_ETH_MDIO,
 
     // INTC
-    PAD_SIRQ0,22
+    PAD_SIRQ0,
     PAD_SIRQ1,
     PAD_SIRQ2,
 
     // I2S
-    PAD_I2S_D0,25
+    PAD_I2S_D0,
     PAD_I2S_BCLK0,
     PAD_I2S_LRCLK0,
     PAD_I2S_MCLK0,
     PAD_I2S_D1,
     PAD_I2S_BCLK1,
     PAD_I2S_LRCLK1,
-    PAD_I2S_MCLK1,32
+    PAD_I2S_MCLK1,
 
     // PCM
     PAD_PCM1_IN,
@@ -94,7 +84,7 @@ enum pad_id
     PAD_KS_OUT2,
 
     // LVDS
-    PAD_LVDS_OEP,44
+    PAD_LVDS_OEP,
     PAD_LVDS_OEN,
     PAD_LVDS_ODP,
     PAD_LVDS_ODN,
@@ -116,7 +106,7 @@ enum pad_id
     PAD_LVDS_EAN,
 
     // LCD
-    PAD_LCD0_D18,64
+    PAD_LCD0_D18,
     PAD_LCD0_D17,
     PAD_LCD0_D16,
     PAD_LCD0_D9,
@@ -130,7 +120,7 @@ enum pad_id
     PAD_LCD0_LDE1,
 
     // SD
-    PAD_SD0_D0,76
+    PAD_SD0_D0,
     PAD_SD0_D1,
     PAD_SD0_D2,
     PAD_SD0_D3,
@@ -150,7 +140,7 @@ enum pad_id
     PAD_SPI0_MOSI,
 
     // UART0
-    PAD_UART0_RX,92
+    PAD_UART0_RX,
     PAD_UART0_TX,
 
     // UART2
@@ -162,7 +152,7 @@ enum pad_id
     // UART3
     PAD_UART3_RX,
     PAD_UART3_TX,
-    PAD_UART3_RTSB,100
+    PAD_UART3_RTSB,
     PAD_UART3_CTSB,
 
     // UART4
@@ -229,7 +219,7 @@ enum pad_id
     PAD_NAND_CEB0,
     PAD_NAND_CEB1,
     PAD_NAND_CEB2,
-    PAD_NAND_CEB3,153
+    PAD_NAND_CEB3,
 
     PAD_MAX,
 };
@@ -292,13 +282,13 @@ extern int pad_drv_cap(enum pad_id id, int strength);
 /******************************************************************************/
 /*MFP_CTL0*/
 #define MFP_CTL0_PADEN                  (1 << 31)
-#define MFP_CTL0_BT_D0_3                (1 << 30)
-#define MFP_CTL0_BT_D4_5                (1 << 29)
-#define MFP_CTL0_BT_D6_7(x)             (((x) & 0x03) << 27)
+#define MFP_CTL0_BTD0_3                 (1 << 30)
+#define MFP_CTL0_BTD4_5                 (1 << 29)
+#define MFP_CTL0_BTD6_7(x)              (((x) & 0x03) << 27)
 #define MFP_CTL0_ETH_TXD1_RXD1(x)       (((x) & 0x07) << 24)
 #define MFP_CTL0_ETH_TXD0(x)            (((x) & 0x07) << 21)
 #define MFP_CTL0_ETH_RXD0(x)            (((x) & 0x07) << 18)
-#define MFP_CTL0_ETH_TXEN_RXEN_CRS(x)   (((x) & 0x07) << 15)
+#define MFP_CTL0_ETH_TEN_RER_CRS(x)     (((x) & 0x07) << 15)
 #define MFP_CTL0_ETH_REF_CLK(x)         (((x) & 0x07) << 12)
 #define MFP_CTL0_ETH_MDC_MDIO(x)        (((x) & 0x07) << 9)
 #define MFP_CTL0_SIRQ1                  (1 << 8)

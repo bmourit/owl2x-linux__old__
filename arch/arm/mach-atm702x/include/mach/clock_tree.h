@@ -46,27 +46,27 @@
 #define PLL120M_RATE        120000000
 
 #define CPUCLK_SEL_MASK   0x3  
-#define DEVCLK_SEL_MASK   (0x1<<12) 
+#define DEVCLK_SEL_MASK   (0x1 << 12) 
 
 
-#define AHBCLK_SEL_MASK   (0x1<<7)
-#define AHBCLK_DIV_MASK   (0x7<<4)
+#define AHBCLK_SEL_MASK   (0x1 << 7)
+#define AHBCLK_DIV_MASK   (0x7 << 4)
 #define AHBCLK_MAX_RATE    180000000
 #define AHBCLK_MIN_RATE    80000000
 
-#define APBCLK_DIV_MASK   (0x7<<8)
+#define APBCLK_DIV_MASK   (0x7 << 8)
 #define APBCLK_MAX_RATE    80000000
 #define APBCLK_MIN_RATE    24000000
 
 
-#define NIC_DCU_SEL_MASK   (0x1<<16)
+#define NIC_DCU_SEL_MASK   (0x1 << 16)
 
 #define LCD0CLK_DIV_MASK   0xf
-#define LCD1CLK_DIV_MASK   (0xf<<4)
-#define BISPCLK_SEL_MASK    (0x1<<4)
+#define LCD1CLK_DIV_MASK   (0xf << 4)
+#define BISPCLK_SEL_MASK    (0x1 << 4)
 #define BISPCLK_DIV_MASK    (0xf)
-#define SENSORCLK_SEL_MASK    (0x1<<4)
-#define TVOUTMUXCLK_SEL_MASK    (0x1<<6)
+#define SENSORCLK_SEL_MASK    (0x1 << 4)
+#define TVOUTMUXCLK_SEL_MASK    (0x1 << 6)
 #define TVOUT0CLK_DIV_MASK    (0x3<<4)
 #define I2STXCLK_DIV_MASK    (0xf<<16)
 #define I2SRXCLK_DIV_MASK    (0xf<<20)

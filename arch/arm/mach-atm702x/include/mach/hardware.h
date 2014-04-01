@@ -39,6 +39,21 @@
 
 #define __io_address(n)     __io(IO_ADDRESS(n))
 
+/* Peripheral physical addresses */
+#define ATM702X_PA_REG_BASE        (0xB0000000)
+#define ATM702X_PA_REG_SIZE        (6 * SZ_1M)
+
+#define ATM702X_PA_COREPERI        (0xB0020000)
+#define ATM702X_PA_SCU             (0xB0020000)
+#define ATM702X_PA_GIC_CPU         (0xB0020100)
+#define ATM702X_PA_GIC_GP          (0xB0020200)
+#define ATM702X_PA_TWD             (0xB0020600)
+#define ATM702X_PA_GIC_DIST        (0xB0021000)
+#define ATM702X_IO_COREPERI_SIZE   (SZ_8K)
+
+#define ATM702X_PA_L2CC            (0xB0022000)
+#define ATM702X_IO_L2CC_SIZE       (SZ_4K)
+
 #ifndef __ASSEMBLY__
 /******************************************************************************/
 static void inline act_writeb(u8 val, u32 reg)
