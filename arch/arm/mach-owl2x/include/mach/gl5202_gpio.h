@@ -1,8 +1,10 @@
 /*
- * GPIO device tree bindings for ATM702x based SoCs
+ * arch/arm/mach-gl5202/include/mach/gl5202_gpio.h
  *
- * Copyright (C) 2014
- * Author: B. Mouritsen
+ * gpio support for Actions SOC
+ *
+ * Copyright 2012 Actions Semi Inc.
+ * Author: Actions Semi, Inc.
  *
  * This program is free software; you can redistribute  it and/or modify it
  * under  the terms of  the GNU General  Public License as published by the
@@ -10,221 +12,195 @@
  * option) any later version.
  */
 
-#ifndef _DT_BINDINGS_GPIO_ATM702X_GPIO_H
-#define _DT_BINDINGS_GPIO_ATM702X_GPIO_H
+/******************************************************************************/
+#ifndef __ATV5201_GPIO_H__
+#define __ATV5201_GPIO_H__
 
-#include <dt-bindings/gpio/gpio.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#define ATM702X_GPIO_PORT_A     1
-#define ATM702X_GPIO_PORT_B     2
-#define ATM702X_GPIO_PORT_C     3
-#define ATM702X_GPIO_PORT_D     4
-#define ATM702X_GPIO_PORT_E     5
-#define ATM702X_GPIO_PORT_EXT   6
-
-/* list of all the configurable MFP pins */
-enum pad_id
-{
-    PAD_INVALID = -1,
-
-    //BT
-    PAD_BT_D0,
-    PAD_BT_D1,
-    PAD_BT_D2,
-    PAD_BT_D3,
-    PAD_BT_D4,
-    PAD_BT_D5,
-    PAD_BT_D6,
-    PAD_BT_D7,
-    PAD_BT_PCLK,
-    P_BT_VSYNC,
-    P_BT_HSYNC,
-    P_BT_TS_ERROR,
-
-    // ETH
-    PAD_ETH_TXD0,
-    PAD_ETH_TXD1,
-    PAD_ETH_TX_EN,
-    PAD_ETH_RX_ER,
-    PAD_ETH_CRS_DV,
-    PAD_ETH_RXD1,
-    PAD_ETH_RXD0,
-    PAD_ETH_REF_CLK,
-    PAD_ETH_MDC,
-    PAD_ETH_MDIO,
-
-    // INTC
-    PAD_SIRQ0,
-    PAD_SIRQ1,
-    PAD_SIRQ2,
-
-    // I2S
-    PAD_I2S_D0,
-    PAD_I2S_BCLK0,
-    PAD_I2S_LRCLK0,
-    PAD_I2S_MCLK0,
-    PAD_I2S_D1,
-    PAD_I2S_BCLK1,
-    PAD_I2S_LRCLK1,
-    PAD_I2S_MCLK1,
-
-    // PCM
-    PAD_PCM1_IN,
-    PAD_PCM1_CLK,
-    PAD_PCM1_SYNC,
-    PAD_PCM1_OUT,
-
-    // KEY
-    PAD_KS_IN0,
-    PAD_KS_IN1,
-    PAD_KS_IN2,
-    PAD_KS_IN3,
-    PAD_KS_OUT0,
-    PAD_KS_OUT1,
-    PAD_KS_OUT2,
-
-    // LVDS
-    PAD_LVDS_OEP,
-    PAD_LVDS_OEN,
-    PAD_LVDS_ODP,
-    PAD_LVDS_ODN,
-    PAD_LVDS_OCP,
-    PAD_LVDS_OCN,
-    PAD_LVDS_OBP,
-    PAD_LVDS_OBN,
-    PAD_LVDS_OAP,
-    PAD_LVDS_OAN,
-    PAD_LVDS_EEP,
-    PAD_LVDS_EEN,
-    PAD_LVDS_EDP,
-    PAD_LVDS_EDN,
-    PAD_LVDS_ECP,
-    PAD_LVDS_ECN,
-    PAD_LVDS_EBP,
-    PAD_LVDS_EBN,
-    PAD_LVDS_EAP,
-    PAD_LVDS_EAN,
-
-    // LCD
-    PAD_LCD0_D18,
-    PAD_LCD0_D17,
-    PAD_LCD0_D16,
-    PAD_LCD0_D9,
-    PAD_LCD0_D8,
-    PAD_LCD0_D2,
-    PAD_LCD0_D1,
-    PAD_LCD0_D0,
-    PAD_LCD0_DCLK1,
-    PAD_LCD0_HSYNC1,
-    PAD_LCD0_VSYNC1,
-    PAD_LCD0_LDE1,
-
-    // SD
-    PAD_SD0_D0,
-    PAD_SD0_D1,
-    PAD_SD0_D2,
-    PAD_SD0_D3,
-    PAD_SD0_D4,
-    PAD_SD0_D5,
-    PAD_SD0_D6,
-    PAD_SD0_D7,
-    PAD_SD0_CMD,
-    PAD_SD0_CLK,
-    PAD_SD1_CMD,
-    PAD_SD1_CLK,
-
-    // SPI
-    PAD_SPI0_CLK,
-    PAD_SPI0_SS,
-    PAD_SPI0_MISO,
-    PAD_SPI0_MOSI,
-
-    // UART0
-    PAD_UART0_RX,
-    PAD_UART0_TX,
-
-    // UART2
-    PAD_UART2_RX,
-    PAD_UART2_TX,
-    PAD_UART2_RTSB,
-    PAD_UART2_CTSB,
-
-    // UART3
-    PAD_UART3_RX,
-    PAD_UART3_TX,
-    PAD_UART3_RTSB,
-    PAD_UART3_CTSB,
-
-    // UART4
-    PAD_UART4_RX,
-    PAD_UART4_TX,
-
-    // I2C0
-    PAD_I2C0_SCLK,
-    PAD_I2C0_SDATA,
-
-    // I2C1
-    PAD_I2C1_SCLK,
-    PAD_I2C1_SDATA,
-
-    // I2C2
-    PAD_I2C2_SCLK,
-    PAD_I2C2_SDATA,
-
-    // MIPI
-    PAD_CSI_DN0,
-    PAD_CSI_DP0,
-    PAD_CSI_DN1,
-    PAD_CSI_DP1,
-    PAD_CSI_CN,
-    PAD_CSI_CP,
-    PAD_CSI_DN2,
-    PAD_CSI_DP2,
-    PAD_CSI_DN3,
-    PAD_CSI_DP3,
-
-    // SENS
-    PAD_SENS0_PCLK,
-    PAD_SENS1_PCLK,
-    PAD_SENS1_VSYNC,
-    PAD_SENS1_HSYNC,
-    PAD_SENS1_D0,
-    PAD_SENS1_D1,
-    PAD_SENS1_D2,
-    PAD_SENS1_D3,
-    PAD_SENS1_D4,
-    PAD_SENS1_D5,
-    PAD_SENS1_D6,
-    PAD_SENS1_D7,
-    PAD_SENS1_CKOUT,
-    PAD_SENS0_CKOUT,
-
-    // NAND
-    PAD_NAND_D0,
-    PAD_NAND_D1,
-    PAD_NAND_D2,
-    PAD_NAND_D3,
-    PAD_NAND_D4,
-    PAD_NAND_D5,
-    PAD_NAND_D6,
-    PAD_NAND_D7,
-    PAD_NAND_WRB,
-    PAD_NAND_RDB,
-    PAD_NAND_RDBN,
-    PAD_NAND_DQS,
-    PAD_NAND_DQSN,
-    PAD_NAND_RB,
-    PAD_NAND_ALE,
-    PAD_NAND_CLE,
-    PAD_NAND_CEB0,
-    PAD_NAND_CEB1,
-    PAD_NAND_CEB2,
-    PAD_NAND_CEB3,
-
-    PAD_MAX,
+enum gpio_group {
+    GPIO_GROUP_INVALID = -1,
+    GPIO_GROUP_A = 0,
+    GPIO_GROUP_B,
+    GPIO_GROUP_C,
+    GPIO_GROUP_D,
+    GPIO_GROUP_E,
+    GPIO_GROUP_EXT,    // special for atc260x
 };
 
-#define CFG_PAD_MAX 144
+
+/* list of all the configurable MFP pins */
+#define PIN_BT_D0               0
+#define PIN_BT_D1               1
+#define PIN_BT_D2               2
+#define PIN_BT_D3               3
+#define PIN_BT_D4               4
+#define PIN_BT_D5               5
+#define PIN_BT_D6               6
+#define PIN_BT_D7               7
+#define PIN_BT_PCLK             8
+#define PIN_BT_VSYNC            9
+#define PIN_BT_HSYNC            10
+#define PIN_BT_TS_ERROR         11
+#define PIN_DNAND_DQS           12
+#define PIN_DNAND_DQSN          13
+#define PIN_RMII_TXD0           14
+#define PIN_RMII_TXD1           15
+#define PIN_RMII_TX_EN          16
+#define PIN_RMII_RX_EN          17
+#define PIN_RMII_CRS_DV         18
+#define PIN_RMII_RXD1           19
+#define PIN_RMII_RXD0           20
+#define PIN_RMII_REF_CLK        21
+#define PIN_SMI_MDC             22
+#define PIN_SMI_MDIO            23
+#define PIN_SIRQ0               24
+#define PIN_SIRQ1               25
+#define PIN_SIRQ2               26
+#define PIN_I2S_D0              27
+#define PIN_I2S_BCLK0           28
+#define PIN_I2S_LRCLK0          29
+#define PIN_I2S_MCLK0           30
+#define PIN_I2S_D1              31
+#define PIN_I2S_BCLK1           32
+#define PIN_I2S_LRCLK1          33
+#define PIN_I2S_MCLK1           34
+#define PIN_KS_IN0              35
+#define PIN_KS_IN1              36
+#define PIN_KS_IN2              37
+#define PIN_KS_IN3              38
+#define PIN_KS_OUT0             39
+#define PIN_KS_OUT1             40
+#define PIN_KS_OUT2             41
+#define PIN_LVDS_OEP            42
+#define PIN_LVDS_OEN            43
+#define PIN_LVDS_ODP            44
+#define PIN_LVDS_ODN            45
+#define PIN_LVDS_OCP            46
+#define PIN_LVDS_OCN            47
+#define PIN_LVDS_OBP            48
+#define PIN_LVDS_OBN            49
+#define PIN_LVDS_OAP            50
+#define PIN_LVDS_OAN            51
+#define PIN_LVDS_EEP            52
+#define PIN_LVDS_EEN            53
+#define PIN_LVDS_EDP            54
+#define PIN_LVDS_EDN            55
+#define PIN_LVDS_ECP            56
+#define PIN_LVDS_ECN            57
+#define PIN_LVDS_EBP            58
+#define PIN_LVDS_EBN            59
+#define PIN_LVDS_EAP            60
+#define PIN_LVDS_EAN            61
+#define PIN_LCD0_D18            62
+#define PIN_LCD0_D17            63
+#define PIN_LCD0_D16            64
+#define PIN_LCD0_D9             65
+#define PIN_LCD0_D8             66
+#define PIN_LCD0_D2             67
+#define PIN_LCD0_D1             68
+#define PIN_LCD0_D0             69
+#define PIN_LCD0_DCLK1          70
+#define PIN_LCD0_HSYNC1         71
+#define PIN_LCD0_VSYNC1         72
+#define PIN_LCD0_LDE1           73
+#define PIN_SD0_D0              74
+#define PIN_SD0_D1              75
+#define PIN_SD0_D2              76
+#define PIN_SD0_D3              77
+#define PIN_SD0_D4              78
+#define PIN_SD0_D5              79
+#define PIN_SD0_D6              80
+#define PIN_SD0_D7              81
+#define PIN_SD0_CMD             82
+#define PIN_SD0_CLK             83
+#define PIN_SD1_CMD             84
+#define PIN_SD1_CLK             85
+#define PIN_SPI0_SCLK           86
+#define PIN_SPI0_SS             87
+#define PIN_SPI0_MISO           88
+#define PIN_SPI0_MOSI           89
+#define PIN_UART0_RX            90
+#define PIN_UART0_TX            91
+#define PIN_I2C0_SCLK           92
+#define PIN_I2C0_SDATA          93
+#define PIN_SENS0_PCLK          94
+#define PIN_SENS1_PCLK          95
+#define PIN_SENS1_VSYNC         96
+#define PIN_SENS1_HSYNC         97
+#define PIN_SENS1_D0            98
+#define PIN_SENS1_D1            99
+#define PIN_SENS1_D2            100
+#define PIN_SENS1_D3            101
+#define PIN_SENS1_D4            102
+#define PIN_SENS1_D5            103
+#define PIN_SENS1_D6            104
+#define PIN_SENS1_D7            105
+#define PIN_SENS1_CKOUT         106
+#define PIN_SENS0_CKOUT         107
+#define PIN_DNAND_ALE           108
+#define PIN_DNAND_CLE           109
+#define PIN_DNAND_CEB0          110
+#define PIN_DNAND_CEB1          111
+#define PIN_DNAND_CEB2          112
+#define PIN_DNAND_CEB3          113
+#define PIN_UART2_RX            114
+#define PIN_UART2_TX            115
+#define PIN_UART2_RTSB          116
+#define PIN_UART2_CTSB          117
+#define PIN_UART3_RX            118
+#define PIN_UART3_TX            119
+#define PIN_UART3_RTSB          120
+#define PIN_UART3_CTSB          121
+#define PIN_UART4_RX            122
+#define PIN_UART4_TX            123
+#define PIN_PCM1_IN             124
+#define PIN_PCM1_CLK0           125
+#define PIN_PCM1_SYNC           126
+#define PIN_PCM1_OUT            127
+#define PIN_I2C1_SCLK           128
+#define PIN_I2C1_SDATA          129
+#define PIN_I2C2_SCLK           130
+#define PIN_I2C2_SDATA          131
+#define RESERVED                132
+#define PIN_DSI_DN1             133
+#define PIN_DSI_DP1             134
+#define PIN_DSI_DN0             135
+#define PIN_DSI_DP0             136
+#define PIN_DSI_CN              137
+#define PIN_DSI_CP              138
+#define PIN_DSI_DN2             139
+#define PIN_DSI_DP2             140
+#define PIN_DSI_DN3             141
+#define PIN_DSI_DP3             142
+#define PIN_CSI_DN0             143
+#define PIN_CSI_DP0             144
+#define PIN_CSI_DN1             145
+#define PIN_CSI_DP1             146
+#define PIN_CSI_CN              147
+#define PIN_CSI_CP              148
+#define PIN_CSI_DN2             149
+#define PIN_CSI_DP2             150
+#define PIN_CSI_DN3             151
+#define PIN_CSI_DP3             152
+#define PIN_DNAND_D0            153
+#define PIN_DNAND_D1            154
+#define PIN_DNAND_D2            155
+#define PIN_DNAND_D3            156
+#define PIN_DNAND_D4            157
+#define PIN_DNAND_D5            158
+#define PIN_DNAND_D6            159
+#define PIN_DNAND_D7            160
+#define PIN_DNAND_WRB           161
+#define PIN_DNAND_RDB           162
+#define PIN_DNAND_RDBN          163
+#define PIN_DNAND_RB            164
+#define PIN_TST_OUT             165
+
+
+#define CFG_PAD_MAX 165
 
 #define GPIO_NAME_SENSOR_FRONT_PWDN	"sensorf_pwdn"
 #define GPIO_NAME_SENSOR_FRONT_RESET	"sensorf_reset"
@@ -247,6 +223,13 @@ enum pad_id
 
 extern int pad_pull_up(enum pad_id id);
 extern int pad_pull_down(enum pad_id id);
+
+enum drv_strength {
+	DRV_STRENGTH_L1,
+	DRV_STRENGTH_L2,
+	DRV_STRENGTH_L3,
+	DRV_STRENGTH_L4,
+};
 
 #define PAD_DRV_STRENGTH_L1     0
 #define PAD_DRV_STRENGTH_L2     1
@@ -282,13 +265,13 @@ extern int pad_drv_cap(enum pad_id id, int strength);
 /******************************************************************************/
 /*MFP_CTL0*/
 #define MFP_CTL0_PADEN                  (1 << 31)
-#define MFP_CTL0_BTD0_3                 (1 << 30)
-#define MFP_CTL0_BTD4_5                 (1 << 29)
-#define MFP_CTL0_BTD6_7(x)              (((x) & 0x03) << 27)
+#define MFP_CTL0_BT_D0_3                (1 << 30)
+#define MFP_CTL0_BT_D4_5                (1 << 29)
+#define MFP_CTL0_BT_D6_7(x)             (((x) & 0x03) << 27)
 #define MFP_CTL0_ETH_TXD1_RXD1(x)       (((x) & 0x07) << 24)
 #define MFP_CTL0_ETH_TXD0(x)            (((x) & 0x07) << 21)
 #define MFP_CTL0_ETH_RXD0(x)            (((x) & 0x07) << 18)
-#define MFP_CTL0_ETH_TEN_RER_CRS(x)     (((x) & 0x07) << 15)
+#define MFP_CTL0_ETH_TXEN_RXEN_CRS(x)   (((x) & 0x07) << 15)
 #define MFP_CTL0_ETH_REF_CLK(x)         (((x) & 0x07) << 12)
 #define MFP_CTL0_ETH_MDC_MDIO(x)        (((x) & 0x07) << 9)
 #define MFP_CTL0_SIRQ1                  (1 << 8)

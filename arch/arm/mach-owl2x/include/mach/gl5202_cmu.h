@@ -46,7 +46,7 @@ enum module_id
     MOD_ID_VDE,
     MOD_ID_VCE,
     MOD_ID_GPU2D,
-    MOD_ID_SHARESRAM,
+    MOD_ID_SHA_RES_RAM,
     MOD_ID_GPU2DLP,
     MOD_ID_GPU3D,
     MOD_ID_GPU3DLP,

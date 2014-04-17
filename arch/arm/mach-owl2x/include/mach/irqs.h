@@ -27,10 +27,10 @@
 #define IRQ_ASOC_GPU_2D             ASOC_IRQ(3)
 #define IRQ_ASOC_GPU_3D             ASOC_IRQ(4)
 #define IRQ_ASOC_VIN                ASOC_IRQ(5)
-#define IRQ_ASOC_PC0                ASOC_IRQ(6)
+#define IRQ_ASOC_PC0                ASOC_IRQ(6) 	//Performance counters
 #define IRQ_ASOC_PC1                ASOC_IRQ(7)
 #define IRQ_ASOC_PC2                ASOC_IRQ(8)
-#define IRQ_ASOC_2HZ0               ASOC_IRQ(9)
+#define IRQ_ASOC_2HZ0               ASOC_IRQ(9)		// Watchdog
 #define IRQ_ASOC_2HZ1               ASOC_IRQ(10)
 #define IRQ_ASOC_TIMER0             ASOC_IRQ(11)
 #define IRQ_ASOC_TIMER1             ASOC_IRQ(12)
@@ -79,7 +79,7 @@
 /* Set the default NR_IRQS */
 #define ASOC_NR_IRQS                (ASOC_IRQ(53) + 1)
 
-/* virtual IRQs: external speical IRQs */
+/* Special IRQs */
 #define IRQ_SIRQ_BASE               (ASOC_NR_IRQS)
 #define IRQ_SIRQ0                   (IRQ_SIRQ_BASE + 0)
 #define IRQ_SIRQ1                   (IRQ_SIRQ_BASE + 1)
@@ -87,8 +87,8 @@
 #define ASOC_NR_SIRQ                (3)
 
 /* virtual IRQs: GPIO */
-#define IRQ_GPIOA_BASE              (IRQ_SIRQ_BASE + ASOC_NR_SIRQ)
-#define IRQ_GPIOA(x)                (IRQ_GPIOA_BASE + (x))
+#define IRQ_GPIOA_BASE              (IRQ_SIRQ_BASE + ASOC_NR_SIRQ) //56
+#define IRQ_GPIOA(x)                (IRQ_GPIOA_BASE + (x)) //
 #define IRQ_GPIOB_BASE              (IRQ_GPIOA(31) + 1)
 #define IRQ_GPIOB(x)                (IRQ_GPIOB_BASE + (x))
 #define IRQ_GPIOC_BASE              (IRQ_GPIOB(31) + 1)

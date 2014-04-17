@@ -56,7 +56,7 @@ enum module_clk_id
     MODULE_CLK_GPU2DLP,
     MODULE_CLK_GPU3D,
     MODULE_CLK_GPU3DLP,
-    /*dev1*/
+    /* CMU_DEVCLKEN1 */
     MODULE_CLK_TVIN,
     MODULE_CLK_TV24M,
     MODULE_CLK_CVBS,
@@ -398,13 +398,13 @@ static inline void asoc_clock_debugfs_update_parent(struct clk *clk) {};
 #define CLK_NAME_UART5_CLK          "uart5_clk"
 #define CLK_NAME_LCD_CLK            "lcd_clk"
 #define CLK_NAME_CSI_CLK            "csi_clk"
-#define CLK_NAME_DE_CLK             "de_clk"
+#define CLK_NAME_DE_CLK             "de0_clk"
 #define CLK_NAME_DE1_CLK            "de1_clk"
 #define CLK_NAME_DE2_CLK            "de2_clk"
 #define CLK_NAME_DE3_CLK            "de3_clk"
 #define CLK_NAME_DE_WB_CLK          "de_wb_clk"
-#define CLK_NAME_SENSOR_OUT0_CLK    "sensor_out0_clk"
-#define CLK_NAME_SENSOR_OUT1_CLK    "sensor_out1_clk"
+#define CLK_NAME_SOUT0_CLK          "sout0_clk"
+#define CLK_NAME_SOUT1_CLK          "sout1_clk"
 #define CLK_NAME_CVBS_CLK           "cvbs_clk"
 
 #endif /* end of __ARM_GL5302_CLOCK_H__ */

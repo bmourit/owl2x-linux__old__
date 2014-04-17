@@ -1,25 +1,20 @@
-/*
- * ARM Ltd. Versatile Express
- *
- * CoreTile Express A5x2
- * Cortex-A5 MPCore (V2P-CA5s)
- *
- * HBI-0225B
- */
+#include <dt-bindings/clock/owl29-cmu.h>
+#include <dt-bindings/gpio/owl2x-gpio.h>
+#include <dt-bindings/pinctrl/pinctrl-owl2x.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
 
-/dts-v1/;
+#include "owl2x.dtsi"
+#include "owl29-pinfunc.h"
 
 / {
-        model = "Actions ATM702x Boards";
-        arm,hbi = <0x225>;
-        arm,vexpress,site = <0xf>;
-        compatible = "actions,atm702x", "action,atm7029", "actions,atm7029-hero2";
-        interrupt-parent = <&gic>;
+        model = "Actions OWL29 (ATM7029) Boards";
+        compatible = "actions,owl29";
+        interrupt-parent = <&intc>;
         #address-cells = <1>;
         #size-cells = <1>;
 
         chosen { 
-                bootargs = "console=ttyS5,115200 earlyprintk";
+                bootargs = "console=ttyS5,11592 earlyprintk";
         };
 
         aliases {
@@ -41,6 +36,57 @@
                 mmc0 = &mmc0;
                 mmc1 = &mmc0;
                 mmc2 = &mmc0;
+        };
+
+        intc: interupt-controller@b0021000 {
+                compatible = "arm,cortex-a5-gic", "arm,cortex-a9-gic";
+                #interrupt-cells = <3>;
+                #address-cells = <1>;
+                #size-cells = <1>;
+                interrupt-controller;
+                reg = <0xb0021000 0x1000
+                       0xb0020100 0x100>;
+        };
+
+        clocks {
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                losc {
+                        compatible = "actions,owl29-losc", "fixed-clock";
+                        clock-frequency = <32768>
+                };
+
+                hosc {
+                        compatible = "actions,owl29-hosc", "fixed-clock";
+                        clock-frequency = <24000000>;
+                };
+        };
+
+        soc {
+                #address-cells = <1>;
+                #size-cells = <1>;
+                Compatible = "simple-bus";
+                interrupt-parent = <&intc>;
+                ranges;
+
+                owl29-gpio: gpio@b01b0000 {
+                        compatible = "actions,owl29-gpio";
+                        reg = <0xb01b0000 0x40>;
+                        interrupts = <0 36 0x04 0 37 0x04 0 38 0x04
+                                      0 39 0x04 0 40 0x04>;
+                        gpio-controller;
+                        #gpio-cells = <2>;
+                        interrupt-controller;
+                        #interrupt-cells = <2>;
+                        clocks = <&cmu CMU_CLK_GPIO>;
+                        status = "okay";
+                };
+
+                gpu@b0300000 {
+                        compatible = "actions,owl2x-gpu";
+
+                };
         };
 
         cpus {

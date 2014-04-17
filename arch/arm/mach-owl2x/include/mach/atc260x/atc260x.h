@@ -89,8 +89,8 @@ int atc260x_cmu_disable(struct atc260x_dev *atc260x, int cmu_module);
  *  ATC260X MFD interface
  */ 
 enum atc260x_mfp_mod_id { 
-  MOD_ID_RMII, MOD_ID_SMII, MOD_ID_REMCON, MOD_ID_TP, 
-  MOD_ID_LED0, MOD_ID_LED1, 
+    MOD_ID_RMII, MOD_ID_SMII, MOD_ID_REMCON, MOD_ID_TP, 
+    MOD_ID_LED0, MOD_ID_LED1, 
 };
 
 #define  ATC260X_MFP_OPT_CAN_SLEEP       (0) 
