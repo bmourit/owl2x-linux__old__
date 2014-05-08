@@ -1,5 +1,5 @@
 /*
- * include/linux/mfd/atc260x/auxadc.h -- Auxiliary ADC interface for ATC260x
+ * Auxiliary ADC interface for ATC260x PMIC
  *
  * Copyright 2014
  * Author: B. Mouritsen <bnmguy@gmail.com>
@@ -103,22 +103,22 @@ struct atc260x;
 #define ATC260X_ADC_CLOCK_ADJ_WIDTH                  1
 
 enum atc260x_auxadc {
-        ATC260X_AUX_SVCC     = 0,       /* both SVCC and IREF */
-        ATC260X_AUX_CHGI     = 1,
-        ATC260X_AUX_VBUSI    = 2,
-        ATC260X_AUX_WALLI    = 3,
-        ATC260X_AUX_BATI     = 4,
-        ATC260X_AUX_REMCON   = 5,
-        ATC260X_AUX_ICTEMP   = 6,
-        ATC260X_AUX_BATV     = 7,
-        ATC260X_AUX_BAKBATV  = 8,
-        ATC260X_AUX_SYSPWRV  = 9,
-        ATC260X_AUX_WALLV    = 10,
-        ATC260X_AUX_VBUSV    = 11,
-        ATC260X_AUX_AUX3     = 12,
-        ATC260X_AUX_AUX2     = 13,
-        ATC260X_AUX_AUX1     = 14,
-        ATC260X_AUX_AUX0     = 15,
+	ATC260X_AUX_SVCC     = 0,       /* both SVCC and IREF */
+	ATC260X_AUX_CHGI     = 1,
+	ATC260X_AUX_VBUSI    = 2,
+	ATC260X_AUX_WALLI    = 3,
+	ATC260X_AUX_BATI     = 4,
+	ATC260X_AUX_REMCON   = 5,
+	ATC260X_AUX_ICTEMP   = 6,
+	ATC260X_AUX_BATV     = 7,
+	ATC260X_AUX_BAKBATV  = 8,
+	ATC260X_AUX_SYSPWRV  = 9,
+	ATC260X_AUX_WALLV    = 10,
+	ATC260X_AUX_VBUSV    = 11,
+	ATC260X_AUX_AUX3     = 12,
+	ATC260X_AUX_AUX2     = 13,
+	ATC260X_AUX_AUX1     = 14,
+	ATC260X_AUX_AUX0     = 15,
 };
 
 int atc260x_auxadc_read(struct atc260x *atc260x, enum atc260x_auxadc input);
