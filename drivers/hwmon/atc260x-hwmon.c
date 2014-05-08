@@ -96,7 +96,7 @@ static ssize_t show_label(struct device *dev,
 
 #define ATC260X_NAMED_VALUE(id, name) \
 	ATC260X_VALUE(id, name); \
-	static SENSOR_DEVICE_ATTR(in##id##_label, S_IRUGO, show_value, \
+	static SENSOR_DEVICE_ATTR(in##id##_label, S_IRUGO, show_lable, \
 		NULL, name)
 
 static DEVICE_ATTR(name, S_IRUGO, show_name, NULL);
